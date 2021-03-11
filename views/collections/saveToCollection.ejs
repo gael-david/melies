@@ -1,0 +1,38 @@
+
+<div class="collectionForm">
+    <h2 class="sectionTitle">Save Film to Collections</h2>
+    <div class="listWrapper">
+        <% collections.forEach(collection => { %>
+            <% if (collection.filmID.includes(filmID)) { %>
+                <div class="listComponent collectionSelector selected" data-collection-id="<%= collection._id %>">
+                    <div class="listColor" style="background-color: <%= collection.color %>;">
+                        <img class="collectionImage" src="<%= collection.image %>" alt="">
+                    </div>
+                    <div class="flexColumn">
+                        <p><span><%= collection.name %></span></p>
+                        <p><%= collection.filmID.length %>  Films</p>
+                    </div>
+                </div>
+            <% } else { %>
+                <div class="listComponent collectionSelector" data-collection-id="<%= collection._id %>">
+                    <div class="listColor" style="background-color: <%= collection.color %>;">
+                        <img class="collectionImage" src="<%= collection.image %>" alt="">
+                    </div>
+                    <div class="flexColumn">
+                        <p><span><%= collection.name %></span></p>
+                        <p><%= collection.filmID.length %>  Films</p>
+                    </div>
+                </div>
+            <% } %>
+
+        <% }) %>
+    </div>
+    <div class="buttonsWrapper formButtonsWrapper">
+        <a class="button" id="cancelButton"><span class="material-icons iconMargin">keyboard_backspace</span>Cancel</a>
+        <form action="/film/<%= filmID %>/add?_method=PUT" method="POST" style="width: 100%;">
+            <button type="submit" name="collections" class="mainButton" id="saveToCollectionButton">Save</button>
+        </form>
+    </div>
+</div>
+
+<div class="overlay"></div>

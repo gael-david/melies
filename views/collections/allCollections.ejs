@@ -1,0 +1,31 @@
+<%- include('../partials/head') %> 
+<%- include('../partials/header') %>
+
+<main>
+    <h2 class="sectionTitle">Your Collections</h2>
+    <div class="collectionWrapper">
+        <% collections.forEach(collection => { %>
+            <a href="/collections/<%= collection._id %>" class="collectionComponent" style="background-color: <%= collection.color %>;">
+                <img class="collectionImage" src="<%= collection.image %>" alt="">
+                <h2><%= collection.name %></h2>
+                <% if (collection.filmID.length == undefined) { %>
+                    <p>0 Films</p>
+                <% } else { %>
+                    <p><%= collection.filmID.length %>  Films</p>
+                <% } %>
+                <form action="/collections/<%= collection._id %>/delete?_method=DELETE" method="POST" class="deleteForm">
+                    <button type="submit" name="collectionID" value="<%= collection._id %>" class="roundButton deleteButton">
+                        <span class="material-icons">delete</span>
+                    </button>
+                </form>
+            </a>
+        <% }) %>
+        <a class="collectionComponent" id="createCollection" style="background-color: #252936;">
+            <span class="material-icons bigIcon">add</span>
+            <h2>Create a new collection</h2>
+        </a>
+    </div>
+</main>
+
+<%- include('newCollection') %> 
+<%- include('../partials/footer') %> 

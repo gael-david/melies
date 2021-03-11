@@ -1,0 +1,24 @@
+
+<form action="/collections" method="POST" class="collectionForm">
+    <h2 class="sectionTitle">Create a new collection</h2>
+    <label class="formLabel" for="name">Name</label>
+    <input type="text" name="name" id="name" placeholder="Collection name" autocomplete="off" required>
+    <div class="flexRow spaceBetween">
+        <div class="flexColumn" style="width: 100%; margin-right: 15px;">
+            <label class="formLabel" for="image">Image</label>
+            <input type="url" name="image" id="image" placeholder="https://example.com/image.png" autocomplete="off" pattern="https://.*">
+        </div>
+        <div class="flexColumn">
+            <label class="formLabel" for="color">Color</label>
+            <input type="color" name="color" id="color" value="#fee97d" required>
+        </div>
+    </div>
+    <label class="formLabel" for="description">Description (optionnal)</label>
+    <textarea id="description" name="description" rows="3" cols="33"></textarea>
+    <div class="buttonsWrapper formButtonsWrapper">
+        <a class="button" id="cancelButton"><span class="material-icons iconMargin">keyboard_backspace</span>Cancel</a>
+        <button class="mainButton" type="submit">Create collection</button>
+    </div>
+</form>
+
+<div class="overlay"></div>
