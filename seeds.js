@@ -46,7 +46,6 @@ mongoose.connect('mongodb://localhost:27017/meliesDB', {useNewUrlParser: true, u
 //     }
 // ]
 
-
 // const watchlistSeed = {
 //     user: "elgaga44",
 //     watchlist: [424, 1955, 497, 615643, 558582, 502033, 661914, 581734]

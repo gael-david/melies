@@ -7,6 +7,9 @@ app.use(express.static(path.join(__dirname, '/public')))
 // AXIOS INIT
 const axios = require('axios');
 
+// JOI INIT (SCHEMA VALIDATION)
+const Joi = require('joi');
+
 // MONGOOSE INIT
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/meliesDB', {useNewUrlParser: true, useUnifiedTopology: true})
@@ -39,7 +42,28 @@ const Collection = require('./models/collection');
 const Watchlist = require('./models/watchlist');
 
 // GET UTILITIES
-const wrapAsync = require('./utilities/wrapAsync')
+const wrapAsync = require('./utilities/wrapAsync');
+const ExpressError = require('./utilities/ExpressError');
+
+// MIDDLEWARES
+const validateCollection = function (req,res, next) {
+    // SCHEMA VALIDATION
+    const collectionSchema = Joi.object({
+        name: Joi.string().required().max(50),
+        color: Joi.string().required(),
+    }).options({ allowUnknown: true });
+
+    const {error} = collectionSchema.validate(req.body)
+    const result = collectionSchema.validate(req.body)
+    console.log(error)
+    console.log(result)
+    if (error) {
+        const msg = error.details.map(element => element.message).join(",")
+        throw new ExpressError(msg, 400)
+    } else {
+        next();
+    }
+}
 
 // ROUTES
 app.get('/', wrapAsync(async function (req,res,next) {
@@ -114,6 +138,7 @@ app.get('/', wrapAsync(async function (req,res,next) {
 
 app.get('/collections', wrapAsync(async function (req,res,next) {
     const collections = await Collection.find({});
+    console.log(collections)
 
     // For each collection, get the first film ID
     const firstFilmID = [];
@@ -153,13 +178,14 @@ app.get('/collections', wrapAsync(async function (req,res,next) {
         collections.forEach(collection => {
             filmBackdrop.forEach(film => {
                 if (collection.filmID[0] == film.id) {
-                    collection.image = film.backdrop
+                    collection.image = film.backdrop;
                 }
             });
+            collection.save();
         });
 
-        await Collection.remove({})
-        await Collection.insertMany(collections)
+        // await Collection.remove({})
+        // await Collection.insertMany(collections)
 
         res.render('collections/allCollections', {name : "All your Collections", collections, filmBackdrop});
     })
@@ -168,10 +194,12 @@ app.get('/collections', wrapAsync(async function (req,res,next) {
       });
 }))
 
-app.post('/collections', wrapAsync(async function (req,res,next) {
+app.post('/collections',validateCollection , wrapAsync(async function (req,res,next) {
+    // ADDING COLLECTION TO MONGODB
     const newCollection = req.body;
-    Collection.create(newCollection);
+    await Collection.create(newCollection);
     const collections = await Collection.find({});
+
     res.redirect('/collections');
 }))
 
@@ -251,8 +279,6 @@ app.get('/film/:filmID', wrapAsync(async function (req,res,next) {
     // Check if film is in at least one Collection
     const atLeastOneCollection = collections.some(collection => collection.filmID.includes(filmID));
 
-    console.log(collections)
-
     let lang;
     if (req.headers["accept-language"].slice(0,5) == "fr-FR" || "fr-fr") {lang = "en-US";} else {lang = "en-US";}
 
@@ -287,15 +313,16 @@ app.put('/film/:filmID/add', wrapAsync(async function (req,res,next) {
     const collectionsData = req.body.collections;
     const {filmID} = req.params;
     const savedCollections = collectionsData.split(',');
+    console.log("Saved collections", savedCollections)
     const collections = await Collection.find({});
 
     // Check if the film is already in some collections
     const doesFilmExist = await Collection.exists({ 'filmID': filmID });
-    console.log(doesFilmExist)
+    console.log("Does film exist in some collections:",doesFilmExist)
     // If so, check if it has just been re-added to one of these collections
     if (doesFilmExist === true) {
         collectionsContainingFilm = await Collection.find({'filmID': filmID});
-        console.log(collectionsContainingFilm)
+        console.log("Collections containing film:",collectionsContainingFilm)
         console.log(savedCollections)
     // If so, remove this collection from the Mongoose query
         collectionsContainingFilm.forEach(collection => {
@@ -347,13 +374,14 @@ app.get('/search', wrapAsync(async function (req,res,next) {
 }));
 
 // 404 ERROR
-app.get('*', function (req,res,next) {
-    res.send('This is a 404 error.')
+app.all('*', function (req,res,next) {
+    next(new ExpressError("Page not found", 404))
 })
 
 // ERROR HANDLER
 app.use(function (err, req, res, next) {
-    res.send("Oh boy, something went wrong...")
+    const {message = "Something went wrong", statusCode = 500} = err;
+    res.status(statusCode).render('error', {name: `Error ${statusCode}`, statusCode, message})
 })
 
 app.listen(3000, () => {

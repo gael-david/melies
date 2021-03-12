@@ -13,7 +13,8 @@ const collectionSchema = new mongoose.Schema({
         type: String
     },
     image: {
-        type: String
+        type: String,
+        default: '/images/collectionDefault.jpeg'
     },
     color: {
         type: String,
