@@ -132,6 +132,7 @@ table {
 html,
 body {
   height: 100%;
+  line-height: 1.5;
 }
 
 * {
@@ -173,6 +174,7 @@ h1 {
   font-size: 40px;
   font-weight: 800;
   margin-bottom: 20px;
+  z-index: 2;
 }
 
 h2 {
@@ -182,7 +184,7 @@ h2 {
 }
 
 p {
-  font-size: 15px;
+  font-size: 16px;
   line-height: 150%;
 }
 
@@ -287,7 +289,7 @@ p span {
 }
 
 .smallFilmPoster:hover {
-  transform: scale(0.98);
+  transform: scale(0.98) rotate(-2deg);
   /* transform: translateY(-5px); */
 }
 
@@ -521,6 +523,12 @@ p span {
   width: 100px;
 }
 
+.pageCover {
+  width: 100%;
+  margin: auto;
+  margin-bottom: 40px;
+}
+
 .collectionWrapper {
   width: 100%;
   display: grid;
@@ -538,7 +546,6 @@ p span {
   align-items: center;
   flex-direction: column;
   padding: 20px;
-  cursor: pointer;
 }
 
 .collectionComponent h2 {
@@ -577,6 +584,7 @@ p span {
 .collectionForm {
   z-index: 9999;
   width: 700px;
+  max-height: calc(100vh - 100px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -728,8 +736,8 @@ header {
 } */
 
 .appButton {
-  min-width: 250px;
-  max-width: 250px;
+  min-width: 300px;
+  max-width: 300px;
   height: 300px;
   background-color: #fee97d;
   border-radius: 20px;
@@ -898,6 +906,7 @@ header {
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-row-gap: 40px;
   justify-items: center;
+  margin-bottom: 40px;
 }
 
 .resultsComponent {
@@ -937,6 +946,24 @@ footer {
   background: #1b1b20;
   /* position: absolute;
   bottom: 0; */
+}
+
+/* ############ */
+/* ERRORS */
+/* ############ */
+
+.errorComponent {
+  margin: 150px 0;
+  max-width: 400px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.errorImage {
+  height: 200px;
+  margin-bottom: 25px;
 }
 
 /* ############ */

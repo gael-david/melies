@@ -2,7 +2,18 @@
 <%- include('../partials/header') %>
 
 <main>
-    <h2 class="sectionTitle centerTitle"><%= collection.name %></h2>
+    <!-- <h2 class="sectionTitle centerTitle"><%= collection.name %></h2> -->
+    <div class="pageCover">
+            <div class="collectionComponent" style="background-color: <%= collection.color %>;">
+                <h1><%= collection.name %></h1>
+                <% if (collection.filmID.length == undefined) { %>
+                    <h2>0 Films</h2>
+                <% } else { %>
+                    <h2><%= collection.filmID.length %>  Films</h2>
+                <% } %>
+                <img class="collectionImage" src="<%= collection.image %>" alt="">
+            </div>
+    </div>
     <div id="resultsWrapper">
         <% for( let index = 0; index < collectionFilms.length; index++ ) { %>
             <div class="smallFilmComponent resultsComponent">
@@ -31,7 +42,7 @@
                     <button class="ratingButton roundButton smallRoundButton" type="submit">
                         <span class="material-icons-outlined">grade</span>
                     </button>
-                    <% if (watchlist.includes(collectionFilms[index].id )) { %>
+                    <% if (watchlist.some(e => e.id === collectionFilms[index].id )) { %>
                         <form action="/watchlist?_method=DELETE" method="POST" id="removeWatchlistForm">
                             <button id="removeWatchlistButton" class="roundButton smallRoundButton" name="id" value="<%= collectionFilms[index].id  %>" type="submit">
                                 <span class="material-icons favorite">bookmark_added</span>
@@ -39,9 +50,11 @@
                         </form>
                     <% } else { %>
                     <form action="/watchlist?_method=PUT" method="POST" id="addWatchlistForm">
-                        <button id="addWatchlistButton" class="roundButton smallRoundButton" name="id" value="<%= collectionFilms[index].id  %>" type="submit">
-                            <span class="material-icons">bookmark_border</span>
-                        </button>
+                        <input type="hidden" id="id" name="id" value="<%= collectionFilms[index].id  %>">
+                        <input type="hidden" id="title" name="title" value="<%= collectionFilms[index].title  %>">
+                        <input type="hidden" id="release_date" name="release_date" value="<%= collectionFilms[index].release_date.slice(0,4)  %>">
+                        <input type="hidden" id="poster_path" name="poster_path" value="<%= collectionFilms[index].poster_path %>">
+                        <button type="submit" id="addWatchlistButton" class="roundButton smallRoundButton"><span class="material-icons">bookmark_border</span></button>
                     </form>
                     <% } %>
                 </div>
@@ -52,7 +65,7 @@
             </div>
         <% } %>
     </div>
-    </main>
+</main>
 
 
 

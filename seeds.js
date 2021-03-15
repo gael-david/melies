@@ -46,12 +46,12 @@ mongoose.connect('mongodb://localhost:27017/meliesDB', {useNewUrlParser: true, u
 //     }
 // ]
 
-// const watchlistSeed = {
-//     user: "elgaga44",
-//     watchlist: [424, 1955, 497, 615643, 558582, 502033, 661914, 581734]
-// }
+const watchlistSeed = [{
+    user: "elgaga44",
+    watchlist: []
+}]
 
-// Watchlist.insertMany(watchlistSeed)
-// .then(res => {console.log(res)})
-// .catch(err => {console.log(err)})
+Watchlist.insertMany(watchlistSeed)
+.then(res => {console.log(res)})
+.catch(err => {console.log(err)})
 

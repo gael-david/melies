@@ -27,7 +27,7 @@
                     <button class="ratingButton roundButton smallRoundButton" type="submit">
                         <span class="material-icons-outlined">grade</span>
                     </button>
-                    <% if (watchlist.includes(genreFilms.results[index].id )) { %>
+                    <% if (watchlist.some(e => e.id === genreFilms.results[index].id )) { %>
                         <form action="/watchlist?_method=DELETE" method="POST" id="removeWatchlistForm">
                             <button id="removeWatchlistButton" class="roundButton smallRoundButton" name="id" value="<%= genreFilms.results[index].id  %>" type="submit">
                                 <span class="material-icons favorite">bookmark_added</span>
@@ -35,9 +35,11 @@
                         </form>
                     <% } else { %>
                     <form action="/watchlist?_method=PUT" method="POST" id="addWatchlistForm">
-                        <button id="addWatchlistButton" class="roundButton smallRoundButton" name="id" value="<%= genreFilms.results[index].id  %>" type="submit">
-                            <span class="material-icons">bookmark_border</span>
-                        </button>
+                        <input type="hidden" id="id" name="id" value="<%= genreFilms.results[index].id  %>">
+                        <input type="hidden" id="title" name="title" value="<%= genreFilms.results[index].title  %>">
+                        <input type="hidden" id="release_date" name="release_date" value="<%= genreFilms.results[index].release_date.slice(0,4)  %>">
+                        <input type="hidden" id="poster_path" name="poster_path" value="<%= genreFilms.results[index].poster_path %>">
+                        <button type="submit" id="addWatchlistButton" class="roundButton smallRoundButton"><span class="material-icons">bookmark_border</span></button>
                     </form>
                     <% } %>
                 </div>

@@ -68,12 +68,19 @@ const validateCollection = function (req,res, next) {
 // ROUTES
 app.get('/', wrapAsync(async function (req,res,next) {
 
+    // GET RANDOM GENRE ID
     const filmGenre = randomFilmGenre();
     const genreID = filmGenre.id;
 
+    // GET USER'S WATCHLIST
     const watchlistData = await Watchlist.findOne({ 'user': "elgaga44" });
-    const watchlist = watchlistData.watchlist;
+    if (watchlistData && watchlistData.watchlist.length > 0) {
+        watchlist = watchlistData.watchlist;
+    } else {
+        watchlist = [];
+    }
 
+    // INIT ALL PROMISES
     let allPromises = [getPopularFilms(), getTopFilms(), getRandomGenreFilms()];
 
     function getPopularFilms() {
@@ -101,16 +108,8 @@ app.get('/', wrapAsync(async function (req,res,next) {
         return axios.get(`https://api.themoviedb.org/3/movie/${ID}?api_key=b8f2293b707b20a0f2b4fe224087f761&language=en-US`);
     }
 
-    function getWatchlistFilms(ID) {
-        return axios.get(`https://api.themoviedb.org/3/movie/${ID}?api_key=b8f2293b707b20a0f2b4fe224087f761&language=en-US`);
-    }
-
     for (let index = 0; index < discoverFilmsID.length; index++) {
         allPromises.push(getDiscoverFilms(discoverFilmsID[index]))
-    }
-
-    for (let index = 0; index < watchlist.length; index++) {
-        allPromises.push(getWatchlistFilms(watchlist[index]))
     }
       
     Promise.all(allPromises)
@@ -123,13 +122,8 @@ app.get('/', wrapAsync(async function (req,res,next) {
         for (let index = 3; index < (discoverFilmsID.length + 3); index++) {
             discoverFilms.push(results[index].data);
         }
-
-        const watchlistFilms = [];
-        for (let index = (discoverFilmsID.length + 3); index < results.length; index++) {
-            watchlistFilms.push(results[index].data);
-        }
-
-        res.render('home', {name: "Home page", popularFilms, topFilms, filmGenre, randomGenreFilms, allFilmGenres, discoverFilms, watchlistFilms, watchlist});
+        console.log(watchlist)
+        res.render('home', {name: "Home page", popularFilms, topFilms, filmGenre, randomGenreFilms, allFilmGenres, discoverFilms, watchlist });
     })
     .catch(function(err) {
         console.log(err.message); 
@@ -171,7 +165,7 @@ app.get('/collections', wrapAsync(async function (req,res,next) {
         filmData.forEach(film => {
             filmBackdrop.push({
                 id: film.id,
-                backdrop: `https://image.tmdb.org/t/p/w500${film.backdrop_path}`,
+                backdrop: `https://image.tmdb.org/t/p/w780${film.backdrop_path}`,
             })
         });
 
@@ -183,9 +177,6 @@ app.get('/collections', wrapAsync(async function (req,res,next) {
             });
             collection.save();
         });
-
-        // await Collection.remove({})
-        // await Collection.insertMany(collections)
 
         res.render('collections/allCollections', {name : "All your Collections", collections, filmBackdrop});
     })
@@ -227,6 +218,7 @@ app.get('/collections/:collectionID', wrapAsync(async function (req,res,next) {
         for (let index = 0; index < (collectionFilmsID.length); index++) {
             collectionFilms.push(results[index].data);
         }
+        console.log(collection)
         res.render('collections/collection', {name : `Collection ${collection.name}`, collection, collectionFilms, collections, watchlist})
     });
 }))
@@ -240,44 +232,47 @@ app.delete('/collections/:collectionID/delete', wrapAsync(async function (req,re
 }))
 
 app.put('/watchlist', wrapAsync(async function (req, res,next) {
-    const filmID = Number(req.body.id);
+    const id = Number(req.body.id);
+    const film = req.body;
+
     const watchlistData = await Watchlist.findOne({ 'user': "elgaga44" });
     const watchlist = watchlistData.watchlist;
+    const inWatchlist = watchlist.some(e => e.id === id);
 
-    if (!watchlist.includes(filmID)) {
-        await Watchlist.findOneAndUpdate({user: "elgaga44"}, 
-        {'$push': {
-            'watchlist': filmID
-        }})
+    if (!inWatchlist) {
+        watchlistData.watchlist.push(film);
+        await watchlistData.save();
     }
 
     res.redirect('back');
 }))
 
 app.delete('/watchlist', wrapAsync(async function (req,res,next) {
-    const filmID = Number(req.body.id);
-    const watchlistData = await Watchlist.findOne({ 'user': "elgaga44" });
-    const watchlist = watchlistData.watchlist;
+    const id = Number(req.body.id);
+    const film = req.body;
 
-    if (watchlist.includes(filmID)) {
-        await Watchlist.updateOne(
-            { 'user': "elgaga44" },
-            { $pull: { 'watchlist': filmID } }
-        )
-        // watchlistFilmsID = watchlistFilmsID.filter(films => films !== favoriteFilmID)
+    let watchlistData = await Watchlist.findOne({ 'user': "elgaga44" });
+    const inWatchlist = watchlistData.watchlist.some(e => e.id === id);
+
+    if (inWatchlist) {
+        watchlistData.watchlist = watchlistData.watchlist.filter(e => e.id !== id);
+        await watchlistData.save();
     }
     res.redirect('back');
 }))
 
 app.get('/film/:filmID', wrapAsync(async function (req,res,next) {
-    const {filmID} = req.params;
+    const filmID = Number(req.params.filmID);
     const collections = await Collection.find({});
-    const watchlistData = await Watchlist.findById("6027e426510bab273adfb29c");
-    // const watchlistData = await Watchlist.find({ 'user': "elgaga44" });
+    // const watchlistData = await Watchlist.findById("6027e426510bab273adfb29c");
+    const watchlistData = await Watchlist.findOne({ 'user': "elgaga44" });
     const watchlist = watchlistData.watchlist;
 
+    // Check if film is in user's watchlist
+    const inWatchlist = watchlist.some(e => e.id === filmID)
+
     // Check if film is in at least one Collection
-    const atLeastOneCollection = collections.some(collection => collection.filmID.includes(filmID));
+    const inCollection = collections.some(collection => collection.filmID.includes(filmID));
 
     let lang;
     if (req.headers["accept-language"].slice(0,5) == "fr-FR" || "fr-fr") {lang = "en-US";} else {lang = "en-US";}
@@ -305,7 +300,7 @@ app.get('/film/:filmID', wrapAsync(async function (req,res,next) {
         const filmCredits = results[2].data;
         const filmVideos = results[3].data;
         const filmRecommendations = results[4].data;
-        res.render("film", {allFilmGenres, filmID, filmData, filmProviders, filmCredits, filmVideos, filmRecommendations, name: filmData.title, watchlist, collections, atLeastOneCollection});
+        res.render("film", {allFilmGenres, filmID, filmData, filmProviders, filmCredits, filmVideos, filmRecommendations, name: filmData.title, watchlist, collections, inCollection, inWatchlist});
     });
 }));
 
@@ -342,7 +337,7 @@ app.put('/film/:filmID/add', wrapAsync(async function (req,res,next) {
 app.delete('/film/:filmID/remove', wrapAsync(async function (req,res,next) {
     const {filmID} = req.params;
     const {collectionID} = req.body;
-
+    console.log(filmID, collectionID)
     await Collection.updateOne({ '_id': collectionID },{ $pull: { 'filmID': filmID } });
 
     res.redirect('back');
@@ -381,6 +376,7 @@ app.all('*', function (req,res,next) {
 // ERROR HANDLER
 app.use(function (err, req, res, next) {
     const {message = "Something went wrong", statusCode = 500} = err;
+    console.log(err)
     res.status(statusCode).render('error', {name: `Error ${statusCode}`, statusCode, message})
 })
 
