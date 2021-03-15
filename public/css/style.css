@@ -129,6 +129,11 @@ table {
 /* ############ */
 /* GENERAL STYLE */
 /* ############ */
+html,
+body {
+  height: 100%;
+  line-height: 1.5;
+}
 
 * {
   box-sizing: border-box;
@@ -150,6 +155,7 @@ body {
   display: flex;
   align-items: center;
   flex-direction: column;
+  justify-content: space-between;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -168,6 +174,7 @@ h1 {
   font-size: 40px;
   font-weight: 800;
   margin-bottom: 20px;
+  z-index: 2;
 }
 
 h2 {
@@ -177,7 +184,7 @@ h2 {
 }
 
 p {
-  font-size: 15px;
+  font-size: 16px;
   line-height: 150%;
 }
 
@@ -277,6 +284,13 @@ p span {
   object-fit: cover;
   border-radius: 30px;
   margin-bottom: 40px;
+  will-change: transform;
+  transition: 0.2s ease-in-out;
+}
+
+.smallFilmPoster:hover {
+  transform: scale(0.98) rotate(-2deg);
+  /* transform: translateY(-5px); */
 }
 
 .filmBackdropComponent {
@@ -285,7 +299,7 @@ p span {
 }
 
 .filmBackdropImage {
-  width: 600px;
+  width: 450px;
   border-radius: 20px;
   filter: brightness(70%);
 }
@@ -368,6 +382,7 @@ p span {
   outline: none;
   cursor: pointer;
   transition: 0.1s ease-in-out;
+  will-change: transform;
 }
 
 .roundButton:hover {
@@ -508,6 +523,12 @@ p span {
   width: 100px;
 }
 
+.pageCover {
+  width: 100%;
+  margin: auto;
+  margin-bottom: 40px;
+}
+
 .collectionWrapper {
   width: 100%;
   display: grid;
@@ -525,7 +546,6 @@ p span {
   align-items: center;
   flex-direction: column;
   padding: 20px;
-  cursor: pointer;
 }
 
 .collectionComponent h2 {
@@ -564,6 +584,7 @@ p span {
 .collectionForm {
   z-index: 9999;
   width: 700px;
+  max-height: calc(100vh - 100px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -710,12 +731,13 @@ header {
   margin-bottom: 50px;
 }
 
-#appsWrapper {
+/* #appsWrapper {
   justify-content: space-between;
-}
+} */
 
 .appButton {
-  width: 31%;
+  min-width: 300px;
+  max-width: 300px;
   height: 300px;
   background-color: #fee97d;
   border-radius: 20px;
@@ -723,7 +745,9 @@ header {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0px 40px;
+  padding: 40px;
+  margin-right: 25px;
+  text-align: center;
 }
 
 #georgesButton {
@@ -738,6 +762,11 @@ header {
 
 #randomButton {
   background: #38aecc;
+  color: #f2f2f2;
+}
+
+#swiperButton {
+  background: #32bb55;
   color: #f2f2f2;
 }
 
@@ -871,21 +900,13 @@ header {
 /* SEARCH PAGE */
 /* ############ */
 
-/* #resultsWrapper {
-  max-width: 1050px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  align-items: flex-start;
-} */
-
 #resultsWrapper {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-row-gap: 40px;
   justify-items: center;
+  margin-bottom: 40px;
 }
 
 .resultsComponent {
@@ -923,6 +944,26 @@ footer {
   justify-content: center;
   align-items: center;
   background: #1b1b20;
+  /* position: absolute;
+  bottom: 0; */
+}
+
+/* ############ */
+/* ERRORS */
+/* ############ */
+
+.errorComponent {
+  margin: 150px 0;
+  max-width: 400px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.errorImage {
+  height: 200px;
+  margin-bottom: 25px;
 }
 
 /* ############ */
@@ -1022,6 +1063,10 @@ footer {
 .selected {
   border: 2px solid #fde97d9c;
   /* transition: 0.4s; */
+}
+
+.openModal {
+  overflow: hidden;
 }
 
 /* ############ */

@@ -1,24 +1,23 @@
 // ################
-// MOONGOOSE
+// MAINTAIN POSITION AFTER RELOAD
 // ################
 
-// const mongoose = require('mongoose');
-// const Collection = require('./models/collection');
-// const Watchlist = require('./models/watchlist');
+// window.addEventListener('scroll',function() {
+//     //When scroll change, you save it on localStorage.
+//     localStorage.setItem('scrollPosition',window.scrollY);
+// },false);
 
-// mongoose.connect('mongodb://localhost:27017/meliesDB', {useNewUrlParser: true, useUnifiedTopology: true})
-// .then(function () {
-//     console.log("CONNECTION OPEN!")
-// })
-// .catch(function (err) {
-//     console.log("OH NO, ERROR!")
-//     console.log(err)
-// });
+// window.addEventListener('load',function() {
+//     if(localStorage.getItem('scrollPosition') !== null)
+//        window.scrollTo(0, localStorage.getItem('scrollPosition'));
+// },false);
+
 
 // ################
 // COLLECTIONS
 // ################
 
+const body = document.body;
 const createCollection = document.getElementById('createCollection');
 const addCollectionButton = document.getElementById('addCollectionButton');
 const cancelButton = document.getElementById('cancelButton');
@@ -27,11 +26,6 @@ const collectionForm = document.querySelector('.collectionForm');
 const collectionSelector = document.querySelectorAll('.collectionSelector');
 const overlay = document.querySelector('.overlay');
 
-// if (addCollectionButton) {
-//     const filmID = addCollectionButton.dataset.film;
-// }
-
-
 let collectionChoice = [];
 
 // CREATE NEW COLLECTION (DISPLAY THE FORM)
@@ -39,6 +33,7 @@ if (createCollection) {
     createCollection.addEventListener("click", function () {
         overlay.classList.toggle("visible");
         collectionForm.classList.toggle("visible");
+        body.classList.toggle("openModal");
     })
 }
 
@@ -47,6 +42,7 @@ if (addCollectionButton) {
     addCollectionButton.addEventListener("click", function () {
         overlay.classList.toggle("visible");
         collectionForm.classList.toggle("visible");
+        body.classList.toggle("openModal");
     })  
 }
 
@@ -66,20 +62,6 @@ if (addCollectionButton) {
     });
 }
 
-// if (addCollectionButton) {
-//     collectionSelector.forEach(collection => {
-//         collection.addEventListener("click", function () {
-//             this.classList.toggle("selected");
-//             // Push selected collections to array
-//             if (this.classList.contains("selected")) {
-//                 saveToCollectionButton.value.push(this.dataset.collectionId);
-//             } else {
-//                 saveToCollectionButton.value.pop(this.dataset.collectionId);
-//             }
-//         })
-//     });
-// }
-
 // ADD FILM TO THESE COLLECTIONS (VIA MONGOOSE)
 if (saveToCollectionButton) {
     saveToCollectionButton.addEventListener("click", () => {
@@ -92,6 +74,7 @@ if (cancelButton) {
     cancelButton.addEventListener("click", function () {
         overlay.classList.toggle("visible");
         collectionForm.classList.toggle("visible");
+        body.classList.toggle("openModal");
     })
 }
 
