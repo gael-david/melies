@@ -130,11 +130,15 @@ app.get('/', wrapAsync(async function (req,res,next) {
 }))
 
 app.get('/signup', wrapAsync(async function (req,res,next) {
-    res.send("Time to signup!!")
+    res.render("./user/signup", {name: "Sign up - MELIES"})
+}))
+
+app.post('/signup', wrapAsync(async function (req,res,next) {
+    res.redirect("/")
 }))
 
 app.get('/login', wrapAsync(async function (req,res,next) {
-    res.send("Time to login!!")
+    res.render("./user/login", {name: "Login - MELIES"})
 }))
 
 app.get('/collections', wrapAsync(async function (req,res,next) {

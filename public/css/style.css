@@ -129,11 +129,14 @@ table {
 /* ############ */
 /* GENERAL STYLE */
 /* ############ */
-html,
-body {
+html {
   height: 100%;
   line-height: 1.5;
   scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
 }
 
 * {
@@ -153,6 +156,7 @@ a {
 }
 
 body {
+  height: 100%;
   font-family: "Poppins", sans-serif;
   color: rgba(255, 255, 255, 0.863);
   /* background-color: #1f1e2b; */
@@ -668,16 +672,26 @@ header {
   align-items: center;
 }
 
+.authHeader {
+  justify-content: center;
+  margin: 25px 0 25px 0;
+}
+
 #meliesLogo {
   display: flex;
   align-items: center;
   font-size: 36px;
   font-family: "Bungee", cursive;
+  width: 215px;
 }
 
 #meliesIcon {
   height: 40px;
+  min-width: 40px;
   margin-right: 10px;
+  transition-delay: 500ms;
+  animation: scaler;
+  animation-duration: 1s;
 }
 
 #moon {
@@ -1004,13 +1018,14 @@ footer {
 .formComponent input,
 .formComponent textarea {
   font-family: "Poppins", sans-serif;
+  font-size: 16px;
   background: #23242b;
   border: none;
   padding: 15px;
   color: #e1e2e3;
   outline: none;
   border-radius: 10px;
-  resize: vertical;
+  resize: none;
   transition: 0.2s ease-in-out;
 }
 
@@ -1044,6 +1059,23 @@ footer {
 .fullForm {
   width: 90%;
   max-width: 1050px;
+}
+
+/* ############ */
+/* SIGN UP/LOGIN */
+/* ############ */
+
+.authBody {
+  justify-content: center;
+}
+
+.alreadyRegistered {
+  justify-self: center;
+}
+
+.alreadyRegistered a {
+  font-weight: 500;
+  color: #feee98;
 }
 
 /* ############ */
@@ -1093,10 +1125,9 @@ footer {
   }
 
   #leftCard {
-    aspect-ratio: none;
     position: relative;
     width: 80%;
-    margin: 0px 0px 25px 0px;
+    margin: 0px 0px 50px 0px;
   }
 
   #rightCard {
