@@ -55,8 +55,7 @@ const validateCollection = function (req,res, next) {
 
     const {error} = collectionSchema.validate(req.body)
     const result = collectionSchema.validate(req.body)
-    console.log(error)
-    console.log(result)
+
     if (error) {
         const msg = error.details.map(element => element.message).join(",")
         throw new ExpressError(msg, 400)
@@ -130,6 +129,14 @@ app.get('/', wrapAsync(async function (req,res,next) {
     });
 }))
 
+app.get('/signup', wrapAsync(async function (req,res,next) {
+    res.send("Time to signup!!")
+}))
+
+app.get('/login', wrapAsync(async function (req,res,next) {
+    res.send("Time to login!!")
+}))
+
 app.get('/collections', wrapAsync(async function (req,res,next) {
     const collections = await Collection.find({});
     console.log(collections)
@@ -185,13 +192,16 @@ app.get('/collections', wrapAsync(async function (req,res,next) {
       });
 }))
 
-app.post('/collections',validateCollection , wrapAsync(async function (req,res,next) {
+app.post('/collections',validateCollection, wrapAsync(async function (req,res,next) {
     // ADDING COLLECTION TO MONGODB
-    const newCollection = req.body;
-    await Collection.create(newCollection);
-    const collections = await Collection.find({});
+    const collection = await new Collection(req.body);
+    await collection.save();
 
     res.redirect('/collections');
+}))
+
+app.get('/collections/create', wrapAsync(async function (req,res,next) {
+    res.render('collections/newCollection', {name: "Create a new Collection"})
 }))
 
 app.get('/collections/:collectionID', wrapAsync(async function (req,res,next) {
@@ -304,6 +314,12 @@ app.get('/film/:filmID', wrapAsync(async function (req,res,next) {
     });
 }));
 
+app.get('/film/:filmID/add', wrapAsync(async function (req,res,next) {
+    const collections = await Collection.find({});
+    const filmID = Number(req.params.filmID);
+    res.render('collections/saveToCollection', {name: "Add to your Collections", collections, filmID})
+}))
+
 app.put('/film/:filmID/add', wrapAsync(async function (req,res,next) {
     const collectionsData = req.body.collections;
     const {filmID} = req.params;
@@ -331,7 +347,7 @@ app.put('/film/:filmID/add', wrapAsync(async function (req,res,next) {
         'filmID': filmID
     }});
 
-    res.redirect('back');
+    res.redirect(`/film/${filmID}`);
 }))
 
 app.delete('/film/:filmID/remove', wrapAsync(async function (req,res,next) {

@@ -1,6 +1,8 @@
+<%- include('../partials/head') %> 
+<%- include('../partials/header') %>
 
-<div class="collectionForm">
-    <h2 class="sectionTitle">Save Film to Collections</h2>
+<form class="formComponent fullForm" action="/film/<%= filmID %>/add?_method=PUT" method="POST">
+    <h1>Save Film to Collections</h1>
     <div class="listWrapper">
         <% collections.forEach(collection => { %>
             <% if (collection.filmID.includes(filmID)) { %>
@@ -28,11 +30,10 @@
         <% }) %>
     </div>
     <div class="buttonsWrapper formButtonsWrapper">
-        <a class="button" id="cancelButton"><span class="material-icons iconMargin">keyboard_backspace</span>Cancel</a>
-        <form action="/film/<%= filmID %>/add?_method=PUT" method="POST" style="width: 100%;">
-            <button type="submit" name="collections" class="mainButton" id="saveToCollectionButton">Save</button>
-        </form>
+        <a href="/film/<%= filmID %>" class="button" id="cancelButton"><span class="material-icons iconMargin">keyboard_backspace</span>Cancel</a>
+        <button type="submit" name="collections" class="mainButton" id="saveToCollectionButton">Save</button>
     </div>
-</div>
+</form>
 
-<div class="overlay"></div>
+<!-- <div class="overlay"></div> -->
+<%- include('../partials/footer') %>
