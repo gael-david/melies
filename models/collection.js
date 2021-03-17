@@ -19,6 +19,11 @@ const collectionSchema = new Schema({
     description: {
         type: String
     },
+    visibility: {
+        type: String,
+        enum: ["Public", "Private"],
+        required: true
+    },
     image: {
         type: String,
         default: '/images/collectionDefault.jpeg'

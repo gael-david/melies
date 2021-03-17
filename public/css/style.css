@@ -129,14 +129,25 @@ table {
 /* ############ */
 /* GENERAL STYLE */
 /* ############ */
-html,
-body {
-  height: 100%;
+html {
+  min-height: 100%;
   line-height: 1.5;
+  scroll-behavior: smooth;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
 }
 
 * {
   box-sizing: border-box;
+  -ms-overflow-style: none; /* Hide scrollbar for IE and Edge */
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+  scroll-behavior: smooth;
+}
+
+* ::-webkit-scrollbar {
+  display: none;
 }
 
 a {
@@ -144,7 +155,12 @@ a {
   color: white;
 }
 
+a:hover {
+  color: white;
+}
+
 body {
+  min-height: 100vh;
   font-family: "Poppins", sans-serif;
   color: rgba(255, 255, 255, 0.863);
   /* background-color: #1f1e2b; */
@@ -197,25 +213,26 @@ p span {
 /* ############ */
 
 .listWrapper {
-  height: 400px;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  margin-bottom: 25px;
+  /* height: 400px; */
+  /* overflow-x: hidden;
+  overflow-y: scroll; */
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-column-gap: 15px;
-  grid-row-gap: 15px;
+  row-gap: 15px;
+  column-gap: 15px;
 }
 
 .listComponent {
   width: 100%;
   height: 100px;
-  border: 2px solid #ffffff21;
+  border: 2px solid #23252a;
+  background: #23252a;
   padding: 15px;
   border-radius: 20px;
   display: flex;
   align-items: center;
   cursor: pointer;
+  transition: 0.2s ease-in-out;
 }
 
 .listColor {
@@ -228,7 +245,8 @@ p span {
 
 .overlay {
   position: fixed;
-  height: 110%;
+  overflow: auto;
+  height: 100%;
   width: 100%;
   background: #000000e6;
   background-size: cover;
@@ -238,6 +256,9 @@ p span {
   animation: fadein;
   animation-duration: 1s;
   visibility: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .iconMargin {
@@ -245,16 +266,23 @@ p span {
 }
 
 #cancelButton {
-  background-color: #16161b;
+  background-color: #23242b00;
+  border: solid 2px rgba(255, 255, 255, 0.384);
 }
 
 .sectionTitle {
   font-size: 30px;
   font-weight: 600;
+  vertical-align: middle;
 }
 
 .centerTitle {
   align-self: center;
+}
+
+.scroller {
+  width: 100%;
+  position: relative;
 }
 
 .wrapper {
@@ -266,13 +294,14 @@ p span {
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   margin-bottom: 40px;
+  position: relative;
 }
 
 .smallFilmComponent {
   max-width: 200px;
-  /* display: flex;
+  display: flex;
   flex-direction: column;
-  justify-content: center; */
+  align-items: center;
   text-align: center;
   margin-right: 25px;
   position: relative;
@@ -289,7 +318,9 @@ p span {
 }
 
 .smallFilmPoster:hover {
-  transform: scale(0.98) rotate(-2deg);
+  transform: scale(0.98);
+  filter: brightness(1.1);
+  /* filter: saturate(1.3); */
   /* transform: translateY(-5px); */
 }
 
@@ -299,7 +330,7 @@ p span {
 }
 
 .filmBackdropImage {
-  width: 450px;
+  width: 550px;
   border-radius: 20px;
   filter: brightness(70%);
 }
@@ -315,16 +346,20 @@ p span {
 }
 
 .buttonsWrapper {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-self: center;
-  width: 100%;
+  display: grid;
+  column-gap: 15px;
+  grid-auto-flow: column;
+  /* flex-direction: row; */
+  /* justify-content: center; */
+  /* align-self: center; */
+  /* width: 100%; */
+  /* grid-template-columns: auto auto auto;
+  column-gap: 15px; */
 }
 
 .formButtonsWrapper {
-  align-self: flex-end;
-  width: 60%;
+  justify-self: flex-end;
+  grid-template-columns: 1fr 1fr;
 }
 
 .smallButtonsWrapper {
@@ -334,8 +369,9 @@ p span {
 
 .button {
   width: 100%;
+  padding: 0 20px;
   height: 50px;
-  background-color: #252936;
+  background-color: #23242b;
   font-family: "Poppins", sans-serif;
   font-size: 15px;
   font-weight: 600;
@@ -351,6 +387,7 @@ p span {
 
 .mainButton {
   width: 100%;
+  padding: 0 20px;
   height: 50px;
   background-color: #fee97d;
   font-family: "Poppins", sans-serif;
@@ -369,7 +406,7 @@ p span {
 .roundButton {
   height: 60px;
   width: 60px;
-  margin: 0px 7.5px;
+  /* margin: 0px 7.5px; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -533,8 +570,8 @@ p span {
   width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-column-gap: 20px;
-  grid-row-gap: 20px;
+  column-gap: 25px;
+  row-gap: 25px;
 }
 
 .collectionComponent {
@@ -546,6 +583,7 @@ p span {
   align-items: center;
   flex-direction: column;
   padding: 20px;
+  transition: 0.2s ease-in-out;
 }
 
 .collectionComponent h2 {
@@ -575,51 +613,52 @@ p span {
   opacity: 50%;
 }
 
-.formLabel {
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 15px;
+#createCollection {
+  cursor: pointer;
+  background-color: #252936;
+  transition: 0.2s ease-in-out;
 }
 
-.collectionForm {
+.hoverLight:hover {
+  filter: brightness(1.1);
+}
+
+.nextArrow {
+  width: 50px;
+  height: 50px;
+  background-color: #23252ac9;
+  border-radius: 50%;
   z-index: 9999;
-  width: 700px;
-  max-height: calc(100vh - 100px);
+  cursor: pointer;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 60px;
-  background: #16161b;
-  border-radius: 20px;
-  margin: 20px 0px;
-  position: fixed;
-  top: 20px;
-  box-shadow: #0a0a0a 0px 0px 20px 0px;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s ease-in-out;
+  will-change: transform;
+}
+
+.nextArrow span {
+  font-size: 32px;
+  user-select: none;
+  color: white;
+}
+
+.nextArrow:hover {
+  transform: scale(1.1);
+}
+
+.leftScroll {
+  position: absolute;
+  top: 130px;
+  left: -30px;
   visibility: hidden;
 }
 
-.collectionForm input,
-.collectionForm textarea {
-  font-family: "Poppins", sans-serif;
-  background: #16161b;
-  border: 2px solid #ffffff21;
-  padding: 15px;
-  color: #e1e2e3;
-  outline: none;
-  border-radius: 10px;
-  resize: vertical;
-  margin-bottom: 25px;
-}
-
-.collectionForm input#color {
-  padding: 10px;
-  width: 80px;
-  height: 54px;
-}
-
-.collectionForm input::placeholder,
-.collectionForm textarea::placeholder {
-  color: #ffffffa9;
+.rightScroll {
+  position: absolute;
+  top: 130px;
+  right: -30px;
+  visibility: visible;
 }
 
 /* ############ */
@@ -637,16 +676,26 @@ header {
   align-items: center;
 }
 
+.authHeader {
+  justify-content: center;
+  margin: 25px 0 25px 0;
+}
+
 #meliesLogo {
   display: flex;
   align-items: center;
   font-size: 36px;
   font-family: "Bungee", cursive;
+  width: 215px;
 }
 
 #meliesIcon {
   height: 40px;
+  min-width: 40px;
   margin-right: 10px;
+  transition-delay: 500ms;
+  animation: scaler;
+  animation-duration: 1s;
 }
 
 #moon {
@@ -666,7 +715,7 @@ header {
   justify-content: start;
   width: 40%;
   height: 40px;
-  background: #252936;
+  background: #23242b;
   border-radius: 40px;
   padding-left: 10px;
   margin: 0px 15px;
@@ -683,7 +732,7 @@ header {
 #userInput {
   width: 100%;
   margin-left: 5px;
-  background-color: #252936;
+  background-color: #25293600;
   color: rgba(255, 255, 255, 0.87);
   border: none;
   font-size: 16px;
@@ -695,7 +744,7 @@ header {
 }
 
 #userInput::placeholder {
-  color: rgba(255, 255, 255, 0.411);
+  color: rgba(255, 255, 255, 0.534);
   font-family: "Poppins", sans-serif;
   transition: 0.25s ease-in-out;
 }
@@ -730,10 +779,6 @@ header {
   margin-top: 30px;
   margin-bottom: 50px;
 }
-
-/* #appsWrapper {
-  justify-content: space-between;
-} */
 
 .appButton {
   min-width: 300px;
@@ -805,7 +850,7 @@ header {
   max-width: 300px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   position: -webkit-sticky;
   position: sticky;
   top: 20px;
@@ -935,7 +980,6 @@ header {
 /* ############ */
 
 footer {
-  z-index: 2;
   padding: 40px;
   width: 100%;
   margin-top: 40px;
@@ -946,6 +990,96 @@ footer {
   background: #1b1b20;
   /* position: absolute;
   bottom: 0; */
+}
+
+/* ####### */
+/* FORMS */
+/* ####### */
+
+.formLabel {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.formComponent {
+  z-index: 9999;
+  max-width: 550px;
+  width: 90%;
+  display: grid;
+  row-gap: 25px;
+  padding: 50px;
+  background: #1b1c21;
+  border-radius: 20px;
+  /* box-shadow: #0a0a0a 0px 0px 20px 0px; */
+  /* border: solid 1px rgba(255, 255, 255, 0.384); */
+}
+
+.formComponent h1 {
+  margin: 0;
+}
+
+.formComponent input,
+.formComponent textarea {
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  background: #23242b;
+  border: none;
+  padding: 15px;
+  color: #e1e2e3;
+  outline: none;
+  border-radius: 10px;
+  resize: none;
+  transition: 0.2s ease-in-out;
+}
+
+.formComponent input:focus,
+.formComponent textarea:focus {
+  box-shadow: 0 0 0 0.25rem rgb(198 198 196 / 25%);
+}
+
+.formComponent input#color {
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  border: none;
+  cursor: pointer;
+}
+
+.formComponent input::placeholder,
+.formComponent textarea::placeholder {
+  color: rgba(255, 255, 255, 0.534);
+}
+
+.formComponent fieldset label {
+  margin-right: 15px;
+}
+
+.formRow {
+  display: grid;
+  row-gap: 10px;
+}
+
+.fullForm {
+  width: 90%;
+  max-width: 1050px;
+}
+
+/* ############ */
+/* SIGN UP/LOGIN */
+/* ############ */
+
+.authBody {
+  justify-content: center;
+  padding-bottom: 40px;
+}
+
+.alreadyRegistered {
+  justify-self: center;
+}
+
+.alreadyRegistered a {
+  font-weight: 500;
+  color: #feee98;
 }
 
 /* ############ */
@@ -995,13 +1129,20 @@ footer {
   }
 
   #leftCard {
-    aspect-ratio: none;
     position: relative;
     width: 80%;
-    margin: 0px 0px 25px 0px;
+    margin: 0px 0px 50px 0px;
   }
 
   #rightCard {
+    width: 100%;
+  }
+
+  .listWrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .formButtonsWrapper {
     width: 100%;
   }
 }
@@ -1010,11 +1151,32 @@ footer {
   #resultsWrapper {
     grid-template-columns: 1fr 1fr;
   }
+
+  .collectionWrapper {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media only screen and (max-width: 500px) {
-  #resultsWrapper {
-    grid-template-columns: 1fr;
+  .smallFilmPoster {
+    width: 150px;
+    height: 230px;
+    border-radius: 20px;
+  }
+
+  .smallButtonsWrapper {
+    top: 210px;
+  }
+
+  .nextArrow {
+    display: none;
+  }
+
+  .formComponent {
+    width: 100%;
+    max-width: 100%;
+    background: none;
+    padding: 0 30px;
   }
 }
 
@@ -1061,12 +1223,29 @@ footer {
 }
 
 .selected {
-  border: 2px solid #fde97d9c;
+  /* border: 0.2rem solid #fde97d9c; */
+  box-shadow: 0 0 0 0.2rem #fde97d9c;
   /* transition: 0.4s; */
 }
 
 .openModal {
   overflow: hidden;
+}
+
+/* ############ */
+/* BOOTSTRAP OVERRIDES */
+/* ############ */
+
+.alert {
+  left: 3%;
+  position: fixed;
+  z-index: 9999;
+  bottom: 3%;
+  animation: opaciter 0.5s, fadeout 0.5s 4s forwards;
+}
+
+.alert-dismissible .btn-close {
+  top: -3px;
 }
 
 /* ############ */
@@ -1092,7 +1271,16 @@ footer {
     opacity: 0%;
   }
   100% {
-    transform: 100%;
+    opacity: 100%;
+  }
+}
+
+@keyframes fadeout {
+  0% {
+    opacity: 100%;
+  }
+  100% {
+    opacity: 0%;
   }
 }
 

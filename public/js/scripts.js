@@ -22,20 +22,11 @@ const createCollection = document.getElementById('createCollection');
 const addCollectionButton = document.getElementById('addCollectionButton');
 const cancelButton = document.getElementById('cancelButton');
 const saveToCollectionButton = document.getElementById('saveToCollectionButton');
-const collectionForm = document.querySelector('.collectionForm');
+const formComponent = document.querySelector('.formComponent');
 const collectionSelector = document.querySelectorAll('.collectionSelector');
 const overlay = document.querySelector('.overlay');
 
 let collectionChoice = [];
-
-// CREATE NEW COLLECTION (DISPLAY THE FORM)
-if (createCollection) {
-    createCollection.addEventListener("click", function () {
-        overlay.classList.toggle("visible");
-        collectionForm.classList.toggle("visible");
-        body.classList.toggle("openModal");
-    })
-}
 
 // ADD FILM TO COLLECTION(S) (DISPLAY FORM)
 if (addCollectionButton) {
@@ -47,7 +38,7 @@ if (addCollectionButton) {
 }
 
 // SELECT COLLECTIONS FOR THE FILM
-if (addCollectionButton) {
+if (collectionSelector) {
     collectionSelector.forEach(collection => {
         collection.addEventListener("click", function () {
             this.classList.toggle("selected");
@@ -69,14 +60,14 @@ if (saveToCollectionButton) {
     })
 }
 
-// CANCEL BUTTON
-if (cancelButton) {
-    cancelButton.addEventListener("click", function () {
-        overlay.classList.toggle("visible");
-        collectionForm.classList.toggle("visible");
-        body.classList.toggle("openModal");
-    })
-}
+// // CANCEL BUTTON
+// if (cancelButton) {
+//     cancelButton.addEventListener("click", function () {
+//         overlay.classList.toggle("visible");
+//         collectionForm.classList.toggle("visible");
+//         body.classList.toggle("openModal");
+//     })
+// }
 
 // ################
 // WATCHLIST BUTTON
