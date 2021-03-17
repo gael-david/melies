@@ -155,6 +155,10 @@ a {
   color: white;
 }
 
+a:hover {
+  color: white;
+}
+
 body {
   min-height: 100vh;
   font-family: "Poppins", sans-serif;
@@ -976,7 +980,6 @@ header {
 /* ############ */
 
 footer {
-  z-index: 2;
   padding: 40px;
   width: 100%;
   margin-top: 40px;
@@ -1165,6 +1168,10 @@ footer {
     top: 210px;
   }
 
+  .nextArrow {
+    display: none;
+  }
+
   .formComponent {
     width: 100%;
     max-width: 100%;
@@ -1226,6 +1233,22 @@ footer {
 }
 
 /* ############ */
+/* BOOTSTRAP OVERRIDES */
+/* ############ */
+
+.alert {
+  left: 3%;
+  position: fixed;
+  z-index: 9999;
+  bottom: 3%;
+  animation: opaciter 0.5s, fadeout 0.5s 4s forwards;
+}
+
+.alert-dismissible .btn-close {
+  top: -3px;
+}
+
+/* ############ */
 /* ANIMATIONS */
 /* ############ */
 
@@ -1248,7 +1271,16 @@ footer {
     opacity: 0%;
   }
   100% {
-    transform: 100%;
+    opacity: 100%;
+  }
+}
+
+@keyframes fadeout {
+  0% {
+    opacity: 100%;
+  }
+  100% {
+    opacity: 0%;
   }
 }
 

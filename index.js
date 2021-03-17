@@ -1,3 +1,7 @@
+// #############
+// CONFIGURATION
+// #############
+
 // EXPRESS INIT
 const express = require("express");
 const app = express();
@@ -29,8 +33,39 @@ app.use(express.json());
 // REQUIRE COOKIE-PARSER
 const cookieParser = require('cookie-parser');
 
+// REQUIRE & CONFIG FLASH
+const flash = require('connect-flash')
+app.use(flash())
+
+// REQUIRE & CONFIG EXPRESS-SESSION
+const session = require('express-session');
+const sessionConfig = {
+    secret: 'passwordtochange!',
+    resave: false,
+    saveUninitialize: true,
+    cookie: {
+        HttpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24,
+        maxAge: 1000 * 60 * 60 * 24
+    }
+}
+app.use(session(sessionConfig));
+
 // REQUIRE UTILITIES
 const ExpressError = require('./utilities/ExpressError');
+
+// #############
+// MIDDLEWARES
+// #############
+
+// FLASH MIDDLEWARE
+app.use(function(req, res, next) {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    res.locals.deleted = req.flash('deleted');
+    res.locals.loggedin = req.flash('loggedin');
+    next();
+})
 
 // REQUIRE ROUTERS
 const homeRoutes = require('./routes/home')
@@ -38,7 +73,7 @@ const filmRoutes = require('./routes/film')
 const collectionsRoutes = require('./routes/collections')
 const watchlistRoutes = require('./routes/watchlist')
 const signupRoutes = require('./routes/signup')
-const loginRoutes = require('./routes/login')
+const loginRoutes = require('./routes/login');
 
 // ROUTES
 app.use('/', homeRoutes)

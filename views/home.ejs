@@ -2,6 +2,8 @@
 <%- include('partials/header') %>
 
 <main id="homeWrapper">
+
+    <%- include('partials/flash') %>
     <h1 id="homeTitle">👋 Welcome home, Gaël.</h1>
 
     <% if (watchlist.length > 0) { %>
@@ -130,7 +132,7 @@
             <a id="georgesButton" class="appButton" href="">
                 <span class="material-icons bigIcon">face</span>
                 <h3 class="appTitle">Georges</h3>
-                <p class="appDescription">The bot that will find your new favorite film</p>
+                <p class="appDescription">Let our bot find your next favorite film</p>
             </a>
             <a id="collectionsButton" class="appButton" href="/collections">
                 <span class="material-icons bigIcon">auto_awesome_mosaic</span>
