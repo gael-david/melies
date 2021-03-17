@@ -1,0 +1,29 @@
+<%- include('../partials/head') %> 
+
+<body class="authBody">
+
+    <header class="authHeader">
+        <a href="/" id="meliesLogo"><img id="meliesIcon" src="/images/melies.png" alt="" srcset="">MELIES</a>
+    </header>
+
+        <form action="/login" method="POST" class="formComponent">
+            <div class="formRow">
+                <h1>Login to Melies</h1>
+                <p>Welcome back!</p>
+            </div>
+            <div class="formRow">
+                <label class="formLabel" for="color">Email</label>
+                <input type="email" name="email" id="email" placeholder="example@email.com" required>
+            </div>
+            <div class="formRow">
+                <label class="formLabel" for="description">Password</label>
+                <input type="password" name="password" id="password" placeholder="Your password" minlength="8" required></input>
+            </div>
+            <div class="buttonsWrapper">
+                <button class="mainButton" type="submit">Login</button>
+            </div>
+            <!-- <div class="g-signin2" data-onsuccess="onSignIn"></div> -->
+            <p class="alreadyRegistered">New to Melies? <a href="/signup">Create an account</a> </p>
+        </form>
+
+</body>
