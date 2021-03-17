@@ -38,11 +38,11 @@
             <% } %>
             <!-- Collections Button -->
                 <% if (inCollection) { %>
-                    <a href="/film/<%= filmData.id %>/add" id="addCollectionButton" class="roundButton" data-film="<%= filmID %>" >
+                    <a href="/collections/<%= filmData.id %>/add" id="addCollectionButton" class="roundButton" data-film="<%= filmID %>" >
                         <span class="material-icons favorite">library_add_check</span>
                     </a>
                 <% } else { %>
-                    <a href="/film/<%= filmData.id %>/add" id="addCollectionButton" class="roundButton" data-film="<%= filmID %>" >
+                    <a href="/collections/<%= filmData.id %>/add" id="addCollectionButton" class="roundButton" data-film="<%= filmID %>" >
                         <span class="material-icons-outlined">library_add</span>
                     </a>
                 <% } %>

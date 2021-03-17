@@ -9,7 +9,7 @@
                 <% if (collection.filmID.length == undefined) { %>
                     <h2>0 Films</h2>
                 <% } else { %>
-                    <h2><%= collection.filmID.length %>  Films</h2>
+                    <h2><%= collection.filmID.length %>  Films - <%= collection.visibility %></h2>
                 <% } %>
                 <img class="collectionImage" src="<%= collection.image %>" alt="">
             </div>

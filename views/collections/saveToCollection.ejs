@@ -1,7 +1,7 @@
 <%- include('../partials/head') %> 
 <%- include('../partials/header') %>
 
-<form class="formComponent fullForm" action="/film/<%= filmID %>/add?_method=PUT" method="POST">
+<form class="formComponent fullForm" action="/collections/<%= filmID %>/add?_method=PUT" method="POST">
     <h1>Save Film to Collections</h1>
     <div class="listWrapper">
         <% collections.forEach(collection => { %>
