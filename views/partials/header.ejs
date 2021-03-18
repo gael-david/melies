@@ -11,7 +11,12 @@
         </span>
     </div>
     <div id="userButtons">
-        <a href="/login" id="loginButton" class="button">Login</a>
-        <a href="/signup" id="signupButton" class="button">Sign up</a>
+        <% if (!currentUser) { %>
+            <a href="/login" id="loginButton" class="button">Login</a>
+            <a href="/signup" id="signupButton" class="button">Sign up</a>
+        <% } else { %>
+            <a href="/logout" id="loginButton" class="button">Logout</a>
+        <% } %>
       </div>
 </header>
+<%- include('flash') %>

@@ -26,11 +26,12 @@ router.get('/', wrapAsync(async function (req,res,next) {
 
     // GET USER'S WATCHLIST
     const watchlistData = await Watchlist.findOne({ 'user': "elgaga44" });
-    if (watchlistData && watchlistData.watchlist.length > 0) {
-        watchlist = watchlistData.watchlist;
-    } else {
-        watchlist = [];
-    }
+    // if (watchlistData && watchlistData.watchlist.length > 0) {
+    //     watchlist = watchlistData.watchlist;
+    // } else {
+    //     watchlist = [];
+    // }
+    const watchlist = watchlistData.watchlist || [];
 
     // INIT ALL PROMISES
     let allPromises = [getPopularFilms(), getTopFilms(), getRandomGenreFilms()];
@@ -74,7 +75,7 @@ router.get('/', wrapAsync(async function (req,res,next) {
         for (let index = 3; index < (discoverFilmsID.length + 3); index++) {
             discoverFilms.push(results[index].data);
         }
-
+        console.log(req.session)
         res.render('home', {name: "Home page", popularFilms, topFilms, filmGenre, randomGenreFilms, allFilmGenres, discoverFilms, watchlist });
     })
     .catch(function(err) {

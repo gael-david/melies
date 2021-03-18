@@ -19,28 +19,12 @@ const {allFilmGenres} = require('../public/js/genres');
 const {discoverFilmsID} = require('../public/js/discover');
 
 // MIDDLEWARES
-const validateCollection = function (req,res, next) {
-    // SCHEMA VALIDATION
-    const collectionSchema = Joi.object({
-        name: Joi.string().required().max(50),
-        color: Joi.string().required(),
-    }).options({ allowUnknown: true });
+const {validateCollection} = require('../middleware')
+const {isLoggedIn} = require('../middleware')
 
-    const {error} = collectionSchema.validate(req.body)
-    const result = collectionSchema.validate(req.body)
 
-    if (error) {
-        const msg = error.details.map(element => element.message).join(",")
-        throw new ExpressError(msg, 400)
-    } else {
-        next();
-    }
-}
-
-router.get('/', wrapAsync(async function (req,res,next) {
+router.get('/', isLoggedIn, wrapAsync(async function (req,res,next) {
     const collections = await Collection.find({});
-    console.log(collections)
-
     // For each collection, get the first film ID
     const firstFilmID = [];
     collections.forEach(collection => {
@@ -48,7 +32,6 @@ router.get('/', wrapAsync(async function (req,res,next) {
             firstFilmID.push(collection.filmID[0])
         }
     });
-
     // For each first film ID, initialize the API query
     const allPromises = []
     function getFilmDetails(ID) {
@@ -57,7 +40,6 @@ router.get('/', wrapAsync(async function (req,res,next) {
     firstFilmID.forEach(firstFilm => {
         allPromises.push(getFilmDetails(firstFilm))
     });
-
     // Launch all API queries
     Promise.all(allPromises)
     .then(async function (results) {
@@ -92,20 +74,22 @@ router.get('/', wrapAsync(async function (req,res,next) {
       });
 }))
 
-router.post('/',validateCollection, wrapAsync(async function (req,res,next) {
+router.post('/',isLoggedIn, validateCollection, wrapAsync(async function (req,res,next) {
     const collection = new Collection(req.body);
     await collection.save();
+    
+    console.log(collection)
 
     req.flash('success', 'Collection successfully created!');
 
     res.redirect('/collections');
 }))
 
-router.get('/create', wrapAsync(async function (req,res,next) {
+router.get('/create',isLoggedIn, wrapAsync(async function (req,res,next) {
     res.render('collections/newCollection', {name: "Create a new Collection"})
 }))
 
-router.get('/:collectionID', wrapAsync(async function (req,res,next) {
+router.get('/:collectionID',isLoggedIn, wrapAsync(async function (req,res,next) {
     const watchlistData = await Watchlist.findOne({ 'user': "elgaga44" });
     const watchlist = watchlistData.watchlist;
 
@@ -134,23 +118,23 @@ router.get('/:collectionID', wrapAsync(async function (req,res,next) {
     });
 }))
 
-router.delete('/:collectionID/delete', wrapAsync(async function (req,res,next) {
+router.delete('/:collectionID/delete',isLoggedIn, wrapAsync(async function (req,res,next) {
     const {collectionID} = req.params;
 
     await Collection.remove({ '_id': collectionID })
 
-    req.flash('deleted', 'Collection successfully deleted!');
+    req.flash('success', 'Collection successfully deleted!');
 
     res.redirect('back');
 }))
 
-router.get('/:filmID/add', wrapAsync(async function (req,res,next) {
+router.get('/:filmID/add',isLoggedIn, wrapAsync(async function (req,res,next) {
     const collections = await Collection.find({});
     const filmID = Number(req.params.filmID);
     res.render('collections/saveToCollection', {name: "Add to your Collections", collections, filmID})
 }))
 
-router.put('/:filmID/add', wrapAsync(async function (req,res,next) {
+router.put('/:filmID/add',isLoggedIn, wrapAsync(async function (req,res,next) {
     const collectionsData = req.body.collections;
     const {filmID} = req.params;
     const savedCollections = collectionsData.split(',');

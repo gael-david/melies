@@ -1,23 +1,25 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const passportLocalMongoose = require('passport-local-mongoose')
 
-const watchlistSchema = new Schema({
-    user: { 
+const userSchema = new Schema({
+    username: {
         type: String,
-        // type: Schema.Types.ObjectId, 
-        // ref: 'User' 
+        required: true,
+        unique: true
     },
     email: {
-        type: Email
-    },
-    password: {
-        type: Password,
-    },
-    watchlist: [{
-        type: Schema.Types.ObjectId, 
-        ref: 'Watchlist'
-    }]
+        type: String,
+        required: true,
+        unique: true
+    }
+    // watchlist: [{
+    //     type: Schema.Types.ObjectId, 
+    //     ref: 'Watchlist'
+    // }],
 })
+
+userSchema.plugin(passportLocalMongoose, { usernameField : 'email' });
 
 const User = mongoose.model('User', userSchema);
 

@@ -1003,7 +1003,7 @@ footer {
 
 .formComponent {
   z-index: 9999;
-  max-width: 550px;
+  max-width: 450px;
   width: 90%;
   display: grid;
   row-gap: 25px;
@@ -1021,10 +1021,10 @@ footer {
 .formComponent input,
 .formComponent textarea {
   font-family: "Poppins", sans-serif;
-  font-size: 16px;
+  font-size: 15px;
   background: #23242b;
   border: none;
-  padding: 15px;
+  padding: 10px;
   color: #e1e2e3;
   outline: none;
   border-radius: 10px;
@@ -1032,9 +1032,21 @@ footer {
   transition: 0.2s ease-in-out;
 }
 
+/* .formComponent input:valid,
+.formComponent textarea:valid {
+  box-shadow: none;
+}
+
+.formComponent input:invalid,
+.formComponent textarea:invalid {
+  box-shadow: 0 0 0 0.25rem rgb(250 5 5 / 25%);
+} */
+
 .formComponent input:focus,
 .formComponent textarea:focus {
-  box-shadow: 0 0 0 0.25rem rgb(198 198 196 / 25%);
+  box-shadow: 0 0 0 0.2rem rgb(198 198 196 / 25%);
+  background: #23242b;
+  color: #e1e2e3;
 }
 
 .formComponent input#color {
