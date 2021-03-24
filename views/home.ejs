@@ -3,55 +3,12 @@
 
 <main id="homeWrapper">
     <% if (currentUser) { %>
-        <h1 id="homeTitle">👋 Welcome back, <%= currentUser.username %> .</h1>
+        <h1 id="homeTitle">👋 Hello, <%= currentUser.username %>.</h1>
     <% } %> 
 
     <% if (currentUser && watchlist.length) { %>
-        <h2 class="sectionTitle">Your Watchlist<span class="material-icons-outlined">arrow_right_alt</span></h2>
-        <div class="scroller">
-            <div class="nextArrow leftScroll">
-                <span class="material-icons-round">chevron_left</span>
-            </div>
-            <section class="wrapper">
-                <% for( let index = watchlist.length-1; 0 <= index; index-- ) { %>
-                    <div class="smallFilmComponent">
-                        <a href="/film/<%= watchlist[index].id %> ">
-                            <img class="smallFilmPoster" src="https://image.tmdb.org/t/p/w500/<%= watchlist[index].poster_path %>" alt="" loading="lazy">
-                        </a>
-                        <div class="buttonsWrapper smallButtonsWrapper">
-                            <div class="ratingWrapper smallRatingWrapper" style="display: none;">
-                                <div data-title="masterpiece" data-img="🍾" class="ratingComponent smallratingComponent"><div class="tooltiptext smallTooltiptext">Masterpiece</div>🍾</div>
-                                <div data-title="excellent" data-img="👏" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Excellent</span>👏</div>
-                                <div data-title="goodMoment" data-img="👍" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Correct</span>👍</div>
-                                <div data-title="disapointing" data-img="👎" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Disapointing</span>👎</div>
-                                <div data-title="purge" data-img="🥱" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Dud</span>🥱</div>
-                                <div idata-title="nanar" data-img="💸" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Nanar</span>💸</div>
-                            </div>
-                            <button class="ratingButton roundButton smallRoundButton" type="submit">
-                                <span class="material-icons-outlined">grade</span>
-                            </button>
-                            <% if (watchlist.some(e => e.id === watchlist[index].id )) { %>
-                                <form action="/watchlist?_method=DELETE" method="POST" id="removeWatchlistForm">
-                                    <button id="removeWatchlistButton" class="roundButton smallRoundButton" name="id" value="<%= watchlist[index].id  %>" type="submit">
-                                        <span class="material-icons favorite">bookmark_added</span>
-                                    </button>
-                                </form>
-                            <% } else { %>
-                            <form action="/watchlist?_method=PUT" method="POST" id="addWatchlistForm">
-                                <button id="addWatchlistButton" class="roundButton smallRoundButton" name="id" value="<%= watchlist[index].id  %>" type="submit">
-                                    <span class="material-icons">bookmark_border</span>
-                                </button>
-                            </form>
-                            <% } %>
-                        </div>
-                        <p><span><%= watchlist[index].title %></span>  (<%= watchlist[index].release_date.slice(0,4)%>)</p>  
-                    </div>
-                <% } %>
-            </section>
-            <div class="nextArrow rightScroll">
-                <span class="material-icons-round">chevron_right</span>
-            </div>
-        </div> 
+        <h2 class="sectionTitle">Your Watchlist</h2>
+        <%- include('partials/filmScroller', {filmCategory: watchlist, order: "reverse"}) %>
     <% } %>
 
     <h2 class="sectionTitle">Discover</h2>
@@ -75,53 +32,7 @@
     </div>
 
     <h2 class="sectionTitle">Top <%= filmGenre.name %> Films</h2>
-    <div class="scroller">
-        <div class="nextArrow leftScroll">
-            <span class="material-icons-round">chevron_left</span>
-        </div>
-        <section class="wrapper">
-            <% for( let index = 0; index < randomGenreFilms.results.length && index < 10; index++ ) { %>
-                    <div class="smallFilmComponent">
-                        <a href="/film/<%= randomGenreFilms.results[index].id %> ">
-                            <img class="smallFilmPoster" src="https://image.tmdb.org/t/p/w500/<%= randomGenreFilms.results[index].poster_path %>" alt="" loading="lazy">
-                        </a>
-                        <div class="buttonsWrapper smallButtonsWrapper">
-                            <div class="ratingWrapper smallRatingWrapper" style="display: none;">
-                                <div data-title="masterpiece" data-img="🍾" class="ratingComponent smallratingComponent"><div class="tooltiptext smallTooltiptext">Masterpiece</div>🍾</div>
-                                <div data-title="excellent" data-img="👏" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Excellent</span>👏</div>
-                                <div data-title="goodMoment" data-img="👍" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Correct</span>👍</div>
-                                <div data-title="disapointing" data-img="👎" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Disapointing</span>👎</div>
-                                <div data-title="purge" data-img="🥱" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Dud</span>🥱</div>
-                                <div idata-title="nanar" data-img="💸" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Nanar</span>💸</div>
-                            </div>
-                            <button class="ratingButton roundButton smallRoundButton" type="submit">
-                                <span class="material-icons-outlined">grade</span>
-                            </button>
-                            <% if (watchlist.some(e => e.id === randomGenreFilms.results[index].id )) { %>
-                                <form action="/watchlist?_method=DELETE" method="POST" id="removeWatchlistForm">
-                                    <button id="removeWatchlistButton" class="roundButton smallRoundButton" name="id" value="<%= randomGenreFilms.results[index].id  %>" type="submit">
-                                        <span class="material-icons favorite">bookmark_added</span>
-                                    </button>
-                                </form>
-                            <% } else { %>
-                            <form action="/watchlist?_method=PUT" method="POST" id="addWatchlistForm">
-                                <input type="hidden" id="id" name="id" value="<%= randomGenreFilms.results[index].id  %>">
-                                <input type="hidden" id="title" name="title" value="<%= randomGenreFilms.results[index].title  %>">
-                                <input type="hidden" id="release_date" name="release_date" value="<%= randomGenreFilms.results[index].release_date.slice(0,4)  %>">
-                                <input type="hidden" id="poster_path" name="poster_path" value="<%= randomGenreFilms.results[index].poster_path %>">
-                                <button type="submit" id="addWatchlistButton" class="roundButton smallRoundButton"><span class="material-icons">bookmark_border</span></button>
-                            </form>
-                            <% } %>
-                        </div>
-                        
-                        <p><span style="font-weight: 600;"><%= randomGenreFilms.results[index].title %></span>  (<%= randomGenreFilms.results[index].release_date.slice(0,4)%>)</p>  
-                    </div>
-            <% } %>
-        </section>
-        <div class="nextArrow rightScroll">
-            <span class="material-icons-round">chevron_right</span>
-        </div>
-    </div>
+    <%- include('partials/filmScroller', {filmCategory: randomGenreFilms.results}) %>
 
     <h2 class="sectionTitle">Need some inspiration?</h2>
     <div class="scroller">
@@ -156,52 +67,7 @@
     </div>
     
     <h2 class="sectionTitle">Trending Films</h2>
-    <div class="scroller">
-        <div class="nextArrow leftScroll">
-            <span class="material-icons-round">chevron_left</span>
-        </div>
-        <section class="wrapper">
-            <% for( let index = 0; index < 10; index++ ) { %>
-                <div class="smallFilmComponent">
-                    <a href="/film/<%= popularFilms.results[index].id %> ">
-                        <img class="smallFilmPoster" src="https://image.tmdb.org/t/p/w500/<%= popularFilms.results[index].poster_path %>" alt="" loading="lazy">
-                    </a>
-                    <div class="buttonsWrapper smallButtonsWrapper">
-                        <div class="ratingWrapper smallRatingWrapper" style="display: none;">
-                            <div data-title="masterpiece" data-img="🍾" class="ratingComponent smallratingComponent"><div class="tooltiptext smallTooltiptext">Masterpiece</div>🍾</div>
-                            <div data-title="excellent" data-img="👏" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Excellent</span>👏</div>
-                            <div data-title="goodMoment" data-img="👍" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Correct</span>👍</div>
-                            <div data-title="disapointing" data-img="👎" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Disapointing</span>👎</div>
-                            <div data-title="purge" data-img="🥱" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Dud</span>🥱</div>
-                            <div idata-title="nanar" data-img="💸" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Nanar</span>💸</div>
-                        </div>
-                        <button class="ratingButton roundButton smallRoundButton" type="submit">
-                            <span class="material-icons-outlined">grade</span>
-                        </button>
-                        <% if (watchlist.some(e => e.id === popularFilms.results[index].id )) { %>
-                            <form action="/watchlist?_method=DELETE" method="POST" id="removeWatchlistForm">
-                                <button id="removeWatchlistButton" class="roundButton smallRoundButton" name="id" value="<%= popularFilms.results[index].id  %>" type="submit">
-                                    <span class="material-icons favorite">bookmark_added</span>
-                                </button>
-                            </form>
-                        <% } else { %>
-                        <form action="/watchlist?_method=PUT" method="POST" id="addWatchlistForm">
-                            <input type="hidden" id="id" name="id" value="<%= popularFilms.results[index].id  %>">
-                            <input type="hidden" id="title" name="title" value="<%= popularFilms.results[index].title  %>">
-                            <input type="hidden" id="release_date" name="release_date" value="<%= popularFilms.results[index].release_date.slice(0,4)  %>">
-                            <input type="hidden" id="poster_path" name="poster_path" value="<%= popularFilms.results[index].poster_path %>">
-                            <button type="submit" id="addWatchlistButton" class="roundButton smallRoundButton"><span class="material-icons">bookmark_border</span></button>
-                        </form>
-                        <% } %>
-                    </div>
-                    <p><span style="font-weight: 600;"><%= popularFilms.results[index].title %></span>  (<%= popularFilms.results[index].release_date.slice(0,4)%>)</p>  
-                </div>
-            <% } %>
-        </section>
-        <div class="nextArrow rightScroll">
-            <span class="material-icons-round">chevron_right</span>
-        </div>
-    </div>
+    <%- include('partials/filmScroller', {filmCategory: popularFilms.results}) %>
 
     <h2 class="sectionTitle">All genres</h2>
     <section class="wrapper">
@@ -213,54 +79,8 @@
     </section>
 
     <h2 class="sectionTitle">Top Rated Films</h2>
-    <div class="scroller">
-        <div class="nextArrow leftScroll">
-            <span class="material-icons-round">chevron_left</span>
-        </div>
-        <section class="wrapper">
-            <% for( let index = 0; index < 10; index++ ) { %>
-                <% if (topFilms.results[index].vote_count > 7500) { %>
-                    <div class="smallFilmComponent">
-                        <a href="/film/<%= topFilms.results[index].id %> ">
-                            <img class="smallFilmPoster" src="https://image.tmdb.org/t/p/w500/<%= topFilms.results[index].poster_path %>" alt="" loading="lazy">
-                        </a>
-                        <div class="buttonsWrapper smallButtonsWrapper">
-                            <div class="ratingWrapper smallRatingWrapper" style="display: none;">
-                                <div data-title="masterpiece" data-img="🍾" class="ratingComponent smallratingComponent"><div class="tooltiptext smallTooltiptext">Masterpiece</div>🍾</div>
-                                <div data-title="excellent" data-img="👏" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Excellent</span>👏</div>
-                                <div data-title="goodMoment" data-img="👍" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Correct</span>👍</div>
-                                <div data-title="disapointing" data-img="👎" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Disapointing</span>👎</div>
-                                <div data-title="purge" data-img="🥱" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Dud</span>🥱</div>
-                                <div idata-title="nanar" data-img="💸" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Nanar</span>💸</div>
-                            </div>
-                            <button class="ratingButton roundButton smallRoundButton" type="submit">
-                                <span class="material-icons-outlined">grade</span>
-                            </button>
-                            <% if (watchlist.some(e => e.id === topFilms.results[index].id )) { %>
-                                <form action="/watchlist?_method=DELETE" method="POST" id="removeWatchlistForm">
-                                    <button id="removeWatchlistButton" class="roundButton smallRoundButton" name="id" value="<%= topFilms.results[index].id  %>" type="submit">
-                                        <span class="material-icons favorite">bookmark_added</span>
-                                    </button>
-                                </form>
-                            <% } else { %>
-                            <form action="/watchlist?_method=PUT" method="POST" id="addWatchlistForm">
-                                <input type="hidden" id="id" name="id" value="<%= topFilms.results[index].id  %>">
-                                <input type="hidden" id="title" name="title" value="<%= topFilms.results[index].title  %>">
-                                <input type="hidden" id="release_date" name="release_date" value="<%= topFilms.results[index].release_date.slice(0,4)  %>">
-                                <input type="hidden" id="poster_path" name="poster_path" value="<%= topFilms.results[index].poster_path %>">
-                                <button type="submit" id="addWatchlistButton" class="roundButton smallRoundButton"><span class="material-icons">bookmark_border</span></button>
-                            </form>
-                            <% } %>
-                        </div>
-                        <p><span style="font-weight: 600;"><%= topFilms.results[index].title %></span>  (<%= topFilms.results[index].release_date.slice(0,4)%>)</p>  
-                    </div>
-                <% } %>
-            <% } %>
-        </section>
-        <div class="nextArrow rightScroll">
-            <span class="material-icons-round">chevron_right</span>
-        </div>
-    </div>
+    <%- include('partials/filmScroller', {filmCategory: topFilms.results}) %>
+
 </main>
 <script src="/js/scroll.js"></script>
 

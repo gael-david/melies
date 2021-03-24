@@ -20,6 +20,8 @@ mongoose.connect('mongodb://localhost:27017/meliesDB', {useCreateIndex: true, us
     })
 
 // REQUIRE MONGODB MODELS
+const Collection = require('./models/collection');
+const Watchlist = require('./models/watchlist');
 const User = require('./models/user');
 
 // EJS CONFIG
@@ -83,6 +85,30 @@ app.use(function(req, res, next) {
 app.use(function(req, res, next) {
     res.locals.currentUser = req.user;
     next();
+})
+
+// GET WATCHLIST
+app.use(async function (req,res, next) {
+    if (req.isAuthenticated()) {
+        const {watchlist} = await Watchlist.findOne({ 'user': req.user._id });
+        res.locals.watchlist = watchlist;
+        next();
+    } else {
+        res.locals.watchlist = [];
+        next();
+    }
+})
+
+// GET COLLECTIONS
+app.use(async function (req,res, next) {
+    if (req.isAuthenticated()) {
+        const {collections} = await User.findOne({ '_id': req.user._id }).populate('collections');
+        res.locals.collections = collections;
+        next();
+    } else {
+        res.locals.collections = [];
+        next();
+    }
 })
 
 // #############

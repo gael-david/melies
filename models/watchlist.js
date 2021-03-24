@@ -12,9 +12,8 @@ const Schema = mongoose.Schema;
 
 const watchlistSchema = new Schema({
     user: { 
-        type: String,
-        // type: Schema.Types.ObjectId, 
-        // ref: 'User' 
+        type: Schema.Types.ObjectId, 
+        ref: 'User' 
     },
     watchlist: [{
         id: {

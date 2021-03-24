@@ -19,26 +19,29 @@ const {allFilmGenres} = require('../public/js/genres');
 const {discoverFilmsID} = require('../public/js/discover');
 
 router.put('/', wrapAsync(async function (req, res,next) {
-    const id = Number(req.body.id);
-    const film = req.body;
-
-    const watchlistData = await Watchlist.findOne({ 'user': "elgaga44" });
-    const watchlist = watchlistData.watchlist;
-    const inWatchlist = watchlist.some(e => e.id === id);
-
-    if (!inWatchlist) {
-        watchlistData.watchlist.push(film);
-        await watchlistData.save();
+    if (req.isAuthenticated()) {
+        const id = Number(req.body.id);
+        const film = req.body;
+    
+        const watchlistData = await Watchlist.findOne({ 'user': req.user._id });
+        const watchlist = watchlistData.watchlist;
+        const inWatchlist = watchlist.some(e => e.id === id);
+    
+        if (!inWatchlist) {
+            watchlistData.watchlist.push(film);
+            await watchlistData.save();
+        }
+        
+        res.redirect('back');
+    } else {
+        res.redirect("/login")
     }
-
-    res.redirect('back');
 }))
 
 router.delete('/', wrapAsync(async function (req,res,next) {
     const id = Number(req.body.id);
-    const film = req.body;
 
-    let watchlistData = await Watchlist.findOne({ 'user': "elgaga44" });
+    let watchlistData = await Watchlist.findOne({ 'user': req.user._id });
     const inWatchlist = watchlistData.watchlist.some(e => e.id === id);
 
     if (inWatchlist) {

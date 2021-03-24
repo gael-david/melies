@@ -27,10 +27,15 @@ router.get('/signup', wrapAsync(async function (req,res,next) {
 
 router.post('/signup', wrapAsync(async function (req,res,next) {
     try {
+        // Create user
         const {username, email, password} = req.body;
         const user = new User({email, username});
         const registeredUser = await User.register(user, password);
-        console.log(registeredUser)
+
+        // Create user Watchlist
+        const watchlist = new Watchlist({user: registeredUser._id});
+        await watchlist.save();
+
         req.login(registeredUser, err => {if (err) return next(err);})
         req.flash('success', 'Welcome to Melies!')
         res.redirect("/");

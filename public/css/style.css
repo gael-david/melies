@@ -129,6 +129,21 @@ table {
 /* ############ */
 /* GENERAL STYLE */
 /* ############ */
+
+#background {
+  position: fixed;
+  height: 110%;
+  width: 100%;
+  background: #202231;
+  background-size: cover;
+  filter: blur(30px) brightness(25%);
+  z-index: 1;
+  transition: background 0.25s ease-in-out;
+  transition-delay: 500ms;
+  animation: opaciter;
+  animation-duration: 1s;
+}
+
 html {
   min-height: 100%;
   line-height: 1.5;
@@ -253,7 +268,7 @@ p span {
   z-index: 999;
   transition: background 0.25s ease-in-out;
   transition-delay: 500ms;
-  animation: fadein;
+  animation: opaciter;
   animation-duration: 1s;
   visibility: hidden;
   display: flex;
@@ -294,6 +309,7 @@ p span {
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   margin-bottom: 40px;
+  column-gap: 25px;
   position: relative;
 }
 
@@ -303,7 +319,6 @@ p span {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  margin-right: 25px;
   position: relative;
 }
 
@@ -326,7 +341,6 @@ p span {
 
 .filmBackdropComponent {
   position: relative;
-  margin-right: 25px;
 }
 
 .filmBackdropImage {
@@ -465,9 +479,11 @@ p span {
   height: 60px;
   position: absolute;
   bottom: 70px;
+  left: 0px;
   background: #252936;
   box-shadow: #0a0a0a 0px 0px 10px 3px;
   border-radius: 100px;
+  will-change: transform;
   transition: 0.2s ease-in-out;
   animation: mover 0.25s forwards, scaler 0.25s forwards;
 }
@@ -476,8 +492,8 @@ p span {
   flex-direction: column;
   height: 50px;
   width: 50px;
-  right: 103px;
-  bottom: 60px;
+  left: 65px;
+  bottom: 0px;
   animation: heighter 0.25s forwards;
 }
 
@@ -527,7 +543,6 @@ p span {
   min-height: 50px;
   border: solid 2px rgba(255, 255, 255, 0.384);
   border-radius: 15px;
-  margin-right: 15px;
   font-size: 14px;
   font-weight: 600;
   text-align: center;
@@ -538,10 +553,6 @@ p span {
 
 .detailsComponent span {
   margin-right: 5px;
-}
-
-.detailsColor {
-  background-color: ;
 }
 
 .star {
@@ -791,7 +802,6 @@ header {
   justify-content: center;
   align-items: center;
   padding: 40px;
-  margin-right: 25px;
   text-align: center;
 }
 
@@ -885,7 +895,6 @@ header {
 .watchComponent {
   width: 50px;
   border-radius: 50%;
-  margin-right: 15px;
   box-shadow: rgb(17 17 26 / 10%) 0px 0px 16px;
 }
 
@@ -896,7 +905,6 @@ header {
   justify-content: flex-start;
   align-items: center;
   text-align: center;
-  margin-right: 25px;
 }
 
 .creditsImage {
@@ -927,20 +935,6 @@ header {
   aspect-ratio: 16/9;
 }
 
-#background {
-  position: fixed;
-  height: 110%;
-  width: 100%;
-  background: #202231;
-  background-size: cover;
-  filter: blur(10px) brightness(25%);
-  z-index: 1;
-  transition: background 0.25s ease-in-out;
-  transition-delay: 500ms;
-  animation: fadein;
-  animation-duration: 1s;
-}
-
 /* ############ */
 /* SEARCH PAGE */
 /* ############ */
@@ -952,11 +946,6 @@ header {
   grid-row-gap: 40px;
   justify-items: center;
   margin-bottom: 40px;
-}
-
-.resultsComponent {
-  margin: 0px;
-  width: auto;
 }
 
 .searchPoster {
@@ -1108,7 +1097,7 @@ footer {
 }
 
 .errorImage {
-  height: 200px;
+  height: 150px;
   margin-bottom: 25px;
 }
 

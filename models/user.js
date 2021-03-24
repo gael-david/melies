@@ -12,11 +12,11 @@ const userSchema = new Schema({
         type: String,
         required: true,
         unique: true
-    }
-    // watchlist: [{
-    //     type: Schema.Types.ObjectId, 
-    //     ref: 'Watchlist'
-    // }],
+    },
+    collections: [{
+        type: Schema.Types.ObjectId, 
+        ref: 'Collection',
+    }]
 })
 
 userSchema.plugin(passportLocalMongoose, { usernameField : 'email' });

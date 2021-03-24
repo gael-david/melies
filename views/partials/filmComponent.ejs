@@ -1,0 +1,105 @@
+<% if (locals.order === "reverse") { %>
+    <% for( let index = filmCategory.length - 1; 0 <= index && filmCategory.length - 20 <=  index; index-- ) { %>
+        <% if (filmCategory[index].poster_path && filmCategory[index].release_date) { %>
+        <div class="smallFilmComponent">
+            <a href="/film/<%= filmCategory[index].id %> ">
+                <% if (filmCategory[index].poster_path) { %>
+                    <img class="smallFilmPoster" src="https://image.tmdb.org/t/p/w400<%= filmCategory[index].poster_path %>" alt="" loading="lazy">
+                <% } else { %>
+                    <img class="smallFilmPoster" src="/images/noposter.jpeg" alt="" loading="lazy">
+                <% } %>
+            </a>
+            <% if (locals.collectionComponent) { %>
+                <form action="/collections/<%= collectionFilms[index].id %>/remove?_method=DELETE" method="POST" class="deleteForm">
+                    <button type="submit" name="collectionID" value="<%= collection._id %>" class="roundButton deleteButton">
+                        <span class="material-icons">delete</span>
+                    </button>
+                </form>
+            <% } %>
+            <div class="buttonsWrapper smallButtonsWrapper">
+                <div class="ratingWrapper smallRatingWrapper" style="display: none;">
+                    <div data-title="masterpiece" data-img="🍾" class="ratingComponent smallratingComponent"><div class="tooltiptext smallTooltiptext">Masterpiece</div>🍾</div>
+                    <div data-title="excellent" data-img="👏" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Excellent</span>👏</div>
+                    <div data-title="goodMoment" data-img="👍" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Correct</span>👍</div>
+                    <div data-title="disapointing" data-img="👎" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Disapointing</span>👎</div>
+                    <div data-title="purge" data-img="🥱" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Dud</span>🥱</div>
+                    <div idata-title="nanar" data-img="💸" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Nanar</span>💸</div>
+                </div>
+                <button class="ratingButton roundButton smallRoundButton" type="submit">
+                    <span class="material-icons-outlined">grade</span>
+                </button>
+                <% if (watchlist.some(e => e.id === filmCategory[index].id )) { %>
+                    <form action="/watchlist?_method=DELETE" method="POST" id="removeWatchlistForm">
+                        <button id="removeWatchlistButton" class="roundButton smallRoundButton" name="id" value="<%= filmCategory[index].id  %>" type="submit">
+                            <span class="material-icons favorite">bookmark_added</span>
+                        </button>
+                    </form>
+                <% } else { %>
+                <form action="/watchlist?_method=PUT" method="POST" id="addWatchlistForm">
+                    <input type="hidden" id="id" name="id" value="<%= filmCategory[index].id  %>">
+                    <input type="hidden" id="title" name="title" value="<%= filmCategory[index].title  %>">
+                    <input type="hidden" id="release_date" name="release_date" value="<%= filmCategory[index].release_date.slice(0,4)  %>">
+                    <input type="hidden" id="poster_path" name="poster_path" value="<%= filmCategory[index].poster_path %>">
+                    <button type="submit" id="addWatchlistButton" class="roundButton smallRoundButton"><span class="material-icons">bookmark_border</span></button>
+                </form>
+                <% } %>
+            </div>
+            
+            <p><span style="font-weight: 600;"><%= filmCategory[index].title %></span>  (<%= filmCategory[index].release_date.slice(0,4)%>)</p>  
+        </div>
+        <% } %>
+    <% } %>
+<% } else { %>
+    <% for( let index = 0; index < filmCategory.length && index < 20; index++ ) { %>
+        <% if (filmCategory[index].poster_path && filmCategory[index].release_date) { %>
+        <div class="smallFilmComponent">
+            <a href="/film/<%= filmCategory[index].id %> ">
+                <% if (filmCategory[index].poster_path) { %>
+                    <img class="smallFilmPoster" src="https://image.tmdb.org/t/p/w400<%= filmCategory[index].poster_path %>" alt="" loading="lazy">
+                <% } else { %>
+                    <img class="smallFilmPoster" src="/images/noposter.jpeg" alt="" loading="lazy">
+                <% } %>
+            </a>
+            <% if (locals.collectionComponent) { %>
+                <form action="/collections/<%= collectionFilms[index].id %>/remove?_method=DELETE" method="POST" class="deleteForm">
+                    <button type="submit" name="collectionID" value="<%= collection._id %>" class="roundButton deleteButton">
+                        <span class="material-icons">delete</span>
+                    </button>
+                </form>
+            <% } %>
+            <div class="buttonsWrapper smallButtonsWrapper">
+                <div class="ratingWrapper smallRatingWrapper" style="display: none;">
+                    <div data-title="masterpiece" data-img="🍾" class="ratingComponent smallratingComponent"><div class="tooltiptext smallTooltiptext">Masterpiece</div>🍾</div>
+                    <div data-title="excellent" data-img="👏" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Excellent</span>👏</div>
+                    <div data-title="goodMoment" data-img="👍" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Correct</span>👍</div>
+                    <div data-title="disapointing" data-img="👎" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Disapointing</span>👎</div>
+                    <div data-title="purge" data-img="🥱" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Dud</span>🥱</div>
+                    <div idata-title="nanar" data-img="💸" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Nanar</span>💸</div>
+                </div>
+                <button class="ratingButton roundButton smallRoundButton" type="submit">
+                    <span class="material-icons-outlined">grade</span>
+                </button>
+                <% if (watchlist.some(e => e.id === filmCategory[index].id )) { %>
+                    <form action="/watchlist?_method=DELETE" method="POST" id="removeWatchlistForm">
+                        <button id="removeWatchlistButton" class="roundButton smallRoundButton" name="id" value="<%= filmCategory[index].id  %>" type="submit">
+                            <span class="material-icons favorite">bookmark_added</span>
+                        </button>
+                    </form>
+                <% } else { %>
+                <form action="/watchlist?_method=PUT" method="POST" id="addWatchlistForm">
+                    <input type="hidden" id="id" name="id" value="<%= filmCategory[index].id  %>">
+                    <input type="hidden" id="title" name="title" value="<%= filmCategory[index].title  %>">
+                    <input type="hidden" id="release_date" name="release_date" value="<%= filmCategory[index].release_date.slice(0,4)  %>">
+                    <input type="hidden" id="poster_path" name="poster_path" value="<%= filmCategory[index].poster_path %>">
+                    <button type="submit" id="addWatchlistButton" class="roundButton smallRoundButton"><span class="material-icons">bookmark_border</span></button>
+                </form>
+                <% } %>
+            </div>
+            
+            <p><span style="font-weight: 600;"><%= filmCategory[index].title %></span>  (<%= filmCategory[index].release_date.slice(0,4)%>)</p>  
+        </div>
+        <% } %>
+    <% } %>
+<% } %>
+        
+

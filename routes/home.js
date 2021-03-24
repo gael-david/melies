@@ -19,19 +19,11 @@ const {allFilmGenres} = require('../public/js/genres');
 const {discoverFilmsID} = require('../public/js/discover');
 
 router.get('/', wrapAsync(async function (req,res,next) {
+    const {watchlist} = res.locals;
 
     // GET RANDOM GENRE ID
     const filmGenre = randomFilmGenre();
     const genreID = filmGenre.id;
-
-    // GET USER'S WATCHLIST
-    const watchlistData = await Watchlist.findOne({ 'user': "elgaga44" });
-    // if (watchlistData && watchlistData.watchlist.length > 0) {
-    //     watchlist = watchlistData.watchlist;
-    // } else {
-    //     watchlist = [];
-    // }
-    const watchlist = watchlistData.watchlist || [];
 
     // INIT ALL PROMISES
     let allPromises = [getPopularFilms(), getTopFilms(), getRandomGenreFilms()];
@@ -64,7 +56,7 @@ router.get('/', wrapAsync(async function (req,res,next) {
     for (let index = 0; index < discoverFilmsID.length; index++) {
         allPromises.push(getDiscoverFilms(discoverFilmsID[index]))
     }
-      
+    
     Promise.all(allPromises)
     .then(async function (results) {
         const popularFilms = results[0].data;
