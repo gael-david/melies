@@ -70,14 +70,21 @@
     <%- include('partials/filmScroller', {filmCategory: popularFilms.results}) %>
 
     <h2 class="sectionTitle">All genres</h2>
-    <section class="wrapper">
-    <% for( let index = 0; index < allFilmGenres.length; index++ ) { %>
-        <a href="/film/genre/<%= allFilmGenres[index].id %>/1" >
-        <div style="color: <%= allFilmGenres[index].color %>; border-color: <%= allFilmGenres[index].color %>a3" class="detailsComponent"><%= allFilmGenres[index].name %> </div>
-        </a>
-    <% } %>
-    </section>
-
+    <div class="scroller">
+        <div class="nextArrow leftScroll smallWrapperArrow">
+            <span class="material-icons-round">chevron_left</span>
+        </div>
+        <section class="wrapper">
+        <% for( let index = 0; index < allFilmGenres.length; index++ ) { %>
+            <a href="/film/genre/<%= allFilmGenres[index].id %>/1" >
+            <div style="color: <%= allFilmGenres[index].color %>; border-color: <%= allFilmGenres[index].color %>a3" class="detailsComponent"><%= allFilmGenres[index].name %> </div>
+            </a>
+        <% } %>
+        </section>
+        <div class="nextArrow rightScroll smallWrapperArrow">
+            <span class="material-icons-round">chevron_right</span>
+        </div>
+    </div>
     <h2 class="sectionTitle">Top Rated Films</h2>
     <%- include('partials/filmScroller', {filmCategory: topFilms.results}) %>
 

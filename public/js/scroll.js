@@ -2,13 +2,11 @@ let scrollers = document.querySelectorAll('.scroller')
 
 function scrollRight(scroller,wrapper) {
     let wrapperWidth = wrapper.offsetWidth
-
     wrapper.scrollLeft += wrapperWidth - (wrapperWidth % 225) - 225;
 }
 
 function scrollLeft(scroller,wrapper) {
     let wrapperWidth = wrapper.offsetWidth
-
     wrapper.scrollLeft -= wrapperWidth - (wrapperWidth % 225) - 225
 }
 
@@ -34,20 +32,28 @@ function hideScrollButtons(scroller,wrapper){
 }
 
 scrollers.forEach(scroller => {
-    let wrapper = scroller.querySelector(".wrapper")
-    let wrapperWidth = wrapper.offsetWidth
+    let wrapper = scroller.querySelector(".wrapper");
+    let wrapperWidth = wrapper.offsetWidth;
     let maxScrollLeft = wrapper.scrollWidth - wrapper.clientWidth;
-    let leftScroll = scroller.querySelector('.leftScroll')
-    let rightScroll = scroller.querySelector('.rightScroll')
+    let leftScroll = scroller.querySelector('.leftScroll');
+    let rightScroll = scroller.querySelector('.rightScroll');
+
+    console.log(wrapper.scrollWidth, wrapper.clientWidth)
+    if (wrapper.scrollWidth !== wrapper.clientWidth) {
+        rightScroll.style.opacity = "100%";
+        rightScroll.style.visibility = "visible";
+    }
 
     leftScroll.addEventListener("click", function () {
         wrapper.scrollLeft -= wrapperWidth - (wrapperWidth % 225);
         setTimeout(() => {
             if (100 > wrapper.scrollLeft > 0) {
                 leftScroll.style.opacity = "0%";
+                leftScroll.style.visibility = "hidden";
             }
             if (wrapper.scrollLeft !== maxScrollLeft) {
                 rightScroll.style.opacity = "100%";
+                rightScroll.style.visibility = "visible";
             }
         }, 250);
     })
@@ -62,6 +68,7 @@ scrollers.forEach(scroller => {
             }
             if (wrapper.scrollLeft > (maxScrollLeft-100)) {
                 rightScroll.style.opacity = "0%";
+                rightScroll.style.visibility = "hidden";
             }
         }, 250);
     })
@@ -70,9 +77,11 @@ scrollers.forEach(scroller => {
     
             if (100 > wrapper.scrollLeft > 0) {
                 leftScroll.style.opacity = "0%";
+                leftScroll.style.visibility = "hidden";
             }
             if (wrapper.scrollLeft !== maxScrollLeft) {
                 rightScroll.style.opacity = "100%";
+                rightScroll.style.visibility = "visible";
             }
             if (wrapper.scrollLeft !== 0) {
                 leftScroll.style.opacity = "100%";
@@ -81,53 +90,9 @@ scrollers.forEach(scroller => {
             }
             if (wrapper.scrollLeft > (maxScrollLeft-50)) {
                 rightScroll.style.opacity = "0%";
+                rightScroll.style.visibility = "hidden";
             }
         
     })
 });
-
-// scrollers.forEach(scroller => {
-//     let wrapper = scroller.querySelector(".wrapper")
-//     let wrapperWidth = wrapper.offsetWidth
-//     let maxScrollLeft = wrapper.scrollWidth - wrapper.clientWidth;
-//     let leftScroll = scroller.querySelector('.leftScroll')
-//     let rightScroll = scroller.querySelector('.rightScroll')
-
-//     leftScroll.addEventListener("click", function () {
-//         scrollLeft(scroller,wrapper)
-//     })
-    
-//     rightScroll.addEventListener("click", function () {
-//         scrollRight(scroller,wrapper)  
-//     })
-
-//     if (wrapper.scrollLeft !== 0) {
-//         leftScroll.classList.toggle("visible");
-//     }
-//     if (wrapper.scrollLeft == maxScrollLeft) {
-//         rightScroll.classList.toggle("visible");
-//     }
-
-
-//     wrapper.addEventListener("mouseover", function () {
-//         displayScrollButtons(scroller,wrapper)
-//         console.log("Mouseover wrapper")
-//     })
-
-//     leftScroll.addEventListener("mouseover", function () {
-//         displayScrollButtons(scroller,wrapper)
-//         console.log("Mouseover leftbutton")
-//     })
-
-//     rightScroll.addEventListener("mouseover", function () {
-//         displayScrollButtons(scroller,wrapper)
-//         console.log("Mouseover rightbutton")
-//     })
-        
-//     wrapper.addEventListener("mouseleave", function() {
-//         hideScrollButtons(scroller,wrapper)
-//         console.log("Mouseleave wrapper")
-//     })
-
-// });
 

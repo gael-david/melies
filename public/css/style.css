@@ -572,9 +572,14 @@ p span {
 }
 
 .pageCover {
-  width: 100%;
+  width: 94%;
   margin: auto;
   margin-bottom: 40px;
+}
+
+.pageCoverTitle {
+  text-shadow: 0 0 20px #00000029;
+  margin: 0;
 }
 
 .collectionWrapper {
@@ -663,13 +668,23 @@ p span {
   top: 130px;
   left: -30px;
   visibility: hidden;
+  opacity: 0%;
 }
 
 .rightScroll {
   position: absolute;
   top: 130px;
   right: -30px;
-  visibility: visible;
+  visibility: hidden;
+  opacity: 0%;
+}
+
+.smallWrapperArrow {
+  top: 0;
+}
+
+.creditWrapperArrow {
+  top: 100px;
 }
 
 /* ############ */
@@ -930,7 +945,6 @@ header {
 .videoComponent {
   height: 300px;
   display: inline-block;
-  margin-right: 25px;
   border-radius: 20px;
   aspect-ratio: 16/9;
 }

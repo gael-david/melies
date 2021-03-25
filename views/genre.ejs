@@ -2,7 +2,11 @@
 <%- include('partials/header') %> 
 
 <main>
-    <h2 class="sectionTitle centerTitle">Top <%= genreName %>  films</h2>
+    <div class="pageCover">
+        <div class="collectionComponent" style="background-color: <%= genreColor %>;">
+            <h1 class="pageCoverTitle">Top <%= genreName %> films</h1>
+        </div>
+    </div>
     <%- include('partials/resultsWrapper', {filmCategory: genreFilms.results}) %> 
     <h2 class="centerTitle"> Page <%= genrePage %></h2>
         <div class="pageWrapper">
