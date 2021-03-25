@@ -25,7 +25,6 @@ const {isLoggedIn} = require('../middleware');
 
 router.get('/', wrapAsync(async function (req,res,next) {
     const {collections} = res.locals;
-    const {watchlist} = res.locals;
 
     // For each collection, get the first film ID
     const firstFilmID = [];

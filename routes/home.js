@@ -20,7 +20,7 @@ const {discoverFilmsID} = require('../public/js/discover');
 
 router.get('/', wrapAsync(async function (req,res,next) {
     const {watchlist} = res.locals;
-
+    
     // GET RANDOM GENRE ID
     const filmGenre = randomFilmGenre();
     const genreID = filmGenre.id;
@@ -67,7 +67,7 @@ router.get('/', wrapAsync(async function (req,res,next) {
         for (let index = 3; index < (discoverFilmsID.length + 3); index++) {
             discoverFilms.push(results[index].data);
         }
-        console.log(req.session)
+
         res.render('home', {name: "Home page", popularFilms, topFilms, filmGenre, randomGenreFilms, allFilmGenres, discoverFilms, watchlist });
     })
     .catch(function(err) {

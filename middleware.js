@@ -38,27 +38,3 @@ module.exports.validateCollection = function (req,res, next) {
         next();
     }
 }
-
-// GET USER WATCHLIST
-module.exports.getWatchlist = async function (req,res, next) {
-    if (req.isAuthenticated()) {
-        const {watchlist} = await Watchlist.findOne({ 'user': req.user._id });
-        res.locals.watchlist = watchlist;
-        next();
-    } else {
-        res.locals.watchlist = [];
-        next();
-    }
-}
-
-// GET USER COLLECTIONS
-module.exports.getCollections = async function (req,res, next) {
-    if (req.isAuthenticated()) {
-        const {collections} = await User.findOne({ '_id': req.user._id }).populate('collections');
-        res.locals.collections = collections;
-        next();
-    } else {
-        res.locals.collections = [];
-        next();
-    }
-}

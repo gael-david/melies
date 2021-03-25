@@ -71,6 +71,7 @@ passport.deserializeUser(User.deserializeUser())
 // REQUIRE UTILITIES
 const ExpressError = require('./utilities/ExpressError');
 
+
 // #############
 // MIDDLEWARES
 // #############
@@ -102,7 +103,7 @@ app.use(async function (req,res, next) {
 // GET COLLECTIONS
 app.use(async function (req,res, next) {
     if (req.isAuthenticated()) {
-        const {collections} = await User.findOne({ '_id': req.user._id }).populate('collections');
+        const collections = await Collection.find({'user': req.user._id})
         res.locals.collections = collections;
         next();
     } else {
