@@ -136,7 +136,7 @@ table {
   width: 100%;
   background: #202231;
   background-size: cover;
-  filter: blur(30px) brightness(25%);
+  filter: blur(100px) brightness(25%);
   z-index: 1;
   transition: background 0.25s ease-in-out;
   transition-delay: 500ms;
