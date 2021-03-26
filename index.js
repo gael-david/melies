@@ -15,7 +15,9 @@ app.use(express.static(path.join(__dirname, '/public')))
 
 // MONGOOSE INIT
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/meliesDB', {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true})
+const dbURL = process.env.DB_URL || 'mongodb://localhost:27017/meliesDB';
+
+mongoose.connect(dbURL, {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true})
     .then(function () {
         console.log("CONNECTION OPEN!")
     })
@@ -28,11 +30,37 @@ mongoose.connect('mongodb://localhost:27017/meliesDB', {useCreateIndex: true, us
 const mongoSanitize = require('express-mongo-sanitize');
 app.use(mongoSanitize());
 
-
 // REQUIRE MONGODB MODELS
 const Collection = require('./models/collection');
 const Watchlist = require('./models/watchlist');
 const User = require('./models/user');
+
+// REQUIRE COOKIE-PARSER
+const cookieParser = require('cookie-parser');
+
+// CONFIGURE EXPRESS-SESSION & CONNECT-MONGO (to use MongoDB as a session manager)
+const secret = process.env.SECRET || 'thisshouldbebetter!'
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+const store = new MongoStore({
+    mongoUrl: dbURL,
+    secret: secret,
+    touchAfter: 24 * 60 * 60
+});
+const sessionConfig = {
+    store: store,
+    name: 'session',
+    secret: secret,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        // secure: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24
+    }
+};
+app.use(session(sessionConfig));
 
 // EJS CONFIG
 app.set('view engine', 'ejs');
@@ -45,26 +73,9 @@ app.use(methodOverride('_method'))
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// REQUIRE COOKIE-PARSER
-const cookieParser = require('cookie-parser');
-
 // REQUIRE & CONFIG FLASH
 const flash = require('connect-flash')
 app.use(flash())
-
-// REQUIRE & CONFIG EXPRESS-SESSION
-const session = require('express-session');
-const sessionConfig = {
-    secret: 'passwordtochange!',
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-        HttpOnly: true,
-        expires: Date.now() + 1000 * 60 * 60 * 24,
-        maxAge: 1000 * 60 * 60 * 24
-    }
-}
-app.use(session(sessionConfig));
 
 // REQUIRE & CONFIG PASSPORT
 const passport = require('passport');
@@ -74,11 +85,15 @@ app.use(passport.session());
 // Tell Passport to use the local strategy (could also be Google, Facebook...)
 passport.use(User.createStrategy());
 // Store and unstore user in a session
-passport.serializeUser(User.serializeUser())
-passport.deserializeUser(User.deserializeUser())
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // REQUIRE UTILITIES
 const ExpressError = require('./utilities/ExpressError');
+
+// REQUIRE HELMET (HTTP SECURITY)
+const helmet = require('helmet');
+app.use(helmet({contentSecurityPolicy: false}));
 
 // #############
 // MIDDLEWARES
