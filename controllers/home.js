@@ -16,6 +16,17 @@ module.exports.homepage = async function (req,res,next) {
     const filmGenre = randomFilmGenre();
     const genreID = filmGenre.id;
 
+    // Get a random film ID
+    async function getRandomID() {
+        const films = await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.API_KEY}&language=en-EN&vote_average.gte=6&vote_count.gte=100`)
+        const allPages = films.data.total_pages;
+        const randomPage = `${Math.floor(Math.random() * allPages + 1)}`;
+        const pageFilms = await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.API_KEY}&language=en-EN&vote_average.gte=6&vote_count.gte=100&page=${randomPage}`)
+        return pageFilms.data.results[Math.floor(Math.random() * pageFilms.data.results.length)].id;
+        // return randomID
+    } 
+    const randomID = await getRandomID();
+
     // INIT ALL PROMISES
     let allPromises = [getPopularFilms(), getTopFilms(), getRandomGenreFilms()];
 
@@ -58,7 +69,7 @@ module.exports.homepage = async function (req,res,next) {
         shuffleArray(randomGenreFilms.results)
         shuffleArray(discoverFilms)
 
-        res.render('home', {name: "Home page", popularFilms, topFilms, filmGenre, randomGenreFilms, allFilmGenres, discoverFilms, watchlist });
+        res.render('home', {name: "Home page", randomID, popularFilms, topFilms, filmGenre, randomGenreFilms, allFilmGenres, discoverFilms, watchlist });
     })
     .catch(function(err) {
         console.log(err.message); 
