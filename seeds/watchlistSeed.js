@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Collection = require('./models/collection');
-const Watchlist = require('./models/watchlist');
+const Collection = require('../models/collection');
+const Watchlist = require('../models/watchlist');
 
 mongoose.connect('mongodb://localhost:27017/meliesDB', {useNewUrlParser: true, useUnifiedTopology: true})
 .then(function () {
@@ -46,13 +46,12 @@ mongoose.connect('mongodb://localhost:27017/meliesDB', {useNewUrlParser: true, u
 //     }
 // ]
 
+const watchlistSeed = [{
+    user: "elgaga44",
+    watchlist: []
+}]
 
-// const watchlistSeed = {
-//     user: "elgaga44",
-//     watchlist: [424, 1955, 497, 615643, 558582, 502033, 661914, 581734]
-// }
-
-// Watchlist.insertMany(watchlistSeed)
-// .then(res => {console.log(res)})
-// .catch(err => {console.log(err)})
+Watchlist.insertMany(watchlistSeed)
+.then(res => {console.log(res)})
+.catch(err => {console.log(err)})
 

@@ -2,10 +2,11 @@
 <%- include('../partials/header') %>
 
 <main>
+
     <h2 class="sectionTitle">Your Collections</h2>
     <div class="collectionWrapper">
         <% collections.forEach(collection => { %>
-            <a href="/collections/<%= collection._id %>" class="collectionComponent" style="background-color: <%= collection.color %>;">
+            <a href="/collections/<%= collection._id %>" class="collectionComponent hoverLight" style="background-color: <%= collection.color %>;">
                 <img class="collectionImage" src="<%= collection.image %>" alt="">
                 <h2><%= collection.name %></h2>
                 <% if (collection.filmID.length == undefined) { %>
@@ -20,12 +21,11 @@
                 </form>
             </a>
         <% }) %>
-        <a class="collectionComponent" id="createCollection" style="background-color: #252936;">
+        <a href="/collections/create" class="collectionComponent hoverLight" id="createCollection">
             <span class="material-icons bigIcon">add</span>
             <h2>Create a new collection</h2>
         </a>
     </div>
 </main>
 
-<%- include('newCollection') %> 
 <%- include('../partials/footer') %> 

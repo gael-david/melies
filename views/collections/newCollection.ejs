@@ -1,24 +1,38 @@
+<%- include('../partials/head') %> 
+<%- include('../partials/header') %>
 
-<form action="/collections" method="POST" class="collectionForm">
-    <h2 class="sectionTitle">Create a new collection</h2>
-    <label class="formLabel" for="name">Name</label>
-    <input type="text" name="name" id="name" placeholder="Collection name" autocomplete="off" required>
-    <div class="flexRow spaceBetween">
-        <div class="flexColumn" style="width: 100%; margin-right: 15px;">
-            <label class="formLabel" for="image">Image</label>
-            <input type="url" name="image" id="image" placeholder="https://example.com/image.png" autocomplete="off" pattern="https://.*">
+<!-- <div class="overlay"> -->
+    <form action="/collections" method="POST" class="formComponent">
+        <h1>New Collection</h1>
+        <div class="formRow">
+            <label class="formLabel" for="name">Name</label>
+            <input type="text" name="name" id="name" placeholder="Name your Collection" autocomplete="off" required>
         </div>
-        <div class="flexColumn">
+        <div class="formRow">
             <label class="formLabel" for="color">Color</label>
             <input type="color" name="color" id="color" value="#fee97d" required>
         </div>
-    </div>
-    <label class="formLabel" for="description">Description (optionnal)</label>
-    <textarea id="description" name="description" rows="3" cols="33"></textarea>
-    <div class="buttonsWrapper formButtonsWrapper">
-        <a class="button" id="cancelButton"><span class="material-icons iconMargin">keyboard_backspace</span>Cancel</a>
-        <button class="mainButton" type="submit">Create collection</button>
-    </div>
-</form>
+        <div class="formRow">
+            <label class="formLabel" for="description">Description</label>
+            <textarea id="description" name="description" rows="3" cols="33" placeholder="Describe your Collection (optionnal)"></textarea>
+        </div>
+        <div class="formRow">
+            <label class="formLabel" for="description">Visibility</label>
+            <fieldset>
+                <input type="radio" id="visibilityChoice1" name="visibility" value="Public">
+                <label for="visibilityChoice1">Public</label>
+    
+                <input type="radio" id="visibilityChoice2" name="visibility" value="Private">
+                <label for="visibilityChoice2">Private</label>
+            </fieldset>
 
-<div class="overlay"></div>
+        </div>
+        <div class="buttonsWrapper formButtonsWrapper">
+            <a href="/collections/" class="button" id="cancelButton"><span class="material-icons iconMargin">keyboard_backspace</span>Cancel</a>
+            <button class="mainButton" type="submit">Create collection</button>
+        </div>
+        
+    </form>
+<!-- </div> -->
+
+<%- include('../partials/footer') %> 

@@ -2,58 +2,18 @@
 <%- include('../partials/header') %>
 
 <main>
-    <h2 class="sectionTitle centerTitle"><%= collection.name %></h2>
-    <div id="resultsWrapper">
-        <% for( let index = 0; index < collectionFilms.length; index++ ) { %>
-            <div class="smallFilmComponent resultsComponent">
-                <a href="/film/<%= collectionFilms[index].id %> " style="width: 200px; position: relative;">
-                    <% if (collectionFilms[index].poster_path) { %>
-                        <img class="smallFilmPoster" src="https://image.tmdb.org/t/p/w400<%= collectionFilms[index].poster_path %>" alt="" loading="lazy">
-                    <% } else { %>
-                        <img class="smallFilmPoster" src="/images/noposter.jpeg" alt="" loading="lazy">
-                    <% } %>
-                </a>
-                <form action="/film/<%= collectionFilms[index].id %>/remove?_method=DELETE" method="POST" class="deleteForm">
-                    <button type="submit" name="collectionID" value="<%= collection._id %>" class="roundButton deleteButton">
-                        <span class="material-icons">delete</span>
-                    </button>
-                </form>
-                <div class="buttonsWrapper smallButtonsWrapper">
-                    <div class="ratingWrapper smallRatingWrapper" style="display: none;">
-                        <div data-title="masterpiece" data-img="🍾" class="ratingComponent smallratingComponent"><div class="tooltiptext smallTooltiptext">Masterpiece</div>🍾</div>
-                        <div data-title="excellent" data-img="👏" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Excellent</span>👏</div>
-                        <div data-title="goodMoment" data-img="👍" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Correct</span>👍</div>
-                        <div data-title="disapointing" data-img="👎" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Disapointing</span>👎</div>
-                        <div data-title="purge" data-img="🥱" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Dud</span>🥱</div>
-                        <div idata-title="nanar" data-img="💸" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Nanar</span>💸</div>
-                    </div>
-    
-                    <button class="ratingButton roundButton smallRoundButton" type="submit">
-                        <span class="material-icons-outlined">grade</span>
-                    </button>
-                    <% if (watchlist.includes(collectionFilms[index].id )) { %>
-                        <form action="/watchlist?_method=DELETE" method="POST" id="removeWatchlistForm">
-                            <button id="removeWatchlistButton" class="roundButton smallRoundButton" name="id" value="<%= collectionFilms[index].id  %>" type="submit">
-                                <span class="material-icons favorite">bookmark_added</span>
-                            </button>
-                        </form>
-                    <% } else { %>
-                    <form action="/watchlist?_method=PUT" method="POST" id="addWatchlistForm">
-                        <button id="addWatchlistButton" class="roundButton smallRoundButton" name="id" value="<%= collectionFilms[index].id  %>" type="submit">
-                            <span class="material-icons">bookmark_border</span>
-                        </button>
-                    </form>
-                    <% } %>
-                </div>
-                <p><span><%= collectionFilms[index].title %></span> 
-                    <% if (collectionFilms[index].release_date) { %>
-                        (<%= collectionFilms[index].release_date.slice(0,4) %>)</p>
-                    <% } %>
+    <div class="pageCover">
+            <div class="collectionComponent" style="background-color: <%= collection.color %>;">
+                <h1><%= collection.name %></h1>
+                <% if (collection.filmID.length == undefined) { %>
+                    <h2>0 Films</h2>
+                <% } else { %>
+                    <h2><%= collection.filmID.length %>  Films - <%= collection.visibility %></h2>
+                <% } %>
+                <img class="collectionImage" src="<%= collection.image %>" alt="">
             </div>
-        <% } %>
     </div>
-    </main>
-
-
+    <%- include('../components/resultsWrapper', {filmCategory: collectionFilms, collectionComponent: true}) %> 
+</main>
 
 <%- include('../partials/footer') %> 

@@ -1,0 +1,52 @@
+<%- include('../partials/head') %> 
+
+<body class="authBody">
+
+    <header class="authHeader">
+        <a href="/" id="meliesLogo"><img id="meliesIcon" src="/images/melies.png" alt="" srcset="">MELIES</a>
+    </header>
+    <%- include('../partials/flash') %>
+    <form action="/signup" method="POST" class="formComponent">
+        <div class="formRow">
+            <h1>Sign up</h1>
+        </div>
+        <div class="formRow">
+            <!-- <label class="formLabel" for="name">Username</label> -->
+            <input type="text" name="username" id="username" placeholder="Username" required>
+        </div>
+        <div class="formRow">
+            <!-- <label class="formLabel" for="color">Email</label> -->
+            <input type="email" name="email" id="email" placeholder="Email address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+        </div>
+        <div class="formRow">
+            <!-- <label class="formLabel" for="description">Password</label> -->
+            <input type="password" name="password" id="password" placeholder="Password (at least 8 characters)" minlength="8" required></input>
+        </div>
+        <div class="buttonsWrapper">
+            <button class="mainButton" type="submit">Submit</button>
+        </div>
+        <p class="alreadyRegistered">Already have an account? <a href="/login">Log in</a> </p>   
+    </form>
+
+    <!-- <form action="/signup" method="POST" class="formComponent validated-form needs-validation" novalidate>
+        <h1>Sign up</h1>
+        <div class="mb-3">
+            <label for="username" class="form-label formLabel">Username</label>
+            <input type="username" name="username" id="username" class="form-control" aria-describedby="username" placeholder="Your username" required>
+            <div class="valid-feedback">
+                Looks good!
+              </div>
+          </div>
+        <div class="mb-3">
+          <label for="email" class="form-label formLabel">Email address</label>
+          <input type="email" name="email" id="email" class="form-control" aria-describedby="emailHelp" placeholder="example@email.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label formLabel">Password</label>
+          <input type="password" class="form-control" name="password" id="password" placeholder="At least 8 characters" minlength="8" required>
+        </div>
+        <button type="submit" class="btn btn-primary mainButton">Submit</button>
+        <p class="alreadyRegistered">Already have an account? <a href="/login">Log in</a> </p>
+    </form> -->
+
+</body>

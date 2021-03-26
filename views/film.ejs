@@ -1,9 +1,9 @@
 <%- include('partials/head') %> 
 <%- include('partials/header') %> 
-
+<img id="background" style="background: url('https://image.tmdb.org/t/p/w300/<%= filmData.backdrop_path %>') center center / cover;">
 <main id="filmWrapper">
     <section id="leftCard">
-        <a href="/film/11" id="anotherButton" class="roundButton">
+        <a href="/film/<%= randomID %> " id="anotherButton" class="roundButton">
             <span class="material-icons">shuffle</span>
         </a>
         <img class="filmPoster" src="https://image.tmdb.org/t/p/w500<%= filmData.poster_path %>" alt="">
@@ -21,7 +21,7 @@
                 <span class="material-icons-outlined">grade</span>
             </button>
             <!-- Watchlist Button -->
-            <% if (watchlist.includes(filmID)) { %>
+            <% if (inWatchlist) { %>
                 <form action="/watchlist?_method=DELETE" method="POST" id="removeWatchlistForm">
                     <button id="removeWatchlistButton" class="roundButton" name="id" value="<%= filmData.id %>" type="submit">
                         <span class="material-icons favorite">bookmark_added</span>
@@ -29,18 +29,20 @@
                 </form>
             <% } else { %>
             <form action="/watchlist?_method=PUT" method="POST" id="addWatchlistForm">
-                <button id="addWatchlistButton" class="roundButton" name="id" value="<%= filmID %>" type="submit">
-                    <span class="material-icons">bookmark_border</span>
-                </button>
+                <input type="hidden" id="id" name="id" value="<%= filmData.id  %>">
+                <input type="hidden" id="title" name="title" value="<%= filmData.title  %>">
+                <input type="hidden" id="release_date" name="release_date" value="<%= filmData.release_date.slice(0,4)  %>">
+                <input type="hidden" id="poster_path" name="poster_path" value="<%= filmData.poster_path %>">
+                <button type="submit" id="addWatchlistButton" class="roundButton"><span class="material-icons">bookmark_border</span></button>
             </form>
             <% } %>
             <!-- Collections Button -->
-                <% if (atLeastOneCollection) { %>
-                    <a id="addCollectionButton" class="roundButton" data-film="<%= filmID %>" >
+                <% if (inCollection) { %>
+                    <a href="/collections/<%= filmData.id %>/add" id="addCollectionButton" class="roundButton" data-film="<%= filmID %>" >
                         <span class="material-icons favorite">library_add_check</span>
                     </a>
                 <% } else { %>
-                    <a id="addCollectionButton" class="roundButton" data-film="<%= filmID %>" >
+                    <a href="/collections/<%= filmData.id %>/add" id="addCollectionButton" class="roundButton" data-film="<%= filmID %>" >
                         <span class="material-icons-outlined">library_add</span>
                     </a>
                 <% } %>
@@ -51,26 +53,34 @@
         <h1><%= filmData.title %></h1>
         
         <h2>Details</h2>
-        <div id="detailsWrapper" class="wrapper">
-            <div id="filmRating" class="detailsComponent">
-                <span class="material-icons star">star_rate</span>
-                <%= filmData.vote_average %>
+        <div class="scroller">
+            <div class="nextArrow leftScroll smallWrapperArrow">
+                <span class="material-icons-round">chevron_left</span>
             </div>
-            <div id="filmRelease" class="detailsComponent"><span class="material-icons">today</span><%= filmData.release_date.slice(0,4) %></div>
-            <% if (filmData.runtime % 60 < 10) { %>
-                <div id="filmRuntime" class="detailsComponent"><span class="material-icons">access_time</span><%= Math.floor(filmData.runtime / 60) + 'h0' + filmData.runtime % 60 %></div>
-            <% } else { %>
-                <div id="filmRuntime" class="detailsComponent"><span class="material-icons">access_time</span><%= Math.floor(filmData.runtime / 60) + 'h' + filmData.runtime % 60 %></div>
-            <% } %>    
-            <% for( let index = 0; index < filmData.genres.length; index++ ) { %>
-                <a href="/film/genre/<%= filmData.genres[index].id %>/1"
-                    <% for( let i = 0; i < allFilmGenres.length; i++ ) { %>
-                        <% if (filmData.genres[index].id == allFilmGenres[i].id) { %>
-                            style="color: <%= allFilmGenres[i].color %>; border-color: <%= allFilmGenres[i].color %>a3" 
+            <div id="detailsWrapper" class="wrapper">
+                <div id="filmRating" class="detailsComponent">
+                    <span class="material-icons star">star_rate</span>
+                    <%= filmData.vote_average %>
+                </div>
+                <div id="filmRelease" class="detailsComponent"><span class="material-icons">today</span><%= filmData.release_date.slice(0,4) %></div>
+                <% if (filmData.runtime % 60 < 10) { %>
+                    <div id="filmRuntime" class="detailsComponent"><span class="material-icons">access_time</span><%= Math.floor(filmData.runtime / 60) + 'h0' + filmData.runtime % 60 %></div>
+                <% } else { %>
+                    <div id="filmRuntime" class="detailsComponent"><span class="material-icons">access_time</span><%= Math.floor(filmData.runtime / 60) + 'h' + filmData.runtime % 60 %></div>
+                <% } %>    
+                <% for( let index = 0; index < filmData.genres.length; index++ ) { %>
+                    <a href="/film/genre/<%= filmData.genres[index].id %>/1"
+                        <% for( let i = 0; i < allFilmGenres.length; i++ ) { %>
+                            <% if (filmData.genres[index].id == allFilmGenres[i].id) { %>
+                                style="color: <%= allFilmGenres[i].color %>; border-color: <%= allFilmGenres[i].color %>a3" 
+                            <% } %>
                         <% } %>
-                    <% } %>
-                class="detailsComponent"><%= filmData.genres[index].name %> </a>
-            <% } %>
+                    class="detailsComponent"><%= filmData.genres[index].name %> </a>
+                <% } %>
+            </div>
+            <div class="nextArrow rightScroll smallWrapperArrow">
+                <span class="material-icons-round">chevron_right</span>
+            </div>
         </div>
 
         <% if (filmData.overview) { %>
@@ -103,103 +113,76 @@
         <% } %>
 
         <h2>Cast & Crew</h2>
-        <div class="wrapper">
-            <% for( let index = 0; index < filmCredits.crew.length; index++ ) { %>
-                <% if (filmCredits.crew[index].job == 'Director') { %>
-                    <div class="creditsComponent">
-                        <% if (filmCredits.crew[index].profile_path) { %>
-                            <img class="creditsImage" src="https://image.tmdb.org/t/p/w300/<%= filmCredits.crew[index].profile_path %> " alt="" loading="lazy">
-                        <% } else { %>
-                            <img class="creditsImage" src="/images/unknown.png" alt="">
-                        <% } %>
-                        <p class="creditsName"><%= filmCredits.crew[index].name %></p>
-                        <p class="creditsJob"><%= filmCredits.crew[index].job %></p>
-                    </div>
+        <div class="scroller">
+            <div class="nextArrow leftScroll creditWrapperArrow">
+                <span class="material-icons-round">chevron_left</span>
+            </div>
+            <div class="wrapper">
+                <% for( let index = 0; index < filmCredits.crew.length; index++ ) { %>
+                    <% if (filmCredits.crew[index].job == 'Director') { %>
+                        <div class="creditsComponent">
+                            <% if (filmCredits.crew[index].profile_path) { %>
+                                <img class="creditsImage" src="https://image.tmdb.org/t/p/w300/<%= filmCredits.crew[index].profile_path %> " alt="" loading="lazy">
+                            <% } else { %>
+                                <img class="creditsImage" src="/images/unknown.png" alt="">
+                            <% } %>
+                            <p class="creditsName"><%= filmCredits.crew[index].name %></p>
+                            <p class="creditsJob"><%= filmCredits.crew[index].job %></p>
+                        </div>
+                    <% } %>
                 <% } %>
-            <% } %>
-            <% if (filmCredits.cast.length > 10) { %>
-                <% for( let index = 0; index < 10 ; index++ ) { %>
-                    <div class="creditsComponent">
-                        <% if (filmCredits.cast[index].profile_path) { %>
-                            <img class="creditsImage" src="https://image.tmdb.org/t/p/w300/<%= filmCredits.cast[index].profile_path %> " alt="" loading="lazy">
-                        <% } else { %>
-                            <img class="creditsImage" src="/images/unknown.png" alt="" loading="lazy">
-                        <% } %>
-                        <p class="creditsName"><%= filmCredits.cast[index].name %></p>
-                        <p class="creditsJob"><%= filmCredits.cast[index].character %></p>
-                    </div>
+                <% if (filmCredits.cast.length > 10) { %>
+                    <% for( let index = 0; index < 10 ; index++ ) { %>
+                        <div class="creditsComponent">
+                            <% if (filmCredits.cast[index].profile_path) { %>
+                                <img class="creditsImage" src="https://image.tmdb.org/t/p/w300/<%= filmCredits.cast[index].profile_path %> " alt="" loading="lazy">
+                            <% } else { %>
+                                <img class="creditsImage" src="/images/unknown.png" alt="" loading="lazy">
+                            <% } %>
+                            <p class="creditsName"><%= filmCredits.cast[index].name %></p>
+                            <p class="creditsJob"><%= filmCredits.cast[index].character %></p>
+                        </div>
+                    <% } %>
+                <% } else { %>
+                    <% for( let index = 0; index < filmCredits.cast.length ; index++ ) { %>
+                        <div class="creditsComponent">
+                            <% if (filmCredits.cast[index].profile_path) { %>
+                                <img class="creditsImage" src="https://image.tmdb.org/t/p/w300/<%= filmCredits.cast[index].profile_path %> " alt="" loading="lazy">
+                            <% } else { %>
+                                <img class="creditsImage" src="/images/unknown.png" alt="" loading="lazy">
+                            <% } %>                            <p class="creditsName"><%= filmCredits.cast[index].name %></p>
+                            <p class="creditsJob"><%= filmCredits.cast[index].character %></p>
+                        </div>
+                    <% } %>
                 <% } %>
-            <% } else { %>
-                <% for( let index = 0; index < filmCredits.cast.length ; index++ ) { %>
-                    <div class="creditsComponent">
-                        <% if (filmCredits.cast[index].profile_path) { %>
-                            <img class="creditsImage" src="https://image.tmdb.org/t/p/w300/<%= filmCredits.cast[index].profile_path %> " alt="" loading="lazy">
-                        <% } else { %>
-                            <img class="creditsImage" src="/images/unknown.png" alt="" loading="lazy">
-                        <% } %>                            <p class="creditsName"><%= filmCredits.cast[index].name %></p>
-                        <p class="creditsJob"><%= filmCredits.cast[index].character %></p>
-                    </div>
-                <% } %>
-            <% } %>
+            </div>
+            <div class="nextArrow rightScroll creditWrapperArrow">
+                <span class="material-icons-round">chevron_right</span>
+            </div>
         </div>
 
         <% if (filmVideos.results != "") { %>
             <h2>Videos</h2>
-            <div class="videoWrapper">
-                    <% for( let index = 0; index < filmVideos.results.length && index < 6; index++ ) { %>
-                        <iframe class="videoComponent" src="https://www.youtube.com/embed/<%= filmVideos.results[index].key %>" frameborder="0" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                    <% } %>
+            <div class="scroller">
+                <div class="nextArrow leftScroll">
+                    <span class="material-icons-round">chevron_left</span>
+                </div>
+                <div class="videoWrapper wrapper">
+                        <% for( let index = 0; index < filmVideos.results.length && index < 6; index++ ) { %>
+                            <iframe class="videoComponent" src="https://www.youtube.com/embed/<%= filmVideos.results[index].key %>" frameborder="0" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <% } %>
+                </div>
+                <div class="nextArrow rightScroll">
+                    <span class="material-icons-round">chevron_right</span>
+                </div>
             </div>
         <% } %>
 
-        <% if (filmRecommendations.results[0] != undefined) { %>
+        <% if (filmRecommendations.results.length) { %>
             <h2>Recommendations</h2>
-            <div id="recommendationsWrapper" class="wrapper">
-                    <% for( let index = 0; index < filmRecommendations.results.length && index < 10; index++ ) { %>
-                        <div class="smallFilmComponent">
-                            <% if (filmRecommendations.results[index].poster_path) { %>
-                                <a href="/film/<%= filmRecommendations.results[index].id %> ">
-                                    <img class="smallFilmPoster" src="https://image.tmdb.org/t/p/w500/<%= filmRecommendations.results[index].poster_path %>" alt="" loading="lazy">
-                                </a>
-                            <% } else { %>
-                                <a href="/film/<%= filmRecommendations.results[index].id %> ">
-                                    <img class="smallFilmPoster" src="/images/noposter.jpeg" alt="" loading="lazy">
-                                </a>
-                            <% } %>
-                            <div class="buttonsWrapper smallButtonsWrapper">
-                                <div class="ratingWrapper smallRatingWrapper" style="display: none;">
-                                    <div data-title="masterpiece" data-img="🍾" class="ratingComponent"><div class="tooltiptext">Masterpiece</div>🍾</div>
-                                    <div data-title="excellent" data-img="👏" class="ratingComponent"><span class="tooltiptext">Excellent</span>👏</div>
-                                    <div data-title="goodMoment" data-img="👍" class="ratingComponent"><span class="tooltiptext">Correct</span>👍</div>
-                                    <div data-title="disapointing" data-img="👎" class="ratingComponent"><span class="tooltiptext">Disapointing</span>👎</div>
-                                    <div data-title="purge" data-img="🥱" class="ratingComponent"><span class="tooltiptext">Dud</span>🥱</div>
-                                    <div idata-title="nanar" data-img="💸" class="ratingComponent"><span class="tooltiptext">Nanar</span>💸</div>
-                                </div>
-                                <button class="ratingButton roundButton smallRoundButton" type="submit">
-                                    <span class="material-icons-outlined">grade</span>
-                                </button>
-                                <% if (watchlist.includes(filmRecommendations.results[index].id )) { %>
-                                    <form action="/watchlist?_method=DELETE" method="POST" id="removeWatchlistForm">
-                                        <button id="removeWatchlistButton" class="roundButton smallRoundButton" name="id" value="<%= filmRecommendations.results[index].id  %>" type="submit">
-                                            <span class="material-icons favorite">bookmark_added</span>
-                                        </button>
-                                    </form>
-                                <% } else { %>
-                                <form action="/watchlist?_method=PUT" method="POST" id="addWatchlistForm">
-                                    <button id="addWatchlistButton" class="roundButton smallRoundButton" name="id" value="<%= filmRecommendations.results[index].id  %>" type="submit">
-                                        <span class="material-icons">bookmark_border</span>
-                                    </button>
-                                </form>
-                                <% } %>
-                            </div>
-                            <p><span style="font-weight: 600;"><%= filmRecommendations.results[index].title %></span>  (<%= filmRecommendations.results[index].release_date.slice(0,4)%>)</p>  
-                        </div>
-                    <% } %>
-            </div>
+            <%- include('components/filmScroller', {filmCategory: filmRecommendations.results}) %>
         <% } %>
     </section>
 </main>
-<!-- <div id="background" style="background: url('https://image.tmdb.org/t/p/w500/<%= filmData.backdrop_path %>') center center / cover;"></div> -->
 
-<%- include('collections/saveToCollection') %>
 <%- include('partials/footer') %> 

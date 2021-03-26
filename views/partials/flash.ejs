@@ -1,0 +1,13 @@
+<% if (locals.flash.success && locals.flash.success.length) { %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <%= flash.success %> 
+        <button type="button" style="top: -3px" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>
+
+<% if (locals.flash.error && locals.flash.error.length) { %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <%= flash.error %> 
+        <button type="button" style="top: -3px" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<% } %>

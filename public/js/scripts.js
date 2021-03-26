@@ -1,57 +1,44 @@
 // ################
-// MOONGOOSE
+// MAINTAIN POSITION AFTER RELOAD
 // ################
 
-// const mongoose = require('mongoose');
-// const Collection = require('./models/collection');
-// const Watchlist = require('./models/watchlist');
+// window.addEventListener('scroll',function() {
+//     //When scroll change, you save it on localStorage.
+//     localStorage.setItem('scrollPosition',window.scrollY);
+// },false);
 
-// mongoose.connect('mongodb://localhost:27017/meliesDB', {useNewUrlParser: true, useUnifiedTopology: true})
-// .then(function () {
-//     console.log("CONNECTION OPEN!")
-// })
-// .catch(function (err) {
-//     console.log("OH NO, ERROR!")
-//     console.log(err)
-// });
+// window.addEventListener('load',function() {
+//     if(localStorage.getItem('scrollPosition') !== null)
+//        window.scrollTo(0, localStorage.getItem('scrollPosition'));
+// },false);
+
 
 // ################
 // COLLECTIONS
 // ################
 
+const body = document.body;
 const createCollection = document.getElementById('createCollection');
 const addCollectionButton = document.getElementById('addCollectionButton');
 const cancelButton = document.getElementById('cancelButton');
 const saveToCollectionButton = document.getElementById('saveToCollectionButton');
-const collectionForm = document.querySelector('.collectionForm');
+const formComponent = document.querySelector('.formComponent');
 const collectionSelector = document.querySelectorAll('.collectionSelector');
 const overlay = document.querySelector('.overlay');
 
-// if (addCollectionButton) {
-//     const filmID = addCollectionButton.dataset.film;
-// }
-
-
 let collectionChoice = [];
-
-// CREATE NEW COLLECTION (DISPLAY THE FORM)
-if (createCollection) {
-    createCollection.addEventListener("click", function () {
-        overlay.classList.toggle("visible");
-        collectionForm.classList.toggle("visible");
-    })
-}
 
 // ADD FILM TO COLLECTION(S) (DISPLAY FORM)
 if (addCollectionButton) {
     addCollectionButton.addEventListener("click", function () {
         overlay.classList.toggle("visible");
         collectionForm.classList.toggle("visible");
+        body.classList.toggle("openModal");
     })  
 }
 
 // SELECT COLLECTIONS FOR THE FILM
-if (addCollectionButton) {
+if (collectionSelector) {
     collectionSelector.forEach(collection => {
         collection.addEventListener("click", function () {
             this.classList.toggle("selected");
@@ -66,20 +53,6 @@ if (addCollectionButton) {
     });
 }
 
-// if (addCollectionButton) {
-//     collectionSelector.forEach(collection => {
-//         collection.addEventListener("click", function () {
-//             this.classList.toggle("selected");
-//             // Push selected collections to array
-//             if (this.classList.contains("selected")) {
-//                 saveToCollectionButton.value.push(this.dataset.collectionId);
-//             } else {
-//                 saveToCollectionButton.value.pop(this.dataset.collectionId);
-//             }
-//         })
-//     });
-// }
-
 // ADD FILM TO THESE COLLECTIONS (VIA MONGOOSE)
 if (saveToCollectionButton) {
     saveToCollectionButton.addEventListener("click", () => {
@@ -87,13 +60,14 @@ if (saveToCollectionButton) {
     })
 }
 
-// CANCEL BUTTON
-if (cancelButton) {
-    cancelButton.addEventListener("click", function () {
-        overlay.classList.toggle("visible");
-        collectionForm.classList.toggle("visible");
-    })
-}
+// // CANCEL BUTTON
+// if (cancelButton) {
+//     cancelButton.addEventListener("click", function () {
+//         overlay.classList.toggle("visible");
+//         collectionForm.classList.toggle("visible");
+//         body.classList.toggle("openModal");
+//     })
+// }
 
 // ################
 // WATCHLIST BUTTON
@@ -197,39 +171,4 @@ document.body.addEventListener('click', function (event) {
 //     wrapperTimeout = setTimeout(function(){ ratingWrapper.style.display = "None"; }, 500);
 // }) 
 
-// ################
-// RANDOM FILM BUTTON
-// ################
-
-const anotherButton = document.getElementById('anotherButton');
-const randomButton = document.getElementById('randomButton');
-let randomID;
-
-getRandomID ();
-
-async function getRandomID () {
-    axios.get('https://api.themoviedb.org/3/discover/movie?api_key=b8f2293b707b20a0f2b4fe224087f761&language=en-EN&vote_average.gte=6&vote_count.gte=100')
-	.then(async function (response) {
-        allFilms = await response.data;
-        allPages = await allFilms.total_pages;
-        randomPage = `${Math.floor(Math.random() * allPages + 1)}`;
-        axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=b8f2293b707b20a0f2b4fe224087f761&language=en-EN&vote_average.gte=6&vote_count.gte=100&page=${randomPage}`)
-        .then(async function (response) {
-            console.log(response.data);
-            randomID = await response.data.results[Math.floor(Math.random() * response.data.results.length)].id;
-            if (anotherButton) {
-                anotherButton.href = `/film/${await randomID}`;
-            }
-            if (randomButton) {
-                randomButton.href = `/film/${await randomID}`;
-            }
-        })
-        .catch(function (error) {
-        console.log("OH NO! SECOND CALL DID NOT WORK", error)
-        })
-	})
-	.catch(function (error) {
-	console.log("OH NO!", error)
-    })
-} 
 

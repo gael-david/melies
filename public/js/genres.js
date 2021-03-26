@@ -40,27 +40,13 @@ const allFilmGenres = [
     {id: 37, name: "Western", color: "#e4bb97"}
 ]
 
+module.exports.allFilmGenres = allFilmGenres;
+
 module.exports.randomFilmGenre = function () {
     const randomGenreNumber = Math.floor(Math.random() * allFilmGenres.length);
     let filmGenre = allFilmGenres[randomGenreNumber];
     return filmGenre;
 }
 
-module.exports.allFilmGenres = allFilmGenres;
 
-module.exports.randomGenre = function() {
-    // Create the genre object
-    let genre = {name : "", ID : ""}
-    // Pick a random genre
-    const genreKeys = Object.keys(genresList);
-    const randomKeyNumber = Math.floor(Math.random() * genreKeys.length);
-    // Store the genre name
-    const genreName = genreKeys[randomKeyNumber];
-    // Store the genre ID
-    const genreID = genresList[genreName];
-    // Push everyhting to the genre object
-    genre.name = genreName;
-    genre.ID = genreID;
-    return genre;
-};
 
