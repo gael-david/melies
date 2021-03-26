@@ -1,15 +1,16 @@
+// REQUIRE MONGODB MODELS
+const Genre = require('../models/genre');
 // REQUIRE AXIOS
 const axios = require('axios');
 // REQUIRE SHUFFLE ARRAY FUNCTION
 const {shuffleArray} = require('../utilities/shuffleArray')
-console.log(shuffleArray)
 // GET DATA FROM "FAKE DB"
 const {randomFilmGenre} = require('../public/js/genres');
-const {allFilmGenres} = require('../public/js/genres');
 const {discoverFilmsID} = require('../public/js/discover');
 
 module.exports.homepage = async function (req,res,next) {
     const {watchlist} = res.locals;
+    const allFilmGenres = await Genre.find(); 
     
     // GET RANDOM GENRE ID
     const filmGenre = randomFilmGenre();

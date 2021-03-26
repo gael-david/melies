@@ -2,8 +2,6 @@
 const Genre = require('../models/genre');
 // REQUIRE AXIOS
 const axios = require('axios');
-// GET DATA FROM "FAKE DB"
-const {allFilmGenres} = require('../public/js/genres');
 
 module.exports.search = async function (req,res,next) {
     const {q} = req.query;
@@ -17,6 +15,7 @@ module.exports.page = async function (req,res,next) {
     const filmID = Number(req.params.filmID);
     const {collections} = res.locals;
     const {watchlist} = res.locals;
+    const allFilmGenres = await Genre.find(); 
 
     // Get a random film ID
     async function getRandomID() {
@@ -65,6 +64,7 @@ module.exports.page = async function (req,res,next) {
 
 module.exports.genre = async function (req,res,next) {
     const {genreID, genrePage} = req.params;
+    const allFilmGenres = await Genre.find();
     
     const genre = await Genre.findOne({id: genreID});
     

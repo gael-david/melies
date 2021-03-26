@@ -1,14 +1,23 @@
-const mongoose = require('mongoose');
-const Genre = require('../models/genre');
+// REQUIRE ENV
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
 
-mongoose.connect('mongodb://localhost:27017/meliesDB', {useNewUrlParser: true, useUnifiedTopology: true})
-.then(function () {
-    console.log("CONNECTION OPEN!")
-})
-.catch(function (err) {
-    console.log("OH NO, ERROR!")
-    console.log(err)
-});
+// MONGOOSE INIT
+const mongoose = require('mongoose');
+const dbURL = process.env.DB_URL || 'mongodb://localhost:27017/meliesDB';
+
+mongoose.connect(dbURL, {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true})
+    .then(function () {
+        console.log("CONNECTION OPEN!")
+    })
+    .catch(function (err) {
+        console.log("OH NO, ERROR!")
+        console.log(err)
+    })
+
+// REQUIRE MONGODB MODELS
+const Genre = require('../models/genre');    
 
 const genresSeed = [
     {id: 28, name: "Action", color: "#6888de"},
