@@ -1,5 +1,6 @@
 <%- include('partials/head') %> 
 <%- include('partials/header') %>
+<%- include('functions') %> 
 
 <main id="homeWrapper">
     <% if (currentUser) { %>
@@ -8,7 +9,7 @@
 
     <% if (currentUser && watchlist.length) { %>
         <h2 class="sectionTitle">Your Watchlist</h2>
-        <%- include('partials/filmScroller', {filmCategory: watchlist, order: "reverse"}) %>
+        <%- include('components/filmScroller', {filmCategory: watchlist, order: "reverse"}) %>
     <% } %>
 
     <h2 class="sectionTitle">Discover</h2>
@@ -32,7 +33,7 @@
     </div>
 
     <h2 class="sectionTitle">Top <%= filmGenre.name %> Films</h2>
-    <%- include('partials/filmScroller', {filmCategory: randomGenreFilms.results}) %>
+    <%- include('components/filmScroller', {filmCategory: randomGenreFilms.results, order: randomOrder()}) %>
 
     <h2 class="sectionTitle">Need some inspiration?</h2>
     <div class="scroller">
@@ -65,9 +66,9 @@
             <span class="material-icons-round">chevron_right</span>
         </div>
     </div>
-    
-    <h2 class="sectionTitle">Trending Films</h2>
-    <%- include('partials/filmScroller', {filmCategory: popularFilms.results}) %>
+
+    <h2 class="sectionTitle">Top Rated Films</h2>
+    <%- include('components/filmScroller', {filmCategory: topFilms.results, order: randomOrder()}) %>
 
     <h2 class="sectionTitle">All genres</h2>
     <div class="scroller">
@@ -85,11 +86,12 @@
             <span class="material-icons-round">chevron_right</span>
         </div>
     </div>
-    <h2 class="sectionTitle">Top Rated Films</h2>
-    <%- include('partials/filmScroller', {filmCategory: topFilms.results}) %>
+    
+    <h2 class="sectionTitle">Trending Films</h2>
+    <%- include('components/filmScroller', {filmCategory: popularFilms.results, order: randomOrder()}) %>
 
 </main>
-<script src="/js/scroll.js"></script>
+
 
 <%- include('partials/footer') %> 
 

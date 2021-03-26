@@ -16,11 +16,13 @@ module.exports.homepage = async function (req,res,next) {
     let allPromises = [getPopularFilms(), getTopFilms(), getRandomGenreFilms()];
 
     function getPopularFilms() {
-        return axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=b8f2293b707b20a0f2b4fe224087f761&language=en-US&page=1`);
+        const randomPage = Math.floor(Math.random() * 5 + 1)
+        return axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=b8f2293b707b20a0f2b4fe224087f761&language=en-US&page=${randomPage}`);
     }
 
     function getTopFilms() {
-        return axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=b8f2293b707b20a0f2b4fe224087f761&language=en-US&sort_by=vote_average.desc&include_adult=false&include_video=false&page=1&vote_count.gte=7500`);
+        const randomPage = Math.floor(Math.random() * 10 + 1)
+        return axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=b8f2293b707b20a0f2b4fe224087f761&language=en-US&sort_by=vote_average.desc&include_adult=false&include_video=false&page=${randomPage}&vote_count.gte=7500`);
     }
 
     async function getRandomGenreFilms() {
@@ -32,7 +34,6 @@ module.exports.homepage = async function (req,res,next) {
         .catch(function (error) {
             console.log(error);
         })
-
         return axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=b8f2293b707b20a0f2b4fe224087f761&language=en-US&sort_by=vote_average.desc&include_adult=false&include_video=false&page=${randomPage}&vote_count.gte=500&vote_average.gte=7&with_genres=${genreID}`);
     }
 

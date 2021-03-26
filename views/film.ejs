@@ -1,6 +1,6 @@
 <%- include('partials/head') %> 
 <%- include('partials/header') %> 
-<!-- <img id="background" style="background: url('https://image.tmdb.org/t/p/w300/<%= filmData.backdrop_path %>') center center / cover;"> -->
+<img id="background" style="background: url('https://image.tmdb.org/t/p/w300/<%= filmData.backdrop_path %>') center center / cover;">
 <main id="filmWrapper">
     <section id="leftCard">
         <a href="/film/11" id="anotherButton" class="roundButton">
@@ -180,10 +180,9 @@
 
         <% if (filmRecommendations.results.length) { %>
             <h2>Recommendations</h2>
-            <%- include('partials/filmScroller', {filmCategory: filmRecommendations.results}) %>
+            <%- include('components/filmScroller', {filmCategory: filmRecommendations.results}) %>
         <% } %>
     </section>
 </main>
 
-<script src="/js/scroll.js"></script>
 <%- include('partials/footer') %> 

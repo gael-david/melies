@@ -1,25 +1,16 @@
-const genresList = {
-    Action: 28,
-    Adventure: 12,
-    Animation: 16,
-    Comedy: 35,
-    Crime: 80,
-    Documentary: 99,
-    Drama: 18,
-    Family: 10751,
-    Fantasy: 14,
-    History: 36,
-    Horror: 27,
-    Music: 10402,
-    Mystery: 9648,
-    Romance: 10749,
-    SF: 878,
-    Thriller: 53,
-    War: 10752,
-    Western: 37
-};
+const mongoose = require('mongoose');
+const Genre = require('../models/genre');
 
-const allFilmGenres = [
+mongoose.connect('mongodb://localhost:27017/meliesDB', {useNewUrlParser: true, useUnifiedTopology: true})
+.then(function () {
+    console.log("CONNECTION OPEN!")
+})
+.catch(function (err) {
+    console.log("OH NO, ERROR!")
+    console.log(err)
+});
+
+const genresSeed = [
     {id: 28, name: "Action", color: "#6888de"},
     {id: 12, name: "Adventure", color: "#f3a267"},
     {id: 16, name: "Animation", color: "#fdffb6"},
@@ -40,13 +31,6 @@ const allFilmGenres = [
     {id: 37, name: "Western", color: "#e4bb97"}
 ]
 
-module.exports.allFilmGenres = allFilmGenres;
-
-module.exports.randomFilmGenre = function () {
-    const randomGenreNumber = Math.floor(Math.random() * allFilmGenres.length);
-    let filmGenre = allFilmGenres[randomGenreNumber];
-    return filmGenre;
-}
-
-
-
+Genre.insertMany(genresSeed)
+.then(res => {console.log(res)})
+.catch(err => {console.log(err)})
