@@ -1135,9 +1135,9 @@ footer {
     display: none;
   }
 
-  #userButtons {
+  /* #userButtons {
     display: none;
-  }
+  } */
 
   #filmWrapper {
     flex-direction: column;
@@ -1174,10 +1174,33 @@ footer {
 }
 
 @media only screen and (max-width: 500px) {
+  header {
+    row-gap: 30px;
+    flex-direction: column;
+  }
+
   .smallFilmPoster {
     width: 150px;
     height: 230px;
     border-radius: 20px;
+  }
+
+  .filmBackdropImage {
+    width: 300px;
+  }
+
+  .appButton {
+    max-width: 200px;
+    min-width: 200px;
+    max-height: 200px;
+  }
+
+  .appTitle {
+    font-size: 20px;
+  }
+
+  .appDescription {
+    display: none;
   }
 
   .smallButtonsWrapper {
