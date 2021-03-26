@@ -3,10 +3,9 @@ const Schema = mongoose.Schema;
 
 const collectionSchema = new Schema({
     user: { 
-        type: String,
-        // type: Schema.Types.ObjectId, 
-        // required: true,
-        // ref: 'User' 
+        type: Schema.Types.ObjectId, 
+        required: true,
+        ref: 'User' 
     },
     name: {
         type: String,

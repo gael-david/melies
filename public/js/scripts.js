@@ -171,39 +171,4 @@ document.body.addEventListener('click', function (event) {
 //     wrapperTimeout = setTimeout(function(){ ratingWrapper.style.display = "None"; }, 500);
 // }) 
 
-// ################
-// RANDOM FILM BUTTON
-// ################
-
-const anotherButton = document.getElementById('anotherButton');
-const randomButton = document.getElementById('randomButton');
-let randomID;
-
-getRandomID ();
-
-async function getRandomID () {
-    axios.get('https://api.themoviedb.org/3/discover/movie?api_key=b8f2293b707b20a0f2b4fe224087f761&language=en-EN&vote_average.gte=6&vote_count.gte=100')
-	.then(async function (response) {
-        allFilms = await response.data;
-        allPages = await allFilms.total_pages;
-        randomPage = `${Math.floor(Math.random() * allPages + 1)}`;
-        axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=b8f2293b707b20a0f2b4fe224087f761&language=en-EN&vote_average.gte=6&vote_count.gte=100&page=${randomPage}`)
-        .then(async function (response) {
-            console.log(response.data);
-            randomID = await response.data.results[Math.floor(Math.random() * response.data.results.length)].id;
-            if (anotherButton) {
-                anotherButton.href = `/film/${await randomID}`;
-            }
-            if (randomButton) {
-                randomButton.href = `/film/${await randomID}`;
-            }
-        })
-        .catch(function (error) {
-        console.log("OH NO! SECOND CALL DID NOT WORK", error)
-        })
-	})
-	.catch(function (error) {
-	console.log("OH NO!", error)
-    })
-} 
 

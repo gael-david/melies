@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Collection = require('./models/collection');
-const Watchlist = require('./models/watchlist');
+const Collection = require('../models/collection');
+const Watchlist = require('../models/watchlist');
 
 mongoose.connect('mongodb://localhost:27017/meliesDB', {useNewUrlParser: true, useUnifiedTopology: true})
 .then(function () {

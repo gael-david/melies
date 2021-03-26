@@ -1,63 +1,39 @@
 <%- include('partials/head') %> 
 <%- include('partials/header') %> 
 
-
 <main>
-    <h2 class="sectionTitle centerTitle">Top <%= genreName %>  films</h2>
-    <div id="resultsWrapper">
-        <% for( let index = 0; index < genreFilms.results.length; index++ ) { %>
-            <div class="smallFilmComponent resultsComponent">
-                <a href="/film/<%= genreFilms.results[index].id %> ">
-                    <% if (genreFilms.results[index].poster_path) { %>
-                        <img class="smallFilmPoster" src="https://image.tmdb.org/t/p/w400<%= genreFilms.results[index].poster_path %>" alt="" loading="lazy">
-                    <% } else { %>
-                        <img class="smallFilmPoster" src="/images/noposter.jpeg" alt="" loading="lazy">
-                    <% } %>
-                </a>
-                <div class="buttonsWrapper smallButtonsWrapper">
-                    <div class="ratingWrapper smallRatingWrapper" style="display: none;">
-                        <div data-title="masterpiece" data-img="🍾" class="ratingComponent smallratingComponent"><div class="tooltiptext smallTooltiptext">Masterpiece</div>🍾</div>
-                        <div data-title="excellent" data-img="👏" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Excellent</span>👏</div>
-                        <div data-title="goodMoment" data-img="👍" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Correct</span>👍</div>
-                        <div data-title="disapointing" data-img="👎" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Disapointing</span>👎</div>
-                        <div data-title="purge" data-img="🥱" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Dud</span>🥱</div>
-                        <div idata-title="nanar" data-img="💸" class="ratingComponent smallratingComponent"><span class="tooltiptext smallTooltiptext">Nanar</span>💸</div>
-                    </div>
-    
-                    <button class="ratingButton roundButton smallRoundButton" type="submit">
-                        <span class="material-icons-outlined">grade</span>
-                    </button>
-                    <% if (watchlist.some(e => e.id === genreFilms.results[index].id )) { %>
-                        <form action="/watchlist?_method=DELETE" method="POST" id="removeWatchlistForm">
-                            <button id="removeWatchlistButton" class="roundButton smallRoundButton" name="id" value="<%= genreFilms.results[index].id  %>" type="submit">
-                                <span class="material-icons favorite">bookmark_added</span>
-                            </button>
-                        </form>
-                    <% } else { %>
-                    <form action="/watchlist?_method=PUT" method="POST" id="addWatchlistForm">
-                        <input type="hidden" id="id" name="id" value="<%= genreFilms.results[index].id  %>">
-                        <input type="hidden" id="title" name="title" value="<%= genreFilms.results[index].title  %>">
-                        <input type="hidden" id="release_date" name="release_date" value="<%= genreFilms.results[index].release_date.slice(0,4)  %>">
-                        <input type="hidden" id="poster_path" name="poster_path" value="<%= genreFilms.results[index].poster_path %>">
-                        <button type="submit" id="addWatchlistButton" class="roundButton smallRoundButton"><span class="material-icons">bookmark_border</span></button>
-                    </form>
-                    <% } %>
-                </div>
-    
-                <p><span><%= genreFilms.results[index].title %></span> 
-                    <% if (genreFilms.results[index].release_date) { %>
-                        (<%= genreFilms.results[index].release_date.slice(0,4) %>)</p>
-                    <% } %>
-            </div>
-        <% } %>
+    <div class="pageCover">
+        <div class="collectionComponent" style="background-color: <%= genre.color %>;">
+            <h1 class="pageCoverTitle">Top <%= genre.name %> films</h1>
+            <img class="collectionImage" src="https://image.tmdb.org/t/p/w780<%= genreFilms.results[0].backdrop_path %>" alt="">
+        </div>
     </div>
+    <%- include('components/resultsWrapper', {filmCategory: genreFilms.results}) %> 
     <h2 class="centerTitle"> Page <%= genrePage %></h2>
         <div class="pageWrapper">
             <% if (+genrePage !== 1) { %>
                 <a class="button pageButton" href="/film/genre/<%= genreID %>/<%= +genrePage - 1 %>">Previous</a>
             <% } %>
-            <a class="button pageButton" href="/film/genre/<%= genreID %>/<%= +genrePage + 1 %>">Next</a>
+            <% if (genreFilms.results.length === 20) { %>
+                <a class="button pageButton" href="/film/genre/<%= genreID %>/<%= +genrePage + 1 %>">Next</a>
+            <% } %>
         </div>
+    <h2 class="sectionTitle">All genres</h2>
+    <div class="scroller">
+        <div class="nextArrow leftScroll smallWrapperArrow">
+            <span class="material-icons-round">chevron_left</span>
+        </div>
+        <section class="wrapper">
+        <% for( let index = 0; index < allFilmGenres.length; index++ ) { %>
+            <a href="/film/genre/<%= allFilmGenres[index].id %>/1" >
+            <div style="color: <%= allFilmGenres[index].color %>; border-color: <%= allFilmGenres[index].color %>a3" class="detailsComponent"><%= allFilmGenres[index].name %> </div>
+            </a>
+        <% } %>
+        </section>
+        <div class="nextArrow rightScroll smallWrapperArrow">
+            <span class="material-icons-round">chevron_right</span>
+        </div>
+    </div>
 </main>
 
 <%- include('partials/footer') %> 
