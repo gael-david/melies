@@ -24,6 +24,11 @@ mongoose.connect('mongodb://localhost:27017/meliesDB', {useCreateIndex: true, us
         console.log(err)
     })
 
+// CONFIGURE MONGO SANITAZER (SECURITY)
+const mongoSanitize = require('express-mongo-sanitize');
+app.use(mongoSanitize());
+
+
 // REQUIRE MONGODB MODELS
 const Collection = require('./models/collection');
 const Watchlist = require('./models/watchlist');
@@ -72,10 +77,8 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser())
 passport.deserializeUser(User.deserializeUser())
 
-
 // REQUIRE UTILITIES
 const ExpressError = require('./utilities/ExpressError');
-
 
 // #############
 // MIDDLEWARES
@@ -87,7 +90,7 @@ app.use(function(req, res, next) {
     next();
 })
 
-// USER MIDDLEWARE
+// GET CURRENT USER
 app.use(function(req, res, next) {
     res.locals.currentUser = req.user;
     next();

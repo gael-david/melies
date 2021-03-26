@@ -1,5 +1,8 @@
 // REQUIRE AXIOS
 const axios = require('axios');
+// REQUIRE SHUFFLE ARRAY FUNCTION
+const {shuffleArray} = require('../utilities/shuffleArray')
+console.log(shuffleArray)
 // GET DATA FROM "FAKE DB"
 const {randomFilmGenre} = require('../public/js/genres');
 const {allFilmGenres} = require('../public/js/genres');
@@ -26,14 +29,8 @@ module.exports.homepage = async function (req,res,next) {
     }
 
     async function getRandomGenreFilms() {
-        let randomPage;
-        await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.API_KEY}&language=en-US&sort_by=vote_average.desc&include_adult=false&include_video=false&page=1&vote_count.gte=500&vote_average.gte=7&with_genres=${genreID}`)
-        .then(function (response) {
-            randomPage = Math.floor(Math.random() * response.data.total_pages + 1)
-        })
-        .catch(function (error) {
-            console.log(error);
-        })
+        const allGenreFilms = await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.API_KEY}&language=en-US&sort_by=vote_average.desc&include_adult=false&include_video=false&page=1&vote_count.gte=500&vote_average.gte=7&with_genres=${genreID}`)
+        const randomPage = Math.floor(Math.random() * allGenreFilms.data.total_pages + 1)
         return axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.API_KEY}&language=en-US&sort_by=vote_average.desc&include_adult=false&include_video=false&page=${randomPage}&vote_count.gte=500&vote_average.gte=7&with_genres=${genreID}`);
     }
 
@@ -50,11 +47,15 @@ module.exports.homepage = async function (req,res,next) {
         const popularFilms = results[0].data;
         const topFilms = results[1].data;
         const randomGenreFilms = results[2].data;
-        
         const discoverFilms = [];
         for (let index = 3; index < (discoverFilmsID.length + 3); index++) {
             discoverFilms.push(results[index].data);
         }
+
+        shuffleArray(popularFilms.results)
+        shuffleArray(topFilms.results)
+        shuffleArray(randomGenreFilms.results)
+        shuffleArray(discoverFilms)
 
         res.render('home', {name: "Home page", popularFilms, topFilms, filmGenre, randomGenreFilms, allFilmGenres, discoverFilms, watchlist });
     })
