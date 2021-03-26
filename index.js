@@ -2,6 +2,11 @@
 // CONFIGURATION
 // #############
 
+// REQUIRE ENV
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
+
 // EXPRESS INIT
 const express = require("express");
 const app = express();

@@ -16,7 +16,7 @@ module.exports.userCollections = async function (req,res,next) {
     // For each first film ID, initialize the API query
     const allPromises = []
     function getFilmDetails(ID) {
-        return axios.get(`https://api.themoviedb.org/3/movie/${ID}?api_key=b8f2293b707b20a0f2b4fe224087f761`);
+        return axios.get(`https://api.themoviedb.org/3/movie/${ID}?api_key=${process.env.API_KEY}`);
     }
     firstFilmID.forEach(firstFilm => {
         allPromises.push(getFilmDetails(firstFilm))
@@ -77,7 +77,7 @@ module.exports.collectionPage = async function (req,res,next) {
     
     let allPromises = [];
     function getCollectionFilms(ID) {
-        return axios.get(`https://api.themoviedb.org/3/movie/${ID}?api_key=b8f2293b707b20a0f2b4fe224087f761&language=en-US`);
+        return axios.get(`https://api.themoviedb.org/3/movie/${ID}?api_key=${process.env.API_KEY}&language=en-US`);
     }
     collectionFilmsID.forEach(filmID => {
         allPromises.push(getCollectionFilms(filmID))
