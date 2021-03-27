@@ -12,6 +12,64 @@
 //        window.scrollTo(0, localStorage.getItem('scrollPosition'));
 // },false);
 
+// ################
+// WATCHLIST
+// ################
+
+const addWatchlistButtons = document.querySelectorAll('#addWatchlistButton');
+
+addWatchlistButtons.forEach(button => {
+    button.addEventListener("click", async function () {
+        const title = button.dataset.title;
+        const id = button.dataset.id;
+        const release_date = button.dataset.release;
+        const poster_path = button.dataset.poster;
+        const film = {title, id, release_date, poster_path}
+
+        try {
+            const response = await axios({
+                method: 'put',
+                url: '/watchlist',
+                data: film
+            });
+            console.log(response)
+        } catch (error) {
+            console.log(error)
+        }
+
+        button.setAttribute("id", removeWatchlistButton);
+        button.querySelector(".material-icons").classList.add("favorite");
+        button.querySelector(".material-icons").innerHTML = "bookmark_added";
+    })
+});
+
+const removeWatchlistButtons = document.querySelectorAll('#removeWatchlistButton');
+
+removeWatchlistButtons.forEach(button => {
+    button.addEventListener("click", async function () {
+        const title = button.dataset.title;
+        const id = button.dataset.id;
+        const release_date = button.dataset.release;
+        const poster_path = button.dataset.poster;
+        const film = {title, id, release_date, poster_path}
+
+        try {
+            const response = await axios({
+                method: 'delete',
+                url: '/watchlist',
+                data: film
+            });   
+            console.log(response)
+        } catch (error) {
+            console.log(error)
+        }
+
+        button.setAttribute("id", addWatchlistButton);
+        button.querySelector(".material-icons").classList.remove("favorite");
+        button.querySelector(".material-icons").innerHTML = "bookmark_border";
+    })
+});
+
 
 // ################
 // COLLECTIONS

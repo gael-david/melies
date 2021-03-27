@@ -15,7 +15,8 @@ app.use(express.static(path.join(__dirname, '/public')))
 
 // MONGOOSE INIT
 const mongoose = require('mongoose');
-const dbURL = process.env.DB_URL || 'mongodb://localhost:27017/meliesDB';
+const dbURL = 'mongodb://localhost:27017/meliesDB';
+// const dbURL = process.env.DB_URL || 'mongodb://localhost:27017/meliesDB';
 
 mongoose.connect(dbURL, {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true})
     .then(function () {
@@ -72,6 +73,10 @@ const bodyParser = require('body-parser')
 app.use(methodOverride('_method'))
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// ENABLE CORS TO MAKE API POST/DELETE REQUESTS
+const cors = require('cors');
+app.use(cors());
 
 // REQUIRE & CONFIG FLASH
 const flash = require('connect-flash')
