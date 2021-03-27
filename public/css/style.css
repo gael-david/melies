@@ -302,14 +302,12 @@ p span {
 
 .wrapper {
   width: 100%;
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: flex-start;
-  overflow-x: auto;
+  display: grid;
+  grid-auto-flow: column;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   margin-bottom: 40px;
-  column-gap: 25px;
+  grid-gap: 25px;
   position: relative;
 }
 
@@ -944,7 +942,8 @@ header {
 }
 
 .videoComponent {
-  height: 300px;
+  height: 250px;
+  width: 425px;
   display: inline-block;
   border-radius: 20px;
   aspect-ratio: 16/9;
