@@ -15,8 +15,8 @@ app.use(express.static(path.join(__dirname, '/public')))
 
 // MONGOOSE INIT
 const mongoose = require('mongoose');
-const dbURL = 'mongodb://localhost:27017/meliesDB';
-// const dbURL = process.env.DB_URL || 'mongodb://localhost:27017/meliesDB';
+// const dbURL = 'mongodb://localhost:27017/meliesDB';
+const dbURL = process.env.DB_URL || 'mongodb://localhost:27017/meliesDB';
 
 mongoose.connect(dbURL, {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true})
     .then(function () {
