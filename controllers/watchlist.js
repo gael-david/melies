@@ -1,6 +1,11 @@
 // REQUIRE MONGODB MODELS
 const Watchlist = require('../models/watchlist');
 
+module.exports.watchlistPage = async function (req,res,next) {
+    const {watchlist} = res.locals;
+    res.render('watchlist', {name: "Your Watchlist", watchlist})
+};
+
 module.exports.addToWatchlist = async function (req, res,next) {
     if (req.isAuthenticated()) {
         const id = Number(req.body.id);
@@ -14,8 +19,7 @@ module.exports.addToWatchlist = async function (req, res,next) {
             watchlistData.watchlist.push(film);
             await watchlistData.save();
         }
-        
-        res.redirect('back');
+        res.sendStatus(200);
     } else {
         res.redirect("/login")
     }
@@ -31,5 +35,6 @@ module.exports.removeFromWatchlist = async function (req,res,next) {
         watchlistData.watchlist = watchlistData.watchlist.filter(e => e.id !== id);
         await watchlistData.save();
     }
-    res.redirect('back');
+
+    res.sendStatus(200);
 };

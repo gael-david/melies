@@ -78,6 +78,7 @@ app.use(express.json());
 const cors = require('cors');
 app.use(cors());
 
+
 // REQUIRE & CONFIG FLASH
 const flash = require('connect-flash')
 app.use(flash())
@@ -121,6 +122,7 @@ app.use(async function (req,res, next) {
     if (req.isAuthenticated()) {
         const {watchlist} = await Watchlist.findOne({ 'user': req.user._id });
         res.locals.watchlist = watchlist;
+        console.log(watchlist)
         next();
     } else {
         res.locals.watchlist = [];
@@ -155,7 +157,7 @@ const userRoutes = require('./routes/user')
 app.use('/', homeRoutes)
 app.use('/film', filmRoutes)
 app.use('/collections', collectionsRoutes)
-app.use('/watchlist', watchlistRoutes)
+app.use('/', watchlistRoutes)
 app.use('/', userRoutes)
 
 // 404 ERROR

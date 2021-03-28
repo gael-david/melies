@@ -21,20 +21,14 @@
                 <span class="material-icons-outlined">grade</span>
             </button>
             <!-- Watchlist Button -->
-            <% if (inWatchlist) { %>
-                <form action="/watchlist?_method=DELETE" method="POST" id="removeWatchlistForm">
-                    <button id="removeWatchlistButton" class="roundButton" name="id" value="<%= filmData.id %>" type="submit">
-                        <span class="material-icons favorite">bookmark_added</span>
-                    </button>
-                </form>
+            <% if (watchlist.some(e => e.id === filmData.id )) { %>
+                <button type="button" class="watchlistButton removeWatchlistButton roundButton" data-id="<%= filmData.id  %>" data-title="<%= filmData.title  %>" data-release="<%= filmData.release_date.slice(0,4) %>" data-poster="<%= filmData.poster_path %>">
+                    <span class="material-icons favorite">bookmark_added</span>
+                </button>
             <% } else { %>
-            <form action="/watchlist?_method=PUT" method="POST" id="addWatchlistForm">
-                <input type="hidden" id="id" name="id" value="<%= filmData.id  %>">
-                <input type="hidden" id="title" name="title" value="<%= filmData.title  %>">
-                <input type="hidden" id="release_date" name="release_date" value="<%= filmData.release_date.slice(0,4)  %>">
-                <input type="hidden" id="poster_path" name="poster_path" value="<%= filmData.poster_path %>">
-                <button type="submit" id="addWatchlistButton" class="roundButton"><span class="material-icons">bookmark_border</span></button>
-            </form>
+                <button type="button" class="watchlistButton addWatchlistButton roundButton" data-id="<%= filmData.id  %>" data-title="<%= filmData.title  %>" data-release="<%= filmData.release_date.slice(0,4) %>" data-poster="<%= filmData.poster_path %>">
+                    <span class="material-icons">bookmark_border</span>
+                </button>
             <% } %>
             <!-- Collections Button -->
                 <% if (inCollection) { %>

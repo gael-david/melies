@@ -16,59 +16,70 @@
 // WATCHLIST
 // ################
 
-const addWatchlistButtons = document.querySelectorAll('#addWatchlistButton');
+const watchlistButtons = document.getElementsByClassName('watchlistButton');
 
-addWatchlistButtons.forEach(button => {
+for (const button of watchlistButtons) {
     button.addEventListener("click", async function () {
-        const title = button.dataset.title;
-        const id = button.dataset.id;
-        const release_date = button.dataset.release;
-        const poster_path = button.dataset.poster;
-        const film = {title, id, release_date, poster_path}
+        if (button.classList.contains("addWatchlistButton")) {
+            const title = button.dataset.title;
+            const id = button.dataset.id;
+            const release_date = button.dataset.release;
+            const poster_path = button.dataset.poster;
+            const film = {title, id, release_date, poster_path};
 
-        try {
-            const response = await axios({
-                method: 'put',
-                url: '/watchlist',
-                data: film
-            });
-            console.log(response)
-        } catch (error) {
-            console.log(error)
+            console.log("Added")
+            button.classList.remove("addWatchlistButton");
+            button.classList.add("removeWatchlistButton");
+            button.querySelector(".material-icons").classList.add("favorite");
+            button.querySelector(".material-icons").innerHTML = "bookmark_added";
+
+            try {
+                const response = await axios({
+                    method: 'put',
+                    url: '/watchlist',
+                    data: film
+                });
+                console.log(response)
+            } catch (error) {
+                console.log(error)
+            }
+                
+        } else if (button.classList.contains("removeWatchlistButton")) {
+            const title = button.dataset.title;
+            const id = button.dataset.id;
+            const release_date = button.dataset.release;
+            const poster_path = button.dataset.poster;
+            const film = {title, id, release_date, poster_path};
+
+            console.log("Removed")
+            button.classList.remove("removeWatchlistButton");
+            button.classList.add("addWatchlistButton");
+            button.querySelector(".material-icons").classList.remove("favorite");
+            button.querySelector(".material-icons").innerHTML = "bookmark_border";
+            
+            if (button.parentElement.parentElement.parentElement.parentElement.previousElementSibling.innerText === "Your Watchlist") {
+                button.parentElement.parentElement.style.opacity = "0%";
+                setInterval(() => {
+                    button.parentElement.parentElement.remove();
+                }, 200);
+            }
+
+            try {
+                const response = await axios({
+                    method: 'delete',
+                    url: '/watchlist',
+                    data: film
+                });   
+                console.log(response)
+            } catch (error) {
+                console.log(error)
+            }
+              
         }
 
-        button.setAttribute("id", removeWatchlistButton);
-        button.querySelector(".material-icons").classList.add("favorite");
-        button.querySelector(".material-icons").innerHTML = "bookmark_added";
     })
-});
+}
 
-const removeWatchlistButtons = document.querySelectorAll('#removeWatchlistButton');
-
-removeWatchlistButtons.forEach(button => {
-    button.addEventListener("click", async function () {
-        const title = button.dataset.title;
-        const id = button.dataset.id;
-        const release_date = button.dataset.release;
-        const poster_path = button.dataset.poster;
-        const film = {title, id, release_date, poster_path}
-
-        try {
-            const response = await axios({
-                method: 'delete',
-                url: '/watchlist',
-                data: film
-            });   
-            console.log(response)
-        } catch (error) {
-            console.log(error)
-        }
-
-        button.setAttribute("id", addWatchlistButton);
-        button.querySelector(".material-icons").classList.remove("favorite");
-        button.querySelector(".material-icons").innerHTML = "bookmark_border";
-    })
-});
 
 
 // ################

@@ -6,8 +6,10 @@ const watchlist = require('../controllers/watchlist');
 // REQUIRE UTILITIES
 const wrapAsync = require('../utilities/wrapAsync');
 
-router.put('/', wrapAsync(watchlist.addToWatchlist))
+router.get('/watchlist', wrapAsync(watchlist.watchlistPage));
 
-router.delete('/', wrapAsync(watchlist.removeFromWatchlist))
+router.put('/watchlist', wrapAsync(watchlist.addToWatchlist));
+
+router.delete('/watchlist', wrapAsync(watchlist.removeFromWatchlist));
 
 module.exports = router;

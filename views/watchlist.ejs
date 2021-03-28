@@ -1,0 +1,12 @@
+<%- include('partials/head') %> 
+<%- include('partials/header') %> 
+
+<main>
+<h2 class="sectionTitle centerTitle">Your Watchlist</h2>
+<div id="resultsWrapper">
+    <%- include('components/filmComponent', {filmCategory: watchlist, order: "reverse"}) %>
+</div>
+</main>
+
+
+<%- include('partials/footer') %> 

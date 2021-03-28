@@ -8,7 +8,7 @@
     <% } %> 
 
     <% if (currentUser && watchlist.length) { %>
-        <h2 class="sectionTitle">Your Watchlist</h2>
+        <a href="/watchlist"><h2 class="sectionTitle">Your Watchlist</h2></a>
         <%- include('components/filmScroller', {filmCategory: watchlist, order: "reverse"}) %>
     <% } %>
 
