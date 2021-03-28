@@ -68,7 +68,7 @@ module.exports.genre = async function (req,res,next) {
     
     const genre = await Genre.findOne({id: genreID});
     
-    const genreQuery = await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.API_KEY}&language=en-US&sort_by=vote_average.desc&include_adult=false&include_video=false&page=${genrePage}&vote_count.gte=500&vote_average.gte=7&with_genres=${genreID}`)
+    const genreQuery = await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.API_KEY}&language=en-US&sort_by=vote_average.desc&include_adult=false&include_video=false&page=${genrePage}&vote_count.gte=250&vote_average.gte=6.5&with_genres=${genreID}`)
     const genreFilms = genreQuery.data;
 
     const totalPages = genreFilms.total_pages;

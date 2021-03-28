@@ -37,12 +37,13 @@ module.exports.homepage = async function (req,res,next) {
 
     function getTopFilms() {
         const randomPage = Math.floor(Math.random() * 10 + 1)
-        return axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.API_KEY}&language=en-US&sort_by=vote_average.desc&include_adult=false&include_video=false&page=${randomPage}&vote_count.gte=7500`);
+        return axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.API_KEY}&language=en-US&sort_by=vote_average.desc&include_adult=false&include_video=false&page=${randomPage}&vote_count.gte=2500`);
     }
 
     async function getRandomGenreFilms() {
         const allGenreFilms = await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.API_KEY}&language=en-US&sort_by=vote_average.desc&include_adult=false&include_video=false&page=1&vote_count.gte=500&vote_average.gte=7&with_genres=${genreID}`)
-        const randomPage = Math.floor(Math.random() * allGenreFilms.data.total_pages + 1)
+        // Get random page (except the last one, as it can have only 1 result)
+        const randomPage = Math.floor(Math.random() * (allGenreFilms.data.total_pages - 1) + 1);
         return axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.API_KEY}&language=en-US&sort_by=vote_average.desc&include_adult=false&include_video=false&page=${randomPage}&vote_count.gte=500&vote_average.gte=7&with_genres=${genreID}`);
     }
 
