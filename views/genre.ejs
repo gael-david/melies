@@ -2,22 +2,6 @@
 <%- include('partials/header') %> 
 
 <main>
-    <div class="pageCover">
-        <div class="collectionComponent" style="background-color: <%= genre.color %>;">
-            <h1 class="pageCoverTitle">Top <%= genre.name %> films</h1>
-            <img class="collectionImage" src="https://image.tmdb.org/t/p/w780<%= genreFilms.results[0].backdrop_path %>" alt="">
-        </div>
-    </div>
-    <%- include('components/resultsWrapper', {filmCategory: genreFilms.results}) %> 
-    <h2 class="centerTitle"> Page <%= genrePage %></h2>
-        <div class="pageWrapper">
-            <% if (+genrePage !== 1) { %>
-                <a class="button pageButton" href="/film/genre/<%= genreID %>/<%= +genrePage - 1 %>">Previous</a>
-            <% } %>
-            <% if (genreFilms.results.length === 20) { %>
-                <a class="button pageButton" href="/film/genre/<%= genreID %>/<%= +genrePage + 1 %>">Next</a>
-            <% } %>
-        </div>
     <h2 class="sectionTitle">All genres</h2>
     <div class="scroller">
         <div class="nextArrow leftScroll smallWrapperArrow">
@@ -34,6 +18,25 @@
             <span class="material-icons-round">chevron_right</span>
         </div>
     </div>
+    <div class="pageCover">
+        <div class="collectionComponent" style="background-color: <%= genre.color %>;">
+            <h1 class="pageCoverTitle">Top <%= genre.name %> films</h1>
+            <img class="collectionImage" src="https://image.tmdb.org/t/p/w780<%= genreFilms.results[0].backdrop_path %>" alt="">
+        </div>
+    </div>
+    <%- include('components/resultsWrapper', {filmCategory: genreFilms.results}) %> 
+
+        <div class="pageComponent">
+            <% if (+genrePage !== 1) { %>
+                <a class="button pageButton" href="/film/genre/<%= genreID %>/1">First</a>
+                <a class="button pageButton" href="/film/genre/<%= genreID %>/<%= +genrePage - 1 %>"><%= +genrePage -1 %></a>
+            <% } %>
+            <a class="button pageButton" style="color: #fee97d;"><%= +genrePage %></a>
+            <% if (genreFilms.results.length === 20) { %>
+                <a class="button pageButton" href="/film/genre/<%= genreID %>/<%= +genrePage + 1 %>"><%= +genrePage + 1 %></a>
+                <a class="button pageButton" href="/film/genre/<%= genreID %>/<%= totalPages %>">Last</a>
+            <% } %>
+        </div>
 </main>
 
 <%- include('partials/footer') %> 

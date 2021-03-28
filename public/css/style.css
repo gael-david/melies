@@ -560,15 +560,12 @@ p span {
   margin-right: 5px;
 }
 
-.pageWrapper {
-  width: 250px;
-  display: flex;
-  justify-content: space-evenly;
+.pageComponent {
+  display: grid;
+  grid-gap: 10px;
+  grid-auto-flow: column;
   align-self: center;
-}
-
-.pageButton {
-  width: 100px;
+  margin-bottom: 40px;
 }
 
 .pageCover {
@@ -994,7 +991,7 @@ header {
 footer {
   padding: 40px;
   width: 100%;
-  margin-top: 40px;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
