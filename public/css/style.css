@@ -219,6 +219,14 @@ p {
   line-height: 150%;
 }
 
+.material-icons {
+  transition: 0.2s linear;
+}
+
+/* .material-icons:active {
+  animation: mover 0.5s forwards, scaler 0.5s forwards;
+} */
+
 p span {
   font-weight: 600;
 }
@@ -1258,7 +1266,7 @@ footer {
 
 .favorite {
   color: #5cf17a;
-  animation: mover 0.25s forwards, scaler 0.25s forwards;
+  transform: scale(1.1);
 }
 
 .selected {
