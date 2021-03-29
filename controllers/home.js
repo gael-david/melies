@@ -13,7 +13,6 @@ module.exports.homepage = async function (req,res,next) {
     const allFilmGenres = await Genre.find(); 
 
     const currentUser = res.locals
-    console.log(currentUser)
     
     // GET RANDOM GENRE ID
     const filmGenre = randomFilmGenre();

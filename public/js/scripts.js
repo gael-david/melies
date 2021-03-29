@@ -111,8 +111,6 @@ for (const button of watchlistButtons) {
     })
 }
 
-
-
 // ################
 // COLLECTIONS
 // ################
@@ -170,30 +168,85 @@ if (saveToCollectionButton) {
 // }
 
 // ################
-// WATCHLIST BUTTON
-// ################
-
-const addWatchlistForm = document.getElementById('addWatchlistForm');
-const removeWatchlistForm = document.getElementById('removeWatchlistForm');
-
-// addWatchlistForm.addEventListener('click', function () {
-//     addWatchlistForm.style.display = "None";
-//     removeWatchlistForm.style.display = "Flex";
-// })
-
-// removeWatchlistForm.addEventListener('click', function () {
-//     removeWatchlistForm.style.display = "None";
-//     addWatchlistForm.style.display = "Flex";
-// })
-
-// ################
 // RATING BUTTON
 // ################
 
 const ratingWrapper = document.querySelectorAll('.ratingWrapper');
 const ratingButton = document.querySelectorAll('.ratingButton');
 const ratingComponent = document.querySelectorAll('.ratingComponent');
+let clickedRating;
 
+ratingButton.forEach(button => {
+    button.addEventListener('click', function () {
+        const thisWrapper = button.nextElementSibling;
+        button.classList.remove("userRating");
+        clickedRating = button;
+        thisWrapper.classList.toggle("displayWrapper");
+        document.body.style.overflow = "hidden";
+    })
+}); 
+
+ratingComponent.forEach(component => {
+    component.addEventListener("click", async function () {
+        console.log(component.dataset.id, component.dataset.rating)
+        clickedRating.innerText = component.dataset.img;
+        clickedRating.classList.add("userRating");
+        document.body.style.overflow = "auto";
+    })
+});
+
+// Quit rating modal when clicking outsite
+document.body.addEventListener('click', function (event) {
+    if (!(event.target.classList[0] == "ratingButton" || event.target.innerText == "grade")) {
+        document.body.style.overflow = "auto";
+        ratingWrapper.forEach(thisWrapper => {
+            thisWrapper.classList.remove("displayWrapper");
+        })
+    };
+})
+
+// ratingButton.forEach(button => {
+//     button.addEventListener('click', function () {
+//         button.classList.remove("userRating");
+//         if (button.parentNode.querySelector(".ratingWrapper").style.display == "none") {
+//             ratingWrapper.forEach(wrapper => {
+//                 console.log("deleting")
+//                 wrapper.style.display = "none";
+//             });
+//             button.parentNode.querySelector(".ratingWrapper").style.display = "flex";
+//         } else {
+//             button.parentNode.querySelector(".ratingWrapper").style.display = "none";
+//         }
+//     })
+// }); 
+
+
+
+// ratingComponent.forEach(component => {
+//     component.addEventListener("click", function () {
+//         ratingButton.innerText = component.dataset.img;
+//         ratingButton.classList.add("userRating");
+//     })
+// });
+
+
+
+// document.body.addEventListener('click', function (event) {
+//     let isClickInside = ratingButton.contains(event.target);
+//     if (!isClickInside) {
+//         ratingWrapper.style.display = "none";
+//     } 
+// })
+
+// document.body.addEventListener('click', function (event) {
+//     console.log(event.target.classList[0])
+//     if (!(event.target.classList[0] == "ratingButton" || event.target.innerText == "grade")) {
+//         ratingWrapper.forEach(wrapper => {
+//             wrapper.style.display = "none";
+//         });
+        
+//     } 
+// })
 
 // ratingButton.addEventListener('click', function () {
 //     ratingButton.classList.remove("userRating");
@@ -203,52 +256,6 @@ const ratingComponent = document.querySelectorAll('.ratingComponent');
 //         ratingWrapper.style.display = "none";
 //     }
 // })
-
-ratingButton.forEach(button => {
-    button.addEventListener('click', function () {
-        button.classList.remove("userRating");
-        if (button.parentNode.querySelector(".ratingWrapper").style.display == "none") {
-            ratingWrapper.forEach(wrapper => {
-                console.log("deleting")
-                wrapper.style.display = "none";
-            });
-            button.parentNode.querySelector(".ratingWrapper").style.display = "flex";
-        } else {
-            button.parentNode.querySelector(".ratingWrapper").style.display = "none";
-        }
-    })
-}); 
-
-// ratingComponent.forEach(component => {
-//     component.addEventListener("click", function () {
-//         ratingButton.innerText = component.dataset.img;
-//         ratingButton.classList.add("userRating");
-//     })
-// });
-
-ratingComponent.forEach(component => {
-    component.addEventListener("click", function () {
-        component.parentNode.parentNode.querySelector(".ratingButton").innerText = component.dataset.img;
-        component.parentNode.parentNode.querySelector(".ratingButton").classList.add("userRating");
-    })
-});
-
-// document.body.addEventListener('click', function (event) {
-//     let isClickInside = ratingButton.contains(event.target);
-//     if (!isClickInside) {
-//         ratingWrapper.style.display = "none";
-//     } 
-// })
-
-document.body.addEventListener('click', function (event) {
-    console.log(event.target.classList[0])
-    if (!(event.target.classList[0] == "ratingButton" || event.target.innerText == "grade")) {
-        ratingWrapper.forEach(wrapper => {
-            wrapper.style.display = "none";
-        });
-        
-    } 
-})
 
 // ratingWrapper.addEventListener('mouseover', function () {
 //     clearTimeout(wrapperTimeout)

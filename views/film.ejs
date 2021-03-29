@@ -8,28 +8,26 @@
         </a>
         <img class="filmPoster" src="https://image.tmdb.org/t/p/w500<%= filmData.poster_path %>" alt="">
         <div class="buttonsWrapper">
-            <div class="ratingWrapper" style="display: none;">
-                <div data-title="masterpiece" data-img="🍾" class="ratingComponent"><div class="tooltiptext">Masterpiece</div>🍾</div>
-                <div data-title="excellent" data-img="👏" class="ratingComponent"><span class="tooltiptext">Excellent</span>👏</div>
-                <div data-title="goodMoment" data-img="👍" class="ratingComponent"><span class="tooltiptext">Correct</span>👍</div>
-                <div data-title="disapointing" data-img="👎" class="ratingComponent"><span class="tooltiptext">Disapointing</span>👎</div>
-                <div data-title="purge" data-img="🥱" class="ratingComponent"><span class="tooltiptext">Dud</span>🥱</div>
-                <div idata-title="nanar" data-img="💸" class="ratingComponent"><span class="tooltiptext">Nanar</span>💸</div>
-            </div>
             <!-- Rating Button -->
             <button class="ratingButton roundButton" type="submit">
                 <span class="material-icons-outlined">grade</span>
             </button>
             <!-- Watchlist Button -->
-            <% if (watchlist.some(e => e.id === filmData.id )) { %>
-                <button type="button" class="watchlistButton removeWatchlistButton roundButton" data-id="<%= filmData.id  %>" data-title="<%= filmData.title  %>" data-release="<%= filmData.release_date.slice(0,4) %>" data-poster="<%= filmData.poster_path %>">
-                    <span class="material-icons favorite">bookmark_added</span>
-                </button>
-            <% } else { %>
-                <button type="button" class="watchlistButton addWatchlistButton roundButton" data-id="<%= filmData.id  %>" data-title="<%= filmData.title  %>" data-release="<%= filmData.release_date.slice(0,4) %>" data-poster="<%= filmData.poster_path %>">
+            <% if (locals.currentUser) { %>
+                <% if (watchlist.some(e => e.id === filmData.id )) { %>
+                    <button type="button" class="watchlistButton removeWatchlistButton roundButton " data-id="<%= filmData.id  %>" data-title="<%= filmData.title  %>" data-release="<%= filmData.release_date.slice(0,4) %>" data-poster="<%= filmData.poster_path %>">
+                        <span class="material-icons favorite">bookmark_added</span>
+                    </button>
+                <% } else { %>
+                    <button type="button" class="watchlistButton addWatchlistButton roundButton " data-id="<%= filmData.id  %>" data-title="<%= filmData.title  %>" data-release="<%= filmData.release_date.slice(0,4) %>" data-poster="<%= filmData.poster_path %>">
+                        <span class="material-icons">bookmark_border</span>
+                    </button>
+                <% } %>
+            <% } else { %> 
+                <a href="/login" class="roundButton ">
                     <span class="material-icons">bookmark_border</span>
-                </button>
-            <% } %>
+                </a>
+            <% } %> 
             <!-- Collections Button -->
                 <% if (inCollection) { %>
                     <a href="/collections/<%= filmData.id %>/add" id="addCollectionButton" class="roundButton" data-film="<%= filmID %>" >
@@ -177,6 +175,8 @@
             <%- include('components/filmScroller', {filmCategory: filmRecommendations.results}) %>
         <% } %>
     </section>
+
+    
 </main>
 
 <%- include('partials/footer') %> 

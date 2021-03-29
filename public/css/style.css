@@ -505,21 +505,38 @@ hr {
 }
 
 .ratingWrapper {
+  z-index: 9999;
+  max-width: 400px;
+  justify-content: center;
+  width: 80vw;
   display: none;
-  z-index: 2;
-  justify-content: space-evenly;
-  align-items: center;
-  width: 300px;
-  height: 60px;
-  position: absolute;
-  bottom: 70px;
-  left: 0px;
-  background: #252936;
-  box-shadow: #0a0a0a 0px 0px 10px 3px;
-  border-radius: 100px;
-  will-change: transform;
-  transition: 0.2s ease-in-out;
-  animation: mover 0.25s forwards, scaler 0.25s forwards;
+  grid-template-columns: repeat(auto-fit, 100px);
+  grid-gap: 25px;
+  padding: 25px;
+  border-radius: 20px;
+  background: #1b1d22;
+  box-shadow: -1px 1px 20px 10000px rgb(21 21 27 / 79%),
+    0 30px 60px -30px rgb(0 0 0 / 30%);
+  position: fixed;
+  margin: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  right: 0;
+  animation: opaciter 0.2s;
+}
+
+.displayWrapper {
+  display: grid;
+}
+
+.ratingTitle {
+  font-size: 30px;
+  font-weight: 600;
+  vertical-align: middle;
+  grid-column: 1 / -1;
+  grid-template-rows: min-content;
+  margin: 0;
 }
 
 .smallRatingWrapper {
@@ -531,18 +548,37 @@ hr {
   animation: heighter 0.25s forwards;
 }
 
-.ratingComponent {
-  font-size: 30px;
+.ratingIcon {
+  font-size: 40px;
   cursor: pointer;
+  transition: 0.1s;
+  align-self: end;
+}
+
+.ratingComponent {
+  display: grid;
+  grid-gap: 5px;
+  justify-items: center;
+  align-items: center;
+  cursor: pointer;
+  height: 100px;
+  background: #23252a;
+  border-radius: 20px;
+}
+
+.ratingIcon:hover {
+  transform: scale(1.2);
+}
+
+.ratingName {
+  font-size: 14px;
+  font-weight: 500;
+  align-self: start;
 }
 
 .smallratingComponent {
   font-size: 24px;
   animation: scaler 0.5s;
-}
-
-.ratingComponent:hover {
-  transform: scale(1.2);
 }
 
 .ratingComponent:hover .tooltiptext {
