@@ -101,7 +101,7 @@ module.exports.deleteCollection = async function (req,res,next) {
 
     req.flash('success', 'Collection successfully deleted!');
 
-    res.redirect('back');
+    res.redirect('/collections');
 };
 
 module.exports.addToCollectionForm = async function (req,res,next) {
@@ -142,5 +142,5 @@ module.exports.removeFromCollection = async function (req,res,next) {
     console.log(filmID, collectionID)
     await Collection.updateOne({ '_id': collectionID },{ $pull: { 'filmID': filmID } });
 
-    res.redirect('back');
+    res.redirect(`/collections/${collectionID}`);
 }

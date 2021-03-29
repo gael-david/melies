@@ -13,6 +13,34 @@
 // },false);
 
 // ################
+// HEADER
+// ################
+
+const userComponent = document.querySelector('.userComponent');
+const userDropdown = document.querySelector('.userDropdown');
+let timer;
+
+userComponent.addEventListener('click', function () {
+    // clearTimeout(timer)
+    // userDropdown.style.display = "grid";
+    userDropdown.classList.toggle("displayDropdown")
+})
+
+// userDropdown.addEventListener('mouseenter', function () {
+//     clearTimeout(timer)
+//     userDropdown.style.display = "grid";
+// })
+
+
+// userComponent.addEventListener('mouseleave', function () {
+//     timer = setTimeout(() => {
+//         userDropdown.style.display = "None";
+//     }, 500);
+// })
+
+
+
+// ################
 // WATCHLIST
 // ################
 

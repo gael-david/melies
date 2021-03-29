@@ -231,6 +231,11 @@ p span {
   font-weight: 600;
 }
 
+hr {
+  margin: 0 auto;
+  width: 90%;
+}
+
 /* ############ */
 /* SITEWIDE */
 /* ############ */
@@ -401,11 +406,32 @@ p span {
   text-decoration: none;
   border: none;
   border-radius: 10px;
+  display: grid;
+  grid-auto-flow: column;
+  align-items: center;
+  grid-auto-columns: min-content;
+  justify-content: center;
+  grid-gap: 5px;
+  cursor: pointer;
+}
+
+/* .button {
+  width: 100%;
+  padding: 0 20px;
+  height: 50px;
+  background-color: #23242b;
+  font-family: "Poppins", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.863);
+  text-decoration: none;
+  border: none;
+  border-radius: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-}
+} */
 
 .mainButton {
   width: 100%;
@@ -697,7 +723,7 @@ p span {
 /* ############ */
 
 header {
-  z-index: 2;
+  z-index: 10;
   margin: 20px 0px 40px 0px;
   width: 90%;
   max-width: 1300px;
@@ -715,18 +741,20 @@ header {
 #meliesLogo {
   display: flex;
   align-items: center;
-  font-size: 36px;
-  font-family: "Bungee", cursive;
-  width: 215px;
 }
 
 #meliesIcon {
   height: 40px;
   min-width: 40px;
-  margin-right: 10px;
   transition-delay: 500ms;
   animation: scaler;
   animation-duration: 1s;
+}
+
+#meliesTitle {
+  margin-left: 10px;
+  font-family: "Bungee", cursive;
+  font-size: 30px;
 }
 
 #moon {
@@ -762,7 +790,6 @@ header {
 
 #userInput {
   width: 100%;
-  margin-left: 5px;
   background-color: #25293600;
   color: rgba(255, 255, 255, 0.87);
   border: none;
@@ -780,8 +807,9 @@ header {
   transition: 0.25s ease-in-out;
 }
 
-#searchIcon {
-  margin-right: 10px;
+.searchIcon {
+  margin-right: 5px;
+  margin-left: 5px;
 }
 
 #userButtons {
@@ -800,6 +828,62 @@ header {
   height: 40px;
   background-color: #fee97d;
   color: #252936;
+}
+
+.userComponent {
+  position: relative;
+}
+
+.userOpen {
+  display: grid;
+  grid-auto-flow: column;
+  /* grid-gap: 5px; */
+  align-items: center;
+  grid-auto-columns: min-content;
+}
+
+.userIcon {
+  font-size: 40px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.userDropdown {
+  z-index: 9999;
+  width: 20vw;
+  padding: 20px;
+  border-radius: 20px;
+  background: #23242b;
+  box-shadow: 0 50px 100px -20px rgb(50 50 93 / 25%),
+    0 30px 60px -30px rgb(0 0 0 / 30%);
+  grid-auto-flow: row;
+  grid-gap: 10px;
+  position: absolute;
+  right: 0;
+  top: 50px;
+  display: none;
+  animation: opaciter 0.2s;
+}
+
+.displayDropdown {
+  display: grid;
+}
+
+/* .dropdownArrow {
+  position: absolute;
+  top: -10px;
+  right: 30px;
+  margin: 0 0 0 -6px;
+  width: 20px;
+  height: 20px;
+  background-color: #23252b;
+  box-shadow: -3px -3px 5px rgb(82 95 127 / 4%);
+  z-index: 2;
+  transform: rotate(45deg);
+} */
+
+#logoutButton {
+  color: #da4167;
 }
 
 /* ############ */
@@ -1133,20 +1217,21 @@ footer {
 /* MEDIA QUERIES */
 /* ############ */
 
-@media only screen and (max-width: 800px) {
-  header {
-    justify-content: center;
-  }
-
+@media only screen and (max-width: 750px) {
   #searchModule {
+    flex: 1;
+  }
+
+  #loginButton {
     display: none;
   }
 
-  /* #userButtons {
-    display: none;
-  } */
+  .userDropdown {
+    width: 90vw;
+  }
 
   #filmWrapper {
+    margin-top: 0;
     flex-direction: column;
     align-items: center;
   }
@@ -1168,18 +1253,15 @@ footer {
   .formButtonsWrapper {
     width: 100%;
   }
-}
 
-@media only screen and (max-width: 700px) {
   .collectionWrapper {
     grid-template-columns: 1fr;
   }
 }
 
 @media only screen and (max-width: 500px) {
-  header {
-    row-gap: 30px;
-    flex-direction: column;
+  #meliesTitle {
+    display: none;
   }
 
   .smallFilmPoster {
@@ -1223,7 +1305,6 @@ footer {
 
   #resultsWrapper {
     grid-template-columns: repeat(auto-fit, 150px);
-    justify-content: space-evenly;
   }
 }
 

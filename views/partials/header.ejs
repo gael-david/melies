@@ -1,21 +1,38 @@
 <body>
 <header>
-    <a href="/" id="meliesLogo"><img id="meliesIcon" src="/images/melies.png" alt="" srcset="">MELIES</a>
+    <a href="/" id="meliesLogo">
+        <img id="meliesIcon" src="/images/melies.png" alt="" srcset="">
+        <p id="meliesTitle">MELIES</p> 
+    </a>
     <div id="searchModule">
+        <span class="material-icons searchIcon">search</span>
         <form id="searchForm" action="/film/search" method="get" autocomplete="off">
             <input type="search" name="q" placeholder="Search film..." id="userInput" required>
             <button id="searchButton">Search now</button>
         </form>
-        <span class="material-icons searchIcon">
-            search
-        </span>
     </div>
     <div id="userButtons">
         <% if (!currentUser) { %>
             <a href="/login" id="loginButton" class="button">Login</a>
-            <a href="/signup" id="signupButton" class="button">Sign up</a>
+            <a href="/signup" id="signupButton" class="button">Register</a>
         <% } else { %>
-            <a href="/logout" id="loginButton" class="button">Logout</a>
+            <div class="userComponent">
+                <div class="userOpen">
+                    <span class="material-icons-round userIcon">account_circle</span>
+                    <!-- <p><%= currentUser.username %></p>
+                    <span class="material-icons-outlined">keyboard_arrow_down</span> -->
+                </div>
+                <div class="userDropdown">
+                    <!-- <div class="dropdownArrow"></div> -->
+                    <a href="" class="button"><span class="material-icons-outlined">person</span>Profile</a>
+                    <hr>
+                    <a href="/watchlist" class="button"><span class="material-icons-outlined">bookmark_border</span>Watchlist</a>
+                    <hr>
+                    <a href="/collections" class="button"><span class="material-icons-outlined">library_add_check</span>Collections</a>
+                    <hr>
+                    <a href="/logout" id="logoutButton" class="button"><span class="material-icons-outlined">logout</span>Logout</a>
+                </div>
+            </div>
         <% } %>
       </div>
 </header>
