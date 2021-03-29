@@ -851,6 +851,7 @@ header {
 .userDropdown {
   z-index: 9999;
   width: 20vw;
+  min-width: 250px;
   padding: 20px;
   border-radius: 20px;
   background: #23242b;
@@ -1305,6 +1306,12 @@ footer {
 
   #resultsWrapper {
     grid-template-columns: repeat(auto-fit, 150px);
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  #resultsWrapper {
+    grid-template-columns: repeat(1, 1fr);
   }
 }
 

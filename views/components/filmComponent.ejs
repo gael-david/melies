@@ -28,17 +28,22 @@
                     <button class="ratingButton roundButton smallRoundButton" type="submit">
                         <span class="material-icons-outlined">grade</span>
                     </button>
-                    <% if (watchlist.some(e => e.id === filmCategory[index].id )) { %>
-                        <button type="button" class="watchlistButton removeWatchlistButton roundButton smallRoundButton" data-id="<%= filmCategory[index].id  %>" data-title="<%= filmCategory[index].title  %>" data-release="<%= filmCategory[index].release_date.slice(0,4) %>" data-poster="<%= filmCategory[index].poster_path %>">
-                            <span class="material-icons favorite">bookmark_added</span>
-                        </button>
-                    <% } else { %>
-                        <button type="button" class="watchlistButton addWatchlistButton roundButton smallRoundButton" data-id="<%= filmCategory[index].id  %>" data-title="<%= filmCategory[index].title  %>" data-release="<%= filmCategory[index].release_date.slice(0,4) %>" data-poster="<%= filmCategory[index].poster_path %>">
+                    <% if (locals.currentUser) { %>
+                        <% if (watchlist.some(e => e.id === filmCategory[index].id )) { %>
+                            <button type="button" class="watchlistButton removeWatchlistButton roundButton smallRoundButton" data-id="<%= filmCategory[index].id  %>" data-title="<%= filmCategory[index].title  %>" data-release="<%= filmCategory[index].release_date.slice(0,4) %>" data-poster="<%= filmCategory[index].poster_path %>">
+                                <span class="material-icons favorite">bookmark_added</span>
+                            </button>
+                        <% } else { %>
+                            <button type="button" class="watchlistButton addWatchlistButton roundButton smallRoundButton" data-id="<%= filmCategory[index].id  %>" data-title="<%= filmCategory[index].title  %>" data-release="<%= filmCategory[index].release_date.slice(0,4) %>" data-poster="<%= filmCategory[index].poster_path %>">
+                                <span class="material-icons">bookmark_border</span>
+                            </button>
+                        <% } %>
+                    <% } else { %> 
+                        <a href="/login" class="roundButton smallRoundButton">
                             <span class="material-icons">bookmark_border</span>
-                        </button>
-                    <% } %>
+                        </a>
+                    <% } %> 
                 </div>
-                
             </div>
         <% } %>
     <% } %>
@@ -72,17 +77,22 @@
                     <button class="ratingButton roundButton smallRoundButton" type="submit">
                         <span class="material-icons-outlined">grade</span>
                     </button>
-                    <% if (watchlist.some(e => e.id === filmCategory[index].id )) { %>
-                        <button type="button" class="watchlistButton removeWatchlistButton roundButton smallRoundButton" data-id="<%= filmCategory[index].id  %>" data-title="<%= filmCategory[index].title  %>" data-release="<%= filmCategory[index].release_date.slice(0,4) %>" data-poster="<%= filmCategory[index].poster_path %>">
-                            <span class="material-icons favorite">bookmark_added</span>
-                        </button>
-                    <% } else { %>
-                        <button type="button" class="watchlistButton addWatchlistButton roundButton smallRoundButton" data-id="<%= filmCategory[index].id  %>" data-title="<%= filmCategory[index].title  %>" data-release="<%= filmCategory[index].release_date.slice(0,4) %>" data-poster="<%= filmCategory[index].poster_path %>">
+                    <% if (locals.currentUser) { %>
+                        <% if (watchlist.some(e => e.id === filmCategory[index].id )) { %>
+                            <button type="button" class="watchlistButton removeWatchlistButton roundButton smallRoundButton" data-id="<%= filmCategory[index].id  %>" data-title="<%= filmCategory[index].title  %>" data-release="<%= filmCategory[index].release_date.slice(0,4) %>" data-poster="<%= filmCategory[index].poster_path %>">
+                                <span class="material-icons favorite">bookmark_added</span>
+                            </button>
+                        <% } else { %>
+                            <button type="button" class="watchlistButton addWatchlistButton roundButton smallRoundButton" data-id="<%= filmCategory[index].id  %>" data-title="<%= filmCategory[index].title  %>" data-release="<%= filmCategory[index].release_date.slice(0,4) %>" data-poster="<%= filmCategory[index].poster_path %>">
+                                <span class="material-icons">bookmark_border</span>
+                            </button>
+                        <% } %>
+                    <% } else { %> 
+                        <a href="/login" class="roundButton smallRoundButton">
                             <span class="material-icons">bookmark_border</span>
-                        </button>
-                    <% } %>
+                        </a>
+                    <% } %> 
                 </div>
-                
             </div>
         <% } %>
     <% } %>

@@ -12,7 +12,7 @@
         </form>
     </div>
     <div id="userButtons">
-        <% if (!currentUser) { %>
+        <% if (!locals.currentUser) { %>
             <a href="/login" id="loginButton" class="button">Login</a>
             <a href="/signup" id="signupButton" class="button">Register</a>
         <% } else { %>

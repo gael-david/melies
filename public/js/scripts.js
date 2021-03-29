@@ -20,11 +20,14 @@ const userComponent = document.querySelector('.userComponent');
 const userDropdown = document.querySelector('.userDropdown');
 let timer;
 
-userComponent.addEventListener('click', function () {
-    // clearTimeout(timer)
-    // userDropdown.style.display = "grid";
-    userDropdown.classList.toggle("displayDropdown")
-})
+if (userComponent) {
+    userComponent.addEventListener('click', function () {
+        // clearTimeout(timer)
+        // userDropdown.style.display = "grid";
+        userDropdown.classList.toggle("displayDropdown")
+    })
+}
+
 
 // userDropdown.addEventListener('mouseenter', function () {
 //     clearTimeout(timer)
@@ -85,7 +88,7 @@ for (const button of watchlistButtons) {
             button.querySelector(".material-icons").classList.remove("favorite");
             button.querySelector(".material-icons").innerHTML = "bookmark_border";
             
-            if (button.parentElement.parentElement.parentElement.parentElement.previousElementSibling.innerText === "Your Watchlist") {
+            if (button.parentElement.parentElement.parentElement.parentElement.previousElementSibling.innerText === "Your Watchlist" || button.parentElement.parentElement.parentElement.previousElementSibling.innerText === "Your Watchlist") {
                 button.parentElement.parentElement.style.opacity = "0%";
                 setInterval(() => {
                     button.parentElement.parentElement.remove();

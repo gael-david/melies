@@ -121,7 +121,6 @@ app.use(async function (req,res, next) {
     if (req.isAuthenticated()) {
         const {watchlist} = await Watchlist.findOne({ 'user': req.user._id });
         res.locals.watchlist = watchlist;
-        console.log(watchlist)
         next();
     } else {
         res.locals.watchlist = [];

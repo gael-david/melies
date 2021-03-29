@@ -33,9 +33,9 @@ module.exports.loginPage = async function (req,res,next) {
 
 module.exports.login = async function (req,res,next) {
     req.flash('success', 'Successfully logged in!');
-
+    console.log(req.originalUrl)
     const redirectURL = req.session.returnTo || '/';
-    delete req.session.returnTo
+    delete req.session.returnTo;
     res.redirect(redirectURL)
 };
 

@@ -8,6 +8,9 @@ const wrapAsync = require('../utilities/wrapAsync');
 // REQUIRE & CONFIG PASSPORT
 const passport = require('passport');
 
+// REQUIRE MIDDLEWARE
+const {isLoggedIn} = require('../middleware');
+
 router.get('/signup', wrapAsync(user.signupPage));
 
 router.post('/signup', wrapAsync(user.signup));
