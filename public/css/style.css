@@ -540,6 +540,7 @@ hr {
   font-size: 30px;
   font-weight: 600;
   vertical-align: middle;
+  text-align: center;
   grid-column: 1 / -1;
   grid-template-rows: min-content;
   margin: 0;
@@ -586,6 +587,7 @@ hr {
   cursor: pointer;
   grid-column: 1 / -1;
   grid-template-rows: min-content;
+  text-align: center;
 }
 
 .smallratingComponent {
@@ -1108,6 +1110,7 @@ header {
   grid-row-gap: 40px;
   justify-content: space-between;
   justify-items: center;
+  margin-top: 40px;
   margin-bottom: 40px;
 }
 
