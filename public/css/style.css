@@ -384,14 +384,20 @@ hr {
   column-gap: 15px; */
 }
 
-.formButtonsWrapper {
-  justify-self: flex-end;
-  grid-template-columns: 1fr 1fr;
-}
-
 .smallButtonsWrapper {
   position: absolute;
   top: 280px;
+}
+
+.tallButtonsWrapper {
+  justify-items: center;
+  grid-auto-columns: min-content;
+  justify-content: center;
+}
+
+.formButtonsWrapper {
+  justify-self: flex-end;
+  grid-template-columns: 1fr 1fr;
 }
 
 .button {
@@ -576,6 +582,12 @@ hr {
   align-self: start;
 }
 
+.removeRating {
+  cursor: pointer;
+  grid-column: 1 / -1;
+  grid-template-rows: min-content;
+}
+
 .smallratingComponent {
   font-size: 24px;
   animation: scaler 0.5s;
@@ -612,7 +624,8 @@ hr {
   padding: 0px 25px;
   min-height: 50px;
   border: solid 2px rgba(255, 255, 255, 0.384);
-  border-radius: 15px;
+  border-radius: 50px;
+  white-space: nowrap;
   font-size: 14px;
   font-weight: 600;
   text-align: center;
@@ -997,6 +1010,7 @@ header {
 }
 
 #leftCard {
+  z-index: 99;
   width: 33%;
   min-width: 250px;
   max-width: 300px;
@@ -1005,11 +1019,11 @@ header {
   align-items: center;
   position: -webkit-sticky;
   position: sticky;
-  top: 20px;
+  top: 40px;
   margin-right: clamp(15px, 5%, 50px);
 }
 
-.filmPoster {
+.tallFilmPoster {
   width: 100%;
   border-radius: 30px;
   margin-bottom: 25px;

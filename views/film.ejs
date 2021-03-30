@@ -3,42 +3,7 @@
 <img id="background" style="background: url('https://image.tmdb.org/t/p/w300/<%= filmData.backdrop_path %>') center center / cover;">
 <main id="filmWrapper">
     <section id="leftCard">
-        <a href="/film/<%= randomID %> " id="anotherButton" class="roundButton">
-            <span class="material-icons">shuffle</span>
-        </a>
-        <img class="filmPoster" src="https://image.tmdb.org/t/p/w500<%= filmData.poster_path %>" alt="">
-        <div class="buttonsWrapper">
-            <!-- Rating Button -->
-            <button class="ratingButton roundButton" type="submit">
-                <span class="material-icons-outlined">grade</span>
-            </button>
-            <!-- Watchlist Button -->
-            <% if (locals.currentUser) { %>
-                <% if (watchlist.some(e => e.id === filmData.id )) { %>
-                    <button type="button" class="watchlistButton removeWatchlistButton roundButton " data-id="<%= filmData.id  %>" data-title="<%= filmData.title  %>" data-release="<%= filmData.release_date.slice(0,4) %>" data-poster="<%= filmData.poster_path %>">
-                        <span class="material-icons favorite">bookmark_added</span>
-                    </button>
-                <% } else { %>
-                    <button type="button" class="watchlistButton addWatchlistButton roundButton " data-id="<%= filmData.id  %>" data-title="<%= filmData.title  %>" data-release="<%= filmData.release_date.slice(0,4) %>" data-poster="<%= filmData.poster_path %>">
-                        <span class="material-icons">bookmark_border</span>
-                    </button>
-                <% } %>
-            <% } else { %> 
-                <a href="/login" class="roundButton ">
-                    <span class="material-icons">bookmark_border</span>
-                </a>
-            <% } %> 
-            <!-- Collections Button -->
-                <% if (inCollection) { %>
-                    <a href="/collections/<%= filmData.id %>/add" id="addCollectionButton" class="roundButton" data-film="<%= filmID %>" >
-                        <span class="material-icons favorite">library_add_check</span>
-                    </a>
-                <% } else { %>
-                    <a href="/collections/<%= filmData.id %>/add" id="addCollectionButton" class="roundButton" data-film="<%= filmID %>" >
-                        <span class="material-icons-outlined">library_add</span>
-                    </a>
-                <% } %>
-        </div>
+        <%- include('components/filmComponent', {filmCategory: filmData, height: "tall"}) %>
     </section>
 
     <section id="rightCard">
@@ -172,7 +137,7 @@
 
         <% if (filmRecommendations.results.length) { %>
             <h2>Recommendations</h2>
-            <%- include('components/filmScroller', {filmCategory: filmRecommendations.results}) %>
+            <%- include('components/filmScroller', {filmCategory: filmRecommendations.results, height: "small"}) %>
         <% } %>
     </section>
 

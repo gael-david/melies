@@ -52,10 +52,7 @@ const watchlistButtons = document.getElementsByClassName('watchlistButton');
 for (const button of watchlistButtons) {
     button.addEventListener("click", async function () {
         if (button.classList.contains("addWatchlistButton")) {
-            const title = button.dataset.title;
-            const id = button.dataset.id;
-            const release_date = button.dataset.release;
-            const poster_path = button.dataset.poster;
+            const {id, title, release_date, poster_path} = button.dataset;
             const film = {title, id, release_date, poster_path};
 
             console.log("Added")
@@ -76,10 +73,7 @@ for (const button of watchlistButtons) {
             }
                 
         } else if (button.classList.contains("removeWatchlistButton")) {
-            const title = button.dataset.title;
-            const id = button.dataset.id;
-            const release_date = button.dataset.release;
-            const poster_path = button.dataset.poster;
+            const {id, title, release_date, poster_path} = button.dataset;
             const film = {title, id, release_date, poster_path};
 
             console.log("Removed")
@@ -174,6 +168,7 @@ if (saveToCollectionButton) {
 const ratingWrapper = document.querySelectorAll('.ratingWrapper');
 const ratingButton = document.querySelectorAll('.ratingButton');
 const ratingComponent = document.querySelectorAll('.ratingComponent');
+const removeRating = document.querySelectorAll('.removeRating');
 let clickedRating;
 
 ratingButton.forEach(button => {
@@ -188,16 +183,57 @@ ratingButton.forEach(button => {
 
 ratingComponent.forEach(component => {
     component.addEventListener("click", async function () {
-        console.log(component.dataset.id, component.dataset.rating)
-        clickedRating.innerText = component.dataset.img;
+        const {rating} = component.dataset;
+        const {id, title, release_date, poster_path} = component.parentElement.dataset;
+        const filmRating = {rating, id, title, release_date, poster_path};
+        console.log(filmRating)
+        
+        try {
+            const response = await axios({
+                method: 'put',
+                url: '/rating',
+                data: filmRating
+            });
+            console.log(response)
+        } catch (error) {
+            console.log(error)
+        }
+
+        clickedRating.innerText = component.dataset.symbol;
         clickedRating.classList.add("userRating");
+        document.body.style.overflow = "auto";
+        
+    })
+});
+
+removeRating.forEach(remove => {
+    remove.addEventListener("click", async function () {
+        const {rating} = remove.dataset;
+        const {id, title, release_date, poster_path} = remove.parentElement.dataset;
+        const filmRating = {rating, id, title, release_date, poster_path};
+        
+        try {
+            const response = await axios({
+                method: 'delete',
+                url: '/rating',
+                data: filmRating
+            });
+            console.log(response)
+        } catch (error) {
+            console.log(error)
+        }
+
+        clickedRating.innerText = "grade";
+        clickedRating.classList.add("material-icons-outlined");
+        clickedRating.classList.remove("userRating");
         document.body.style.overflow = "auto";
     })
 });
 
+
 // Quit rating modal when clicking outsite
 document.body.addEventListener('click', function (event) {
-    if (!(event.target.classList[0] == "ratingButton" || event.target.innerText == "grade")) {
+    if (!(event.target.classList[0] == "ratingButton" || event.target.innerText == "grade" || event.target.classList.contains("rated"))) {
         document.body.style.overflow = "auto";
         ratingWrapper.forEach(thisWrapper => {
             thisWrapper.classList.remove("displayWrapper");

@@ -1,14 +1,13 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const reviewSchema = new Schema({
+const ratingSchema = new Schema({
     user: { 
-        type: String,
-        // type: Schema.Types.ObjectId, 
-        // required: true,
-        // ref: 'User' 
+        type: Schema.Types.ObjectId, 
+        required: true,
+        ref: 'User' 
     },
-    film: [{
+    ratedFilms: [{
         id: {
             type: Number,
             required: true
@@ -23,17 +22,15 @@ const reviewSchema = new Schema({
         poster_path : {
             type: String,
             default: '/images/noposter.jpeg'
+        },
+        rating: {
+            type: Schema.Types.ObjectId, 
+            required: true,
+            ref: 'Score' 
         }
-    }],
-    rating: {
-        type: String,
-        required: true
-    },
-    review: {
-        type: String
-    }
+    }]
 })
 
-const Collection = mongoose.model('Collection', collectionSchema);
+const Rating = mongoose.model('Rating', ratingSchema);
 
-module.exports = Collection;
+module.exports = Rating;

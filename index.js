@@ -34,6 +34,9 @@ app.use(mongoSanitize());
 const Collection = require('./models/collection');
 const Watchlist = require('./models/watchlist');
 const User = require('./models/user');
+const Score = require('./models/score');
+const Rating = require('./models/rating');
+
 
 // REQUIRE COOKIE-PARSER
 const cookieParser = require('cookie-parser');
@@ -76,7 +79,6 @@ app.use(express.json());
 // ENABLE CORS TO MAKE API POST/DELETE REQUESTS
 const cors = require('cors');
 app.use(cors());
-
 
 // REQUIRE & CONFIG FLASH
 const flash = require('connect-flash')
@@ -128,6 +130,25 @@ app.use(async function (req,res, next) {
     }
 })
 
+// GET SCORE DATA
+app.use(async function (req,res, next) {
+    const scoreData = await Score.find();
+    res.locals.scoreData = scoreData;
+    next();
+})
+
+// GET RATINGS
+app.use(async function (req,res, next) {
+    if (req.isAuthenticated()) {
+        const {ratedFilms} = await Rating.findOne({ 'user': req.user._id }).populate('ratedFilms.rating');
+        res.locals.ratedFilms = ratedFilms;
+        next();
+    } else {
+        res.locals.ratedFilms = [];
+        next();
+    }
+})
+
 // GET COLLECTIONS
 app.use(async function (req,res, next) {
     if (req.isAuthenticated()) {
@@ -149,13 +170,15 @@ const homeRoutes = require('./routes/home')
 const filmRoutes = require('./routes/film')
 const collectionsRoutes = require('./routes/collections')
 const watchlistRoutes = require('./routes/watchlist')
+const ratingRoutes = require('./routes/rating')
 const userRoutes = require('./routes/user')
 
 // ROUTES
 app.use('/', homeRoutes)
 app.use('/film', filmRoutes)
 app.use('/collections', collectionsRoutes)
-app.use('/', watchlistRoutes)
+app.use('/watchlist', watchlistRoutes)
+app.use('/rating', ratingRoutes)
 app.use('/', userRoutes)
 
 // 404 ERROR

@@ -3,7 +3,19 @@
         <span class="material-icons-round">chevron_left</span>
     </div>
     <section class="wrapper">
-        <%- include('filmComponent') %>  
+        <% if (locals.order === "reverse") { %>
+            <% for( let index = filmCategory.length - 1; 0 <= index && filmCategory.length - 10 <=  index; index-- ) { %>
+                <% if (filmCategory[index].poster_path && filmCategory[index].release_date) { %>
+                    <%- include('filmComponent', {filmCategory: filmCategory[index], height: "small"}) %>
+                <% } %>
+            <% } %>
+        <% } else { %>
+            <% for( let index = 0; index < filmCategory.length && index < 10; index++ ) { %>
+                <% if (filmCategory[index].poster_path && filmCategory[index].release_date) { %>
+                    <%- include('filmComponent', {filmCategory: filmCategory[index], height: "small"}) %>
+                <% } %>
+            <% } %>
+        <% } %>
     </section>
     <div class="nextArrow rightScroll">
         <span class="material-icons-round">chevron_right</span>

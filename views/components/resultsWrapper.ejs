@@ -1,3 +1,15 @@
 <div id="resultsWrapper">
-    <%- include('filmComponent') %>
+    <% if (locals.order === "reverse") { %>
+        <% for( let index = filmCategory.length - 1; 0 <= index; index-- ) { %>
+            <% if (filmCategory[index].poster_path && filmCategory[index].release_date) { %>
+                <%- include('filmComponent', {filmCategory: filmCategory[index], height: "small"}) %>
+            <% } %>
+        <% } %>
+    <% } else { %>
+        <% for( let index = 0; index < filmCategory.length; index++ ) { %>
+            <% if (filmCategory[index].poster_path && filmCategory[index].release_date) { %>
+                <%- include('filmComponent', {filmCategory: filmCategory[index], height: "small"}) %>
+            <% } %>
+        <% } %>
+    <% } %>
 </div>

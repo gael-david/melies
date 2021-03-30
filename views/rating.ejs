@@ -1,0 +1,10 @@
+<%- include('partials/head') %> 
+<%- include('partials/header') %> 
+
+<main>
+    <h2 class="sectionTitle centerTitle">Your Rated Films</h2>
+    <%- include('components/resultsWrapper', {filmCategory: ratedFilms, order: "reverse"}) %>
+</main>
+
+
+<%- include('partials/footer') %> 

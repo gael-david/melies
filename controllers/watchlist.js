@@ -18,7 +18,7 @@ module.exports.addToWatchlist = async function (req, res,next) {
         if (!inWatchlist) {
             watchlistData.watchlist.push(film);
             await watchlistData.save();
-        }
+        }    
         res.sendStatus(200);
     } else {
         res.redirect("/login")

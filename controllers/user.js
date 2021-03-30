@@ -17,6 +17,10 @@ module.exports.signup = async function (req,res,next) {
         const watchlist = new Watchlist({user: registeredUser._id});
         await watchlist.save();
 
+        // Create user Rating list
+        const ratingList = new Rating({user: registeredUser._id});
+        await ratingList.save();
+
         req.login(registeredUser, err => {if (err) return next(err);})
         req.flash('success', 'Welcome to Melies!')
         res.redirect("/");

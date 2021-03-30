@@ -1,85 +1,69 @@
-<% if (locals.order === "reverse") { %>
-    <% for( let index = filmCategory.length - 1; 0 <= index && filmCategory.length - 10 <=  index; index-- ) { %>
-        <% if (filmCategory[index].poster_path && filmCategory[index].release_date) { %>
-            <div class="smallFilmComponent">
-                <a href="/film/<%= filmCategory[index].id %> ">
-                    <% if (filmCategory[index].poster_path) { %>
-                        <img class="smallFilmPoster" src="https://image.tmdb.org/t/p/w400<%= filmCategory[index].poster_path %>" alt="" loading="lazy">
-                    <% } else { %>
-                        <img class="smallFilmPoster" src="/images/noposter.jpeg" alt="" loading="lazy">
-                    <% } %>
-                </a>
-                <% if (locals.collectionComponent) { %>
-                    <form action="/collections/<%= collectionFilms[index].id %>/remove?_method=DELETE" method="POST" class="deleteForm">
-                        <button type="submit" name="collectionID" value="<%= collection._id %>" class="roundButton deleteButton">
-                            <span class="material-icons">delete</span>
-                        </button>
-                    </form>
-                <% } %>
-                <div class="buttonsWrapper smallButtonsWrapper">
-                    <button class="ratingButton roundButton smallRoundButton" type="submit">
-                        <span class="material-icons-outlined">grade</span>
-                    </button>
-                    <%- include('ratingComponent', {id: filmCategory[index].id}) %>  
-                    <% if (locals.currentUser) { %>
-                        <% if (watchlist.some(e => e.id === filmCategory[index].id )) { %>
-                            <button type="button" class="watchlistButton removeWatchlistButton roundButton smallRoundButton" data-id="<%= filmCategory[index].id  %>" data-title="<%= filmCategory[index].title  %>" data-release="<%= filmCategory[index].release_date.slice(0,4) %>" data-poster="<%= filmCategory[index].poster_path %>">
-                                <span class="material-icons favorite">bookmark_added</span>
-                            </button>
-                        <% } else { %>
-                            <button type="button" class="watchlistButton addWatchlistButton roundButton smallRoundButton" data-id="<%= filmCategory[index].id  %>" data-title="<%= filmCategory[index].title  %>" data-release="<%= filmCategory[index].release_date.slice(0,4) %>" data-poster="<%= filmCategory[index].poster_path %>">
-                                <span class="material-icons">bookmark_border</span>
-                            </button>
-                        <% } %>
-                    <% } else { %> 
-                        <a href="/login" class="roundButton smallRoundButton">
-                            <span class="material-icons">bookmark_border</span>
-                        </a>
-                    <% } %> 
-                </div>
-            </div>
-        <% } %>
+<div class="<%= height %>FilmComponent">
+    <!-- Shuffle button (Film page) -->
+    <% if (height === "tall") { %>
+        <a href="/film/<%= randomID %> " id="anotherButton" class="roundButton">
+            <span class="material-icons">shuffle</span>
+        </a>
     <% } %>
-<% } else { %>
-    <% for( let index = 0; index < filmCategory.length && index < 10; index++ ) { %>
-        <% if (filmCategory[index].poster_path && filmCategory[index].release_date) { %>
-            <div class="smallFilmComponent">
-                <a href="/film/<%= filmCategory[index].id %> ">
-                    <% if (filmCategory[index].poster_path) { %>
-                        <img class="smallFilmPoster" src="https://image.tmdb.org/t/p/w400<%= filmCategory[index].poster_path %>" alt="" loading="lazy">
-                    <% } else { %>
-                        <img class="smallFilmPoster" src="/images/noposter.jpeg" alt="" loading="lazy">
-                    <% } %>
-                </a>
-                <% if (locals.collectionComponent) { %>
-                    <form action="/collections/<%= collectionFilms[index].id %>/remove?_method=DELETE" method="POST" class="deleteForm">
-                        <button type="submit" name="collectionID" value="<%= collection._id %>" class="roundButton deleteButton">
-                            <span class="material-icons">delete</span>
-                        </button>
-                    </form>
-                <% } %>
-                <div class="buttonsWrapper smallButtonsWrapper">
-                    <button class="ratingButton roundButton smallRoundButton" type="submit">
-                        <span class="material-icons-outlined">grade</span>
-                    </button>
-                    <%- include('ratingComponent', {id: filmCategory[index].id}) %>  
-                    <% if (locals.currentUser) { %>
-                        <% if (watchlist.some(e => e.id === filmCategory[index].id )) { %>
-                            <button type="button" class="watchlistButton removeWatchlistButton roundButton smallRoundButton" data-id="<%= filmCategory[index].id  %>" data-title="<%= filmCategory[index].title  %>" data-release="<%= filmCategory[index].release_date.slice(0,4) %>" data-poster="<%= filmCategory[index].poster_path %>">
-                                <span class="material-icons favorite">bookmark_added</span>
-                            </button>
-                        <% } else { %>
-                            <button type="button" class="watchlistButton addWatchlistButton roundButton smallRoundButton" data-id="<%= filmCategory[index].id  %>" data-title="<%= filmCategory[index].title  %>" data-release="<%= filmCategory[index].release_date.slice(0,4) %>" data-poster="<%= filmCategory[index].poster_path %>">
-                                <span class="material-icons">bookmark_border</span>
-                            </button>
-                        <% } %>
-                    <% } else { %> 
-                        <a href="/login" class="roundButton smallRoundButton">
-                            <span class="material-icons">bookmark_border</span>
-                        </a>
-                    <% } %> 
-                </div>
-            </div>
+
+    <!-- Film poster -->
+    <a href="/film/<%= filmCategory.id %> ">
+        <% if (filmCategory.poster_path) { %>
+            <img class="<%= height %>FilmPoster" src="https://image.tmdb.org/t/p/w400<%= filmCategory.poster_path %>" alt="" loading="lazy">
+        <% } else { %>
+            <img class="<%= height %>FilmPoster" src="/images/noposter.jpeg" alt="" loading="lazy">
         <% } %>
+    </a>
+
+    <!-- Delete from Collection (Collection page) -->
+    <% if (locals.collectionComponent) { %>
+        <form action="/collections/<%= collectionFilms.id %>/remove?_method=DELETE" method="POST" class="deleteForm">
+            <button type="submit" name="collectionID" value="<%= collection._id %>" class="roundButton deleteButton">
+                <span class="material-icons">delete</span>
+            </button>
+        </form>
     <% } %>
-<% } %>
+
+    <!-- Buttons wrapper -->
+    <div class="buttonsWrapper <%= height %>ButtonsWrapper">
+        <!-- Rating Button -->
+        <% if (ratedFilms.some(e => e.id === filmCategory.id)) { %>
+            <a class="ratingButton roundButton <%= height %>RoundButton">
+                <span class="rated"><%= ratedFilms.find(element => element.id == filmCategory.id).rating.symbol %></span>
+            </a>
+        <% } else { %> 
+            <a class="ratingButton roundButton <%= height %>RoundButton">
+                <span class="material-icons-outlined">grade</span>
+            </a>
+        <% } %> 
+        <%- include('ratingComponent', {filmCategory: filmCategory, scoreData}) %>  
+        <!-- Watchlist Button -->
+        <% if (locals.currentUser) { %>
+            <% if (watchlist.some(e => e.id === filmCategory.id )) { %>
+                <button type="button" class="watchlistButton removeWatchlistButton roundButton <%= height %>RoundButton" data-id="<%= filmCategory.id  %>" data-title="<%= filmCategory.title  %>" data-release_date="<%= filmCategory.release_date %>" data-poster_path="<%= filmCategory.poster_path %>">
+                    <span class="material-icons favorite">bookmark_added</span>
+                </button>
+            <% } else { %>
+                <button type="button" class="watchlistButton addWatchlistButton roundButton <%= height %>RoundButton" data-id="<%= filmCategory.id  %>" data-title="<%= filmCategory.title  %>" data-release_date="<%= filmCategory.release_date %>" data-poster_path="<%= filmCategory.poster_path %>">
+                    <span class="material-icons">bookmark_border</span>
+                </button>
+            <% } %>
+        <% } else { %> 
+            <a href="/login" class="roundButton <%= height %>RoundButton">
+                <span class="material-icons">bookmark_border</span>
+            </a>
+        <% } %>
+        <!-- Collections Button (Film page) -->
+        <% if (height === "tall") { %>
+            <% if (inCollection) { %>
+                <a href="/collections/<%= filmData.id %>/add" id="addCollectionButton" class="roundButton" data-film="<%= filmID %>" >
+                    <span class="material-icons favorite">library_add_check</span>
+                </a>
+            <% } else { %>
+                <a href="/collections/<%= filmData.id %>/add" id="addCollectionButton" class="roundButton" data-film="<%= filmID %>" >
+                    <span class="material-icons-outlined">library_add</span>
+                </a>
+            <% } %> 
+        <% } %>
+    </div>
+</div>

@@ -3,9 +3,7 @@
 
 <main>
 <h2 class="sectionTitle centerTitle">Your Watchlist</h2>
-<div id="resultsWrapper">
-    <%- include('components/filmComponent', {filmCategory: watchlist, order: "reverse"}) %>
-</div>
+<%- include('components/resultsWrapper', {filmCategory: watchlist, order: "reverse"}) %>
 </main>
 
 
