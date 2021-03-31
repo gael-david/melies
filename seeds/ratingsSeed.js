@@ -6,7 +6,6 @@ if (process.env.NODE_ENV !== "production") {
 // MONGOOSE INIT
 const mongoose = require('mongoose');
 const dbURL = process.env.DB_URL || 'mongodb://localhost:27017/meliesDB';
-// const dbURL = "mongodb+srv://first-user:4CY8fihJGw8ryKtV@cluster0.6wn7o.mongodb.net/melies?retryWrites=true&w=majority"
 
 mongoose.connect(dbURL, {useCreateIndex: true, useNewUrlParser: true, useUnifiedTopology: true})
     .then(function () {
