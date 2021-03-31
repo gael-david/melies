@@ -521,8 +521,6 @@ hr {
   padding: 25px;
   border-radius: 20px;
   background: #1b1d22;
-  box-shadow: -1px 1px 20px 10000px rgb(21 21 27 / 79%),
-    0 30px 60px -30px rgb(0 0 0 / 30%);
   position: fixed;
   margin: auto;
   top: 50%;
@@ -1269,6 +1267,25 @@ footer {
 }
 
 /* ############ */
+/* MODAL */
+/* ############ */
+
+.modal {
+  z-index: 100;
+  width: 100vw;
+  height: 100vh;
+  opacity: 70%;
+  position: fixed;
+  display: block;
+  background: black;
+  display: none;
+}
+
+.displayModal {
+  display: block;
+}
+
+/* ############ */
 /* MEDIA QUERIES */
 /* ############ */
 
@@ -1416,10 +1433,6 @@ footer {
   /* border: 0.2rem solid #fde97d9c; */
   box-shadow: 0 0 0 0.2rem #fde97d9c;
   /* transition: 0.4s; */
-}
-
-.openModal {
-  overflow: hidden;
 }
 
 /* ############ */

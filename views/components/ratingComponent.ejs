@@ -1,4 +1,4 @@
-<div class="ratingWrapper" data-id="<%= filmCategory.id  %>" data-title="<%= filmCategory.title  %>" data-release_date="<%= filmCategory.release_date %>"  data-poster_path="<%= filmCategory.poster_path %>">
+<div class="ratingWrapper">
     <h2 class="ratingTitle">Your rating</h2>
     <% scoreData.forEach(element => { %>
         <a data-rating="<%= element._id %>" data-symbol="<%= element.symbol %>" class="ratingComponent">
@@ -6,7 +6,4 @@
             <p class="ratingName"><%= element.name %></p>
         </a>
     <% }) %>
-    <% if (ratedFilms.some(e => e.id === filmCategory.id)) { %>
-        <p class="removeRating">Remove rating</p>
-    <% } %>
 </div>

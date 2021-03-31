@@ -1,18 +1,4 @@
 // ################
-// MAINTAIN POSITION AFTER RELOAD
-// ################
-
-// window.addEventListener('scroll',function() {
-//     //When scroll change, you save it on localStorage.
-//     localStorage.setItem('scrollPosition',window.scrollY);
-// },false);
-
-// window.addEventListener('load',function() {
-//     if(localStorage.getItem('scrollPosition') !== null)
-//        window.scrollTo(0, localStorage.getItem('scrollPosition'));
-// },false);
-
-// ################
 // HEADER
 // ################
 
@@ -22,26 +8,9 @@ let timer;
 
 if (userComponent) {
     userComponent.addEventListener('click', function () {
-        // clearTimeout(timer)
-        // userDropdown.style.display = "grid";
         userDropdown.classList.toggle("displayDropdown")
     })
 }
-
-
-// userDropdown.addEventListener('mouseenter', function () {
-//     clearTimeout(timer)
-//     userDropdown.style.display = "grid";
-// })
-
-
-// userComponent.addEventListener('mouseleave', function () {
-//     timer = setTimeout(() => {
-//         userDropdown.style.display = "None";
-//     }, 500);
-// })
-
-
 
 // ################
 // WATCHLIST
@@ -165,29 +134,44 @@ if (saveToCollectionButton) {
 // RATING BUTTON
 // ################
 
-const ratingWrapper = document.querySelectorAll('.ratingWrapper');
+const ratingWrapper = document.querySelector('.ratingWrapper');
 const ratingButton = document.querySelectorAll('.ratingButton');
 const ratingComponent = document.querySelectorAll('.ratingComponent');
-const removeRating = document.querySelectorAll('.removeRating');
+const modal = document.querySelector('.modal')
+
+const removeRating = document.createElement("p");
+removeRating.classList.add("removeRating");
+removeRating.innerText = "Remove your rating";
+
 let clickedRating;
 
+// Open rating modal
 ratingButton.forEach(button => {
     button.addEventListener('click', function () {
-        const thisWrapper = button.nextElementSibling;
-        button.classList.remove("userRating");
         clickedRating = button;
-        thisWrapper.classList.toggle("displayWrapper");
+
+        // Display modal
+        button.classList.remove("userRating");
+        modal.classList.toggle("displayModal");
+        ratingWrapper.classList.toggle("displayWrapper");
         document.body.style.overflow = "hidden";
+
+        // Display delete rating button
+        if (clickedRating.dataset.rated === "true") {
+            ratingWrapper.append(removeRating);
+        } else {
+            removeRating.remove();
+        }
     })
 }); 
 
+// Rate the film
 ratingComponent.forEach(component => {
     component.addEventListener("click", async function () {
         const {rating} = component.dataset;
-        const {id, title, release_date, poster_path} = component.parentElement.dataset;
+        const {id, title, release_date, poster_path} = clickedRating.dataset;
         const filmRating = {rating, id, title, release_date, poster_path};
-        console.log(filmRating)
-        
+
         try {
             const response = await axios({
                 method: 'put',
@@ -200,118 +184,47 @@ ratingComponent.forEach(component => {
         }
 
         clickedRating.innerText = component.dataset.symbol;
+        clickedRating.classList.remove("material-icons-outlined");
         clickedRating.classList.add("userRating");
-        document.body.style.overflow = "auto";
-        
-    })
-});
+        clickedRating.dataset.rated = "true";
 
-removeRating.forEach(remove => {
-    remove.addEventListener("click", async function () {
-        const {rating} = remove.dataset;
-        const {id, title, release_date, poster_path} = remove.parentElement.dataset;
-        const filmRating = {rating, id, title, release_date, poster_path};
-        
-        try {
-            const response = await axios({
-                method: 'delete',
-                url: '/rating',
-                data: filmRating
-            });
-            console.log(response)
-        } catch (error) {
-            console.log(error)
-        }
-
-        clickedRating.innerText = "grade";
-        clickedRating.classList.add("material-icons-outlined");
-        clickedRating.classList.remove("userRating");
+        modal.classList.toggle("displayModal");
+        ratingWrapper.classList.toggle("displayWrapper");
         document.body.style.overflow = "auto";
     })
 });
 
+// Delete the film rating
+removeRating.addEventListener("click", async function () {
+    const {rating} = removeRating.previousElementSibling.dataset;
+    const {id, title, release_date, poster_path} = clickedRating.dataset;
+    const filmRating = {rating, id, title, release_date, poster_path};
+    
+    try {
+        const response = await axios({
+            method: 'delete',
+            url: '/rating',
+            data: filmRating
+        });
+        console.log(response)
+    } catch (error) {
+        console.log(error)
+    }
 
-// Quit rating modal when clicking outsite
-document.body.addEventListener('click', function (event) {
-    if (!(event.target.classList[0] == "ratingButton" || event.target.innerText == "grade" || event.target.classList.contains("rated"))) {
+    clickedRating.innerText = "grade";
+    clickedRating.classList.add("material-icons-outlined");
+    clickedRating.classList.remove("userRating");
+    clickedRating.dataset.rated = "false";
+
+    modal.classList.toggle("displayModal");
+    ratingWrapper.classList.toggle("displayWrapper");
+    document.body.style.overflow = "auto";
+});
+
+
+// Quit rating modal when clicking outside
+modal.addEventListener('click', function (event) {
         document.body.style.overflow = "auto";
-        ratingWrapper.forEach(thisWrapper => {
-            thisWrapper.classList.remove("displayWrapper");
-        })
-    };
-})
-
-// ratingButton.forEach(button => {
-//     button.addEventListener('click', function () {
-//         button.classList.remove("userRating");
-//         if (button.parentNode.querySelector(".ratingWrapper").style.display == "none") {
-//             ratingWrapper.forEach(wrapper => {
-//                 console.log("deleting")
-//                 wrapper.style.display = "none";
-//             });
-//             button.parentNode.querySelector(".ratingWrapper").style.display = "flex";
-//         } else {
-//             button.parentNode.querySelector(".ratingWrapper").style.display = "none";
-//         }
-//     })
-// }); 
-
-
-
-// ratingComponent.forEach(component => {
-//     component.addEventListener("click", function () {
-//         ratingButton.innerText = component.dataset.img;
-//         ratingButton.classList.add("userRating");
-//     })
-// });
-
-
-
-// document.body.addEventListener('click', function (event) {
-//     let isClickInside = ratingButton.contains(event.target);
-//     if (!isClickInside) {
-//         ratingWrapper.style.display = "none";
-//     } 
-// })
-
-// document.body.addEventListener('click', function (event) {
-//     console.log(event.target.classList[0])
-//     if (!(event.target.classList[0] == "ratingButton" || event.target.innerText == "grade")) {
-//         ratingWrapper.forEach(wrapper => {
-//             wrapper.style.display = "none";
-//         });
-        
-//     } 
-// })
-
-// ratingButton.addEventListener('click', function () {
-//     ratingButton.classList.remove("userRating");
-//     if (ratingWrapper.style.display == "none") {
-//         ratingWrapper.style.display = "flex";
-//     } else {
-//         ratingWrapper.style.display = "none";
-//     }
-// })
-
-// ratingWrapper.addEventListener('mouseover', function () {
-//     clearTimeout(wrapperTimeout)
-//     ratingWrapper.style.display = "Flex";
-// })
-
-// ratingButton.addEventListener('mouseover', function () {
-//     if (ratingWrapper.style.display == "none") {
-//         ratingWrapper.style.display = "flex";
-//     } else {
-//         ratingWrapper.style.display = "none";
-//     }
-// })
-
-// ratingButton.addEventListener('mouseleave', function () {
-//     wrapperTimeout = setTimeout(function(){ ratingWrapper.style.display = "None"; }, 500);
-// })  
-
-// ratingWrapper.addEventListener('mouseleave', function () {
-//     wrapperTimeout = setTimeout(function(){ ratingWrapper.style.display = "None"; }, 500);
-// }) 
-
-
+        modal.classList.toggle("displayModal");
+        ratingWrapper.classList.remove("displayWrapper");
+});

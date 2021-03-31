@@ -27,24 +27,27 @@
     <!-- Buttons wrapper -->
     <div class="buttonsWrapper <%= height %>ButtonsWrapper">
         <!-- Rating Button -->
-        <% if (ratedFilms.some(e => e.id === filmCategory.id)) { %>
-            <a class="ratingButton roundButton <%= height %>RoundButton">
+        <% if (locals.currentUser) { %>
+            <a class="ratingButton roundButton <%= height %>RoundButton" data-rated="<%= ratedFilms.some(element => element.id == filmCategory.id)%>" data-id="<%= filmCategory.id  %>" data-title="<%= filmCategory.title  %>" data-release_date="<%= filmCategory.release_date.slice(0,4) %>"  data-poster_path="<%= filmCategory.poster_path %>">
+                <% if (ratedFilms.some(e => e.id === filmCategory.id)) { %>
                 <span class="rated"><%= ratedFilms.find(element => element.id == filmCategory.id).rating.symbol %></span>
+                <% } else { %> 
+                <span class="material-icons-outlined">grade</span>
+                <% } %> 
             </a>
         <% } else { %> 
-            <a class="ratingButton roundButton <%= height %>RoundButton">
+            <a href="/login" class="roundButton <%= height %>RoundButton">
                 <span class="material-icons-outlined">grade</span>
             </a>
-        <% } %> 
-        <%- include('ratingComponent', {filmCategory: filmCategory, scoreData}) %>  
+        <% } %>
         <!-- Watchlist Button -->
         <% if (locals.currentUser) { %>
             <% if (watchlist.some(e => e.id === filmCategory.id )) { %>
-                <button type="button" class="watchlistButton removeWatchlistButton roundButton <%= height %>RoundButton" data-id="<%= filmCategory.id  %>" data-title="<%= filmCategory.title  %>" data-release_date="<%= filmCategory.release_date %>" data-poster_path="<%= filmCategory.poster_path %>">
+                <button type="button" class="watchlistButton removeWatchlistButton roundButton <%= height %>RoundButton" data-id="<%= filmCategory.id  %>" data-title="<%= filmCategory.title  %>" data-release_date="<%= filmCategory.release_date.slice(0,4) %>" data-poster_path="<%= filmCategory.poster_path %>">
                     <span class="material-icons favorite">bookmark_added</span>
                 </button>
             <% } else { %>
-                <button type="button" class="watchlistButton addWatchlistButton roundButton <%= height %>RoundButton" data-id="<%= filmCategory.id  %>" data-title="<%= filmCategory.title  %>" data-release_date="<%= filmCategory.release_date %>" data-poster_path="<%= filmCategory.poster_path %>">
+                <button type="button" class="watchlistButton addWatchlistButton roundButton <%= height %>RoundButton" data-id="<%= filmCategory.id  %>" data-title="<%= filmCategory.title  %>" data-release_date="<%= filmCategory.release_date.slice(0,4) %>" data-poster_path="<%= filmCategory.poster_path %>">
                     <span class="material-icons">bookmark_border</span>
                 </button>
             <% } %>
