@@ -1,9 +1,11 @@
 # melies
 
-🌝 Melies lets you rate films, manage your watchlist and create your own film collections. It also provides each film's streaming and rental availability.
+🌝 
+
+Melies lets you rate films, manage your watchlist and create your own film collections. It also provides each film's streaming and rental availability.
 
 The website is based on the TMDB API to provide the latest film data.
-Melies is developed with HTML, CSS and Vanilla Javascript for the frontend, and uses Node.js and MongoDB for the backend.
+Melies is developed with HTML, CSS and Vanilla Javascript for its frontend, and uses Node.js and MongoDB for its backend.
 
 You can access a beta version of the application on: https://melies-app.herokuapp.com/.
 
