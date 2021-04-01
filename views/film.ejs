@@ -51,9 +51,9 @@
             <h2>Stream Now</h2>
             <div class="wrapper">
                 <% for( let index = 0; (index < filmProviders.results.FR.flatrate.length); index++ ) { %>
-                    <a href="<%= filmProviders.results.FR.link %>" target="_blank">
+                    
                         <img class="watchComponent" src="https://image.tmdb.org/t/p/w500/<%= filmProviders.results.FR.flatrate[index].logo_path %>" alt="" loading="lazy">
-                    </a>
+                    
                 <% } %>
             </div>
         <% } %>
@@ -62,9 +62,9 @@
             <h2>Rent Now</h2>
             <div class="wrapper">
                 <% for( let index = 0; (index < filmProviders.results.FR.rent.length); index++ ) { %>
-                    <a href="<%= filmProviders.results.FR.link %>" target="_blank">
+                    
                         <img class="watchComponent" src="https://image.tmdb.org/t/p/w500/<%= filmProviders.results.FR.rent[index].logo_path %>" alt="" loading="lazy">
-                    </a>
+                    
                 <% } %>
             </div>
         <% } %>
