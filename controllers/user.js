@@ -1,5 +1,6 @@
 // REQUIRE MONGODB MODELS
 const Watchlist = require('../models/watchlist');
+const Rating = require('../models/rating');
 const User = require('../models/user');
 
 module.exports.signupPage = async function (req,res,next) {
@@ -36,6 +37,7 @@ module.exports.loginPage = async function (req,res,next) {
 };
 
 module.exports.login = async function (req,res,next) {
+
     req.flash('success', 'Successfully logged in!');
     const redirectURL = req.session.returnTo || '/';
     delete req.session.returnTo;
