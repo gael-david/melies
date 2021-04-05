@@ -24,7 +24,9 @@ module.exports.signup = async function (req,res,next) {
 
         req.login(registeredUser, err => {if (err) return next(err);})
         req.flash('success', 'Welcome to Melies!')
-        res.redirect("/");
+        req.session.save(function(){
+            res.redirect('/')
+        });
     } catch (error) {
         req.flash('error', error.message)
         console.log(error)
@@ -33,15 +35,17 @@ module.exports.signup = async function (req,res,next) {
 };
 
 module.exports.loginPage = async function (req,res,next) {
+    console.log(req.get('Referrer'))
     res.render("./user/login", {name: "Login - MELIES"})
 };
 
 module.exports.login = async function (req,res,next) {
-
     req.flash('success', 'Successfully logged in!');
     const redirectURL = req.session.returnTo || '/';
     delete req.session.returnTo;
-    res.redirect(redirectURL)
+    req.session.save(function(){
+        res.redirect(redirectURL)
+    });
 };
 
 module.exports.logout = async function (req,res,next) {
@@ -50,6 +54,8 @@ module.exports.logout = async function (req,res,next) {
     } else {
         req.logout();
         req.flash('success', 'Successfully logged out');
-        res.redirect('/');
+        req.session.save(function(){
+            res.redirect('/')
+        });
     }
 };
